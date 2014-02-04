@@ -24,8 +24,13 @@ public class Enums
 		CommentsOptional("Opmerking (Optioneel)", "Comments (Optional)"),
 		Artist("Artiest", "Artist"),
 		Stages("Podium", "Stage"),
-		Date("Datum", "Date"),
-		Tickets("Kaarten", "Tickets");
+		AddStage("Voeg podium toe", "Add stage"),
+		RemoveStage("Verwijder podium", "Delete stage"),
+		StageSize("Oppervlak (podium)", "Size (stage)"),
+		FieldSize("Oppervlak (veld)", "Size (field)"),
+		SizeDef("L x B [m]", "L x W [m]"),
+		Capacity("Capaciteit", "Capacity");
+
 		
 		private String _nl;
 		private String _eng;

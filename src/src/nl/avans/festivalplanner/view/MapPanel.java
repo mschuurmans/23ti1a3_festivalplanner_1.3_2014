@@ -12,18 +12,21 @@ import javax.swing.*;
 public class MapPanel extends Panel {
 	private Image image;
 	
-	public MapPanel() throws IOException {
+	public MapPanel() throws IOException 
+	{
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		image = ImageIO.read(ClassLoader.getSystemResourceAsStream("map.jpg"));
 	}
 	
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics g) 
+	{
 	    super.paintComponent(g);
 	    g.drawImage(image, 0, 0, getWidth(), getHeight(), null); // see javadoc for more info on the parameters            
 	}
 
 	@Override
-	public Panel getPanel() {
+	public Panel getPanel() 
+	{
 		return this;
 	}
 }
