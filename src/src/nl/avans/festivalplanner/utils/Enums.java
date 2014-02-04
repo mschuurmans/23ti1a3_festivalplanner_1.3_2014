@@ -23,7 +23,9 @@ public class Enums
 		Optional("Optioneel", "Optional"),
 		CommentsOptional("Opmerking (Optioneel)", "Comments (Optional)"),
 		Artist("Artiest", "Artist"),
-		Stages("Podium", "Stage");
+		Stages("Podium", "Stage"),
+		Date("Datum", "Date"),
+		Tickets("Kaarten", "Tickets");
 		
 		private String _nl;
 		private String _eng;
