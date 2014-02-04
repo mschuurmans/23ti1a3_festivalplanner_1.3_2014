@@ -21,7 +21,9 @@ public class Enums
 		Genre("Genre", "Genre"),
 		Comments("Opmerking", "Comments"),
 		Optional("Optioneel", "Optional"),
-		CommentsOptional("Opmerking (Optioneel)", "Comments (Optional)");
+		CommentsOptional("Opmerking (Optioneel)", "Comments (Optional)"),
+		Artist("Artiest", "Artist"),
+		Stages("Podium", "Stage");
 		
 		private String _nl;
 		private String _eng;

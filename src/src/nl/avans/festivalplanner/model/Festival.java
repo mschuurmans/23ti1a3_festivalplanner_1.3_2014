@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import nl.avans.festivalplanner.view.ApplicationView;
+
 public class Festival implements Serializable
 {
 	private static final long serialVersionUID = -284695987818801744L;
@@ -77,7 +79,7 @@ public class Festival implements Serializable
 	
 	public static void main(String[] args)
 	{
-		// dot some shit here.
+		new ApplicationView();
 	}
 	
 }

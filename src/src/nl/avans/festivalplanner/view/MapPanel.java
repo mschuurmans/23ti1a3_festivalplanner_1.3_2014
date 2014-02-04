@@ -21,4 +21,9 @@ public class MapPanel extends Panel {
 	    super.paintComponent(g);
 	    g.drawImage(image, 0, 0, getWidth(), getHeight(), null); // see javadoc for more info on the parameters            
 	}
+
+	@Override
+	public Panel getPanel() {
+		return this;
+	}
 }
