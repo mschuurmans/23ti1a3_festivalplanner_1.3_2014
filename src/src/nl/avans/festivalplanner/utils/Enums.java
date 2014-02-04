@@ -10,7 +10,18 @@ public class Enums
 	
 	public static enum Text
 	{
-		hello("Hallo", "Hello");
+		hello("Hallo", "Hello"),
+		AddArtist("Artiest toevoegen", "Add artist"),
+		RemoveArtist("Artiest verwijderen", "Delete artist"),
+		Save("Opslaan", "Save"),
+		Cancel("Annuleren", "Cancel"),
+		ChangeImage("Foto aanpassen", "Change picture"),
+		RemoveImage("Foto verwijderen", "Remove picture"),
+		Name("Naam", "Name"),
+		Genre("Genre", "Genre"),
+		Comments("Opmerking", "Comments"),
+		Optional("Optioneel", "Optional"),
+		CommentsOptional("Opmerking (Optioneel)", "Comments (Optional)");
 		
 		private String _nl;
 		private String _eng;
