@@ -1,0 +1,16 @@
+package view;
+
+import javax.swing.JMenu;
+
+public class GUIHelper {
+
+	GUIHelper()
+	{
+		
+	}
+	
+	public JMenu getMenuBar()
+	{
+		
+	}
+}
