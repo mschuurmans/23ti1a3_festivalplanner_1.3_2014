@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -17,7 +18,7 @@ import javax.swing.border.BevelBorder;
 
 public class GUIHelper {
 
-	GUIHelper()
+	public GUIHelper()
 	{
 		
 	}
@@ -90,5 +91,13 @@ public class GUIHelper {
 		statusPanel.add(statusLabel);
 		
 		return statusPanel;
+	}
+	
+	public JPanel getGroupBox(String title)
+	{
+		JPanel box = new JPanel();
+		
+		box.setBorder(BorderFactory.createTitledBorder(title));
+		return box;
 	}
 }
