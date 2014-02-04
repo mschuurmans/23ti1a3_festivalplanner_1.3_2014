@@ -13,6 +13,17 @@ public class Festival implements Serializable
 	private int _tickets;
 	private ArrayList<Artist> _artists;
 	private ArrayList<Stage> _stageList;
+	private Schedule _schedule;
+	
+	public void setSchedule(Schedule value)
+	{
+		this._schedule = value;
+	}
+	
+	public Schedule getSchedule()
+	{
+		return this._schedule;
+	}
 	
 	public void setArtists(ArrayList<Artist> value)
 	{
