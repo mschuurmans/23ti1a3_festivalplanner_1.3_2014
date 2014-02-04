@@ -8,7 +8,7 @@ public class Enums
 		english
 	}
 	
-	public static enum Texts
+	public static enum Text
 	{
 		hello("Hallo", "Hello");
 		
@@ -16,7 +16,7 @@ public class Enums
 		private String _eng;
 		private Languages _lang = Languages.dutch;
 		
-		Texts(String nl, String eng)
+		Text(String nl, String eng)
 		{
 			this._nl = nl;
 			this._eng = eng;
