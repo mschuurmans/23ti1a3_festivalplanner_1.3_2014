@@ -1,9 +1,11 @@
 package nl.avans.festivalplanner.view.panels;
 
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import nl.avans.festivalplanner.model.Stage;
 import nl.avans.festivalplanner.utils.Utils;
@@ -32,23 +34,32 @@ public class StagePanel extends Panel
 		super();
 		_guiHelper = new GUIHelper();
 		
+		//JTabbedPane tabs = _guiHelper.getTabBar();
+		
+		
 		int width = ApplicationView.WIDTH;
 		int height = ApplicationView.HEIGHT;
 		
-		int widthGroup = (int)(Utils.getPercentOfValue(width, 70) - Utils.getPercentOfValue(width, 30));
-		int heightGroup = (int)(Utils.getPercentOfValue(height, 70) - Utils.getPercentOfValue(height, 30));
+		int beginWidthGroup = (int) Utils.getPercentOfValue(width, 25);
+		int beginHeightGroup = (int) Utils.getPercentOfValue(height, 10);
+		
+		int endWidthGroup = (int) -beginWidthGroup + width - Utils.getPercentOfValue(width, 5);
+		int endHeightGroup = (int) -beginHeightGroup + height - Utils.getPercentOfValue(height, 28);
+		
+		int widthGroup = (int) (endWidthGroup - beginWidthGroup);
+		int heightGroup = (int) (endHeightGroup - beginHeightGroup);
+		
+
 
 		JPanel groupBox = _guiHelper.getGroupBox(Text.Stages.toString());
-		groupBox.setBounds(Utils.getPercentOfValue(width, 30), Utils.getPercentOfValue(height, 25), Utils.getPercentOfValue(width, 85), Utils.getPercentOfValue(height, 85));
-
+		groupBox.setBounds(beginWidthGroup, beginHeightGroup, endWidthGroup, endHeightGroup);
+		
 		_save = new JButton(Text.Save.toString());
 		_save.setBounds(Utils.getPercentOfValue(widthGroup, 80), Utils.getPercentOfValue(heightGroup, 80), 100, 25);
 		
 		_cancel = new JButton(Text.Cancel.toString());
 		//_cancel.setBounds(200, 200, 100, 25);
 		
-		_name = new JLabel(Text.Name.toString());
-		//_name.setBounds(10, 10, 50, 100);
 		
 		_nameText = new JTextField();
 		//_nameText.setBounds(30, 30, 100, 25);
@@ -62,18 +73,31 @@ public class StagePanel extends Panel
 		_stageText = new JTextField();
 		
 		_stageList = new JList<Stage>();
-		_stageList.setBounds(50, 50, 100, 500);
+		_stageList.setBounds(Utils.getPercentOfValue(width, 5), beginHeightGroup, -Utils.getPercentOfValue(width, 5) + width - Utils.getPercentOfValue(width, 80), -Utils.getPercentOfValue(height, 11) + height - Utils.getPercentOfValue(height, 39));
+		Border border = BorderFactory.createLineBorder(Color.gray, 1); 
+		_stageList.setBorder(border);
+		
+		_addStage = new JButton(Text.AddStage.toString());
+		_addStage.setBounds(Utils.getPercentOfValue(width, 5), Utils.getPercentOfValue(height, 72), -Utils.getPercentOfValue(width, 5) + width - Utils.getPercentOfValue(width, 80), 25);
+		
+		_removeStage = new JButton(Text.RemoveStage.toString());
+		_removeStage.setBounds(Utils.getPercentOfValue(width, 5), Utils.getPercentOfValue(height, 77), -Utils.getPercentOfValue(width, 5) + width - Utils.getPercentOfValue(width, 80), 25);
 		
 		_comboCapacity = new JComboBox<String>();
 		_comboCapacity.addItem("500");
 		_comboCapacity.addItem("1000");
 		_comboCapacity.setBounds(50, 50, 100, 20);
 		 
-		groupBox.add(_nameText);
-		groupBox.add(_name);
+		
+		
+		//groupBox.add(_nameText);
+		//groupBox.add(_name);
 		groupBox.add(_save);
-		groupBox.add(_cancel);
-		groupBox.add(_comboCapacity);
+		
+		//groupBox.add(_cancel);
+		//groupBox.add(_comboCapacity);
+		add(_addStage);
+		add(_removeStage);
 		add(groupBox);
 		add(_stageList);
 		
