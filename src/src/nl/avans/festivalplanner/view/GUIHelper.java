@@ -16,6 +16,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+
 public class GUIHelper {
 
 	public GUIHelper()
@@ -25,8 +26,7 @@ public class GUIHelper {
 	
 	public JTabbedPane getTabBar()
 	{
-		JTabbedPane tabBar = new JTabbedPane();
-		
+		JTabbedPane tabBar = new JTabbedPane();		
 		return tabBar;
 	}
 	
@@ -99,8 +99,7 @@ public class GUIHelper {
 	
 	public JPanel getGroupBox(String title)
 	{
-		JPanel box = new JPanel();
-		
+		JPanel box = new JPanel(null);
 		box.setBorder(BorderFactory.createTitledBorder(title));
 		return box;
 	}

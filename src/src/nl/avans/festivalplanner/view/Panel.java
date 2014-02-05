@@ -1,8 +1,10 @@
 package nl.avans.festivalplanner.view;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 
-public abstract class Panel extends JPanel
+public abstract class Panel extends JPanel implements ActionListener
 {
 	public Panel()
 	{
