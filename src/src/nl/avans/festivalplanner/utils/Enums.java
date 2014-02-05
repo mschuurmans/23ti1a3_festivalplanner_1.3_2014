@@ -29,7 +29,8 @@ public class Enums
 		StageSize("Oppervlak (podium)", "Size (stage)"),
 		FieldSize("Oppervlak (veld)", "Size (field)"),
 		SizeDef("L x B [m]", "L x W [m]"),
-		Capacity("Capaciteit", "Capacity");
+		Capacity("Capaciteit", "Capacity"),
+		People("Bezoekers", "Visitors");
 
 		
 		private String _nl;

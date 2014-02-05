@@ -12,7 +12,8 @@ public abstract class Panel extends JPanel implements ActionListener
 		super(null);
 	}
 	
-	public Panel(LayoutManager manager){
+	public Panel(LayoutManager manager)
+	{
 		super(manager);
 	}
 	

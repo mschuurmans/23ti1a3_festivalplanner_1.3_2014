@@ -1,6 +1,7 @@
 package nl.avans.festivalplanner.view;
 
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -97,9 +98,9 @@ public class GUIHelper {
 		return statusPanel;
 	}
 	
-	public JPanel getGroupBox(String title)
+	public JPanel getGroupBox(String title, LayoutManager layout)
 	{
-		JPanel box = new JPanel(null);
+		JPanel box = new JPanel(layout);
 		box.setBorder(BorderFactory.createTitledBorder(title));
 		return box;
 	}

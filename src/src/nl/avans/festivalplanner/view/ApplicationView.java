@@ -24,7 +24,7 @@ public class ApplicationView extends JFrame
 	    getContentPane().add(guiHelper.getTabBar(), BorderLayout.PAGE_START);
 	    getContentPane().add(guiHelper.getMenuBar(), BorderLayout.PAGE_START);
 	    
-	    getContentPane().add(new ArtistPanel(), BorderLayout.CENTER);
+	    getContentPane().add(new StagePanel(), BorderLayout.CENTER);
 	    
 	    //getContentPane().add(guiHelper.getStatusBar(), BorderLayout.PAGE_START);
 	    pack();
