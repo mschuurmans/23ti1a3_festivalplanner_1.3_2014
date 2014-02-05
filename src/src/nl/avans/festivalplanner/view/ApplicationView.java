@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import nl.avans.festivalplanner.view.panels.ArtistPanel;
 import nl.avans.festivalplanner.view.panels.StagePanel;
+import nl.avans.festivalplanner.view.panels.InfoPanel;
 
 public class ApplicationView extends JFrame
 {
@@ -23,7 +24,7 @@ public class ApplicationView extends JFrame
 	    getContentPane().add(guiHelper.getTabBar(), BorderLayout.PAGE_START);
 	    getContentPane().add(guiHelper.getMenuBar(), BorderLayout.PAGE_START);
 	    
-	    getContentPane().add(new StagePanel(), BorderLayout.CENTER);
+	    getContentPane().add(new ArtistPanel(), BorderLayout.CENTER);
 	    
 	    //getContentPane().add(guiHelper.getStatusBar(), BorderLayout.PAGE_START);
 	    pack();
