@@ -1,6 +1,7 @@
 package nl.avans.festivalplanner.view;
 
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +17,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+
 public class GUIHelper {
 
 	public GUIHelper()
@@ -25,8 +27,7 @@ public class GUIHelper {
 	
 	public JTabbedPane getTabBar()
 	{
-		JTabbedPane tabBar = new JTabbedPane();
-		
+		JTabbedPane tabBar = new JTabbedPane();		
 		return tabBar;
 	}
 	
@@ -97,10 +98,9 @@ public class GUIHelper {
 		return statusPanel;
 	}
 	
-	public JPanel getGroupBox(String title)
+	public JPanel getGroupBox(String title, LayoutManager layout)
 	{
-		JPanel box = new JPanel();
-		
+		JPanel box = new JPanel(layout);
 		box.setBorder(BorderFactory.createTitledBorder(title));
 		return box;
 	}

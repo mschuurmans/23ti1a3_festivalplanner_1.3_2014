@@ -3,24 +3,50 @@
  */
 package nl.avans.festivalplanner.view.panels;
 
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+
+import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.view.ApplicationView;
 import nl.avans.festivalplanner.view.Panel;
 
 /**
  * @author Jordy Sipkema
- *
+ * 
  */
 public class InfoPanel extends Panel
 {
+	/*
+	 * WARNING: This method is for debug-purposes only.
+	 * The usage of this method is restricted to testing this class only!
+	 */
+	public static void main(String[] args)
+	{
+		ApplicationView appview = new ApplicationView();
+		Panel p = new InfoPanel();
+		appview.showGui(p);
+	}
+
+	private static final long serialVersionUID = 2879106751679669257L;
+	
+	private JButton _saveButton = new JButton(Text.Save.toString());
+	private JButton _cancelButton = new JButton(Text.Cancel.toString());
 
 	/**
-	 * 
+	 * Creates a new InfoPanel. This panel is used to display and edit the
+	 * festival data.
 	 */
 	public InfoPanel()
 	{
-		// TODO Auto-generated constructor stub
+		super(new FlowLayout());
+		initialize();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.avans.festivalplanner.view.Panel#getPanel()
 	 */
 	@Override
@@ -28,5 +54,20 @@ public class InfoPanel extends Panel
 	{
 		return this;
 	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void initialize()
+	{
+		add(_saveButton);
+		add(_cancelButton);
+	}
+
+
 
 }

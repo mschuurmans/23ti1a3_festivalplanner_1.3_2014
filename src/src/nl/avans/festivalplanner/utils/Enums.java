@@ -23,7 +23,15 @@ public class Enums
 		Optional("Optioneel", "Optional"),
 		CommentsOptional("Opmerking (Optioneel)", "Comments (Optional)"),
 		Artist("Artiest", "Artist"),
-		Stages("Podium", "Stage");
+		Stages("Podium", "Stage"),
+		AddStage("Voeg podium toe", "Add stage"),
+		RemoveStage("Verwijder podium", "Delete stage"),
+		StageSize("Oppervlak (podium)", "Size (stage)"),
+		FieldSize("Oppervlak (veld)", "Size (field)"),
+		SizeDef("L x B [m]", "L x W [m]"),
+		Capacity("Capaciteit", "Capacity"),
+		People("Bezoekers", "Visitors");
+
 		
 		private String _nl;
 		private String _eng;
