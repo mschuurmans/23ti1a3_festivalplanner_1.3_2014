@@ -4,8 +4,8 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import nl.avans.festivalplanner.view.panels.ArtistPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class ApplicationView extends JFrame
 {
@@ -18,10 +18,19 @@ public class ApplicationView extends JFrame
 	public static void main(String[] args)
 	{
 		new ApplicationView();
+		
+		try 
+		{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    } 
+	    catch (Exception e) {
+	       // handle exception
+	    }
 	}
 	
 	public ApplicationView() {
 	    setTitle("Festival Planner TI1.3 A3");
+	    setResizable(false);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setPreferredSize(new Dimension(WIDTH, HEIGHT));
 	    getContentPane().add(guiHelper.getMenuBar(), BorderLayout.PAGE_START);

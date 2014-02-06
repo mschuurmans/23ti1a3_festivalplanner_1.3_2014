@@ -1,9 +1,14 @@
 package nl.avans.festivalplanner.view.panels;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -104,18 +109,6 @@ public class ArtistPanel extends Panel
 		_commentTextArea = new JTextArea();
 		_commentTextArea.setBounds(15, 145, 255, 250);
 		
-		
-		
-		 URL windowIcon = ClassLoader.class.getResource("no_image.jpg");
-		 System.out.println(ClassLoader.class.getResource("no_image.jpg"));
-		 if(windowIcon != null)
-			 _imageLabel = new JLabel((Icon) new ImageIcon(windowIcon).getImage());
-		 else
-			 _imageLabel = new JLabel(Text.NoImageAvailable.toString());
-			   
-		
-		_imageLabel.setBounds(groupBoxWidth - 120, 40, 100, 100);
-		
 		add(_list);
 		add(_addArtist);
 		add(_removeArtist);
@@ -129,9 +122,9 @@ public class ArtistPanel extends Panel
 		groupBox.add(_genreTextField);
 		groupBox.add(_commentsLabel);
 		groupBox.add(_commentTextArea);
-		groupBox.add(_imageLabel);
+		groupBox.add(new ArtistImage(new Dimension(groupBoxWidth, workSetHeight)));
 	}
-	
+			
 	public Panel getPanel()
 	{
 		return this;
@@ -142,6 +135,38 @@ public class ArtistPanel extends Panel
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public class ArtistImage extends JPanel
+	{
+		private static final long serialVersionUID = 3299360828679325339L;
+		
+		private Dimension _size;
+		private Image _image;
+		public ArtistImage(Dimension dim)
+		{
+			setPreferredSize(dim);
+			_size = dim;
+			try 
+			{
+				_image = ImageIO.read(ClassLoader.getSystemResourceAsStream("test.jpg"));
+				System.out.println("loaded succesfully");
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		@Override
+		public void paintComponent(Graphics g)
+		{
+			super.paintComponent(g);
+			System.out.println("Paint component");
+			
+			if(_image != null)
+				g.drawImage(_image, 200, 200, 200, 200, null);
+		}
 	}
 
 }
