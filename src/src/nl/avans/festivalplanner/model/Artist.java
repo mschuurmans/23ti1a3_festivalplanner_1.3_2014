@@ -48,4 +48,9 @@ public class Artist implements Serializable
 	{
 		return this._comment;
 	}
+	
+	public String toString()
+	{
+		return this._name;
+	}
 }

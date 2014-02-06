@@ -2,6 +2,7 @@ package nl.avans.festivalplanner.view;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -28,5 +29,11 @@ public class MapPanel extends Panel {
 	public Panel getPanel() 
 	{
 		return this;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

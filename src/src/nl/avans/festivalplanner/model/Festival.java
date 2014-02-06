@@ -77,9 +77,5 @@ public class Festival implements Serializable
 		return this._date;
 	}
 	
-	public static void main(String[] args)
-	{
-		new ApplicationView();
-	}
 	
 }
