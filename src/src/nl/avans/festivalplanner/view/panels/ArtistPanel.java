@@ -1,10 +1,12 @@
 package nl.avans.festivalplanner.view.panels;
 
 import java.awt.Color;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
+import java.net.URL;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -37,6 +39,8 @@ public class ArtistPanel extends Panel
 	private JLabel _genreLabel;
 	private JLabel _commentsLabel;
 	
+	private JLabel _imageLabel;
+	
 	private JTextField _nameTextField;
 	private JTextField _genreTextField;
 	private JTextArea _commentTextArea;
@@ -45,13 +49,7 @@ public class ArtistPanel extends Panel
 	
 	private GUIHelper _guiHelper;
 	
-	public static void main(String[] args)
-	{
-		ApplicationView appview = new ApplicationView();
-		Panel p = new ArtistPanel();
-		appview.showGui(p);
-	}
-	
+		
 	@SuppressWarnings("unchecked")
 	public ArtistPanel()
 	{
@@ -61,7 +59,7 @@ public class ArtistPanel extends Panel
 		int width = ApplicationView.WIDTH;
 		int height = ApplicationView.HEIGHT;
 		int startY = 20;
-		int workSetHeight = 500;
+		int workSetHeight = 480;
 		int startX = Utils.getPercentOfValue(width, 1);
 			
 		int groupBoxWidth =  width - startX - 245;
@@ -106,6 +104,18 @@ public class ArtistPanel extends Panel
 		_commentTextArea = new JTextArea();
 		_commentTextArea.setBounds(15, 145, 255, 250);
 		
+		
+		
+		 URL windowIcon = ClassLoader.class.getResource("no_image.jpg");
+		 System.out.println(ClassLoader.class.getResource("no_image.jpg"));
+		 if(windowIcon != null)
+			 _imageLabel = new JLabel((Icon) new ImageIcon(windowIcon).getImage());
+		 else
+			 _imageLabel = new JLabel(Text.NoImageAvailable.toString());
+			   
+		
+		_imageLabel.setBounds(groupBoxWidth - 120, 40, 100, 100);
+		
 		add(_list);
 		add(_addArtist);
 		add(_removeArtist);
@@ -119,6 +129,7 @@ public class ArtistPanel extends Panel
 		groupBox.add(_genreTextField);
 		groupBox.add(_commentsLabel);
 		groupBox.add(_commentTextArea);
+		groupBox.add(_imageLabel);
 	}
 	
 	public Panel getPanel()
@@ -132,4 +143,7 @@ public class ArtistPanel extends Panel
 		// TODO Auto-generated method stub
 		
 	}
+
 }
+
+
