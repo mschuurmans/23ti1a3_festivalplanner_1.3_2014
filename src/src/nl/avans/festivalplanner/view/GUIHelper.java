@@ -17,6 +17,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.view.panels.ArtistPanel;
+import nl.avans.festivalplanner.view.panels.InfoPanel;
+import nl.avans.festivalplanner.view.panels.StagePanel;
+
 
 public class GUIHelper {
 
@@ -27,7 +32,24 @@ public class GUIHelper {
 	
 	public JTabbedPane getTabBar()
 	{
-		JTabbedPane tabBar = new JTabbedPane();		
+		JTabbedPane tabBar = new JTabbedPane();
+		tabBar.setPreferredSize(new Dimension(ApplicationView.WIDTH, ApplicationView.HEIGHT));
+		
+		JPanel infoPanel = new InfoPanel();
+		tabBar.addTab(Text.Info.toString(), infoPanel);
+		
+//		JPanel schedulePanel = new Schedule();
+//		tabBar.addTab(Text.Schedule.toString(), schedulePanel);
+		
+		JPanel artistPanel = new ArtistPanel();
+		tabBar.addTab(Text.Artist.toString(), artistPanel);
+		
+		JPanel stagePanel = new StagePanel();
+		tabBar.addTab(Text.Stages.toString(), stagePanel);
+		
+//		JPanel mapPanel = new MapPanel();
+//		tabBar.addTab(Text.Map.toString(), mapPanel);
+		
 		return tabBar;
 	}
 	

@@ -25,8 +25,8 @@ public class InfoPanel extends Panel
 	public static void main(String[] args)
 	{
 		ApplicationView appview = new ApplicationView();
-		Panel p = new InfoPanel();
-		appview.showGui(p);
+//		Panel p = new InfoPanel();
+//		appview.showGui(p);
 	}
 
 	private static final long serialVersionUID = 2879106751679669257L;
