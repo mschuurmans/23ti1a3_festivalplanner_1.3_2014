@@ -5,7 +5,10 @@ package nl.avans.festivalplanner.view.panels;
 
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -22,7 +25,7 @@ public class StagePanel extends Panel
 
 	private JButton _addStage, _removeStage, _save, _cancel; 
 	private JTextField _nameText;
-	private JList<Stage> _stageList;
+	private final JList<Stage> _stageList;
 	private JSpinner _spinnerStageL, _spinnerStageW, _spinnerFieldL, _spinnerFieldW;
 
 
@@ -40,6 +43,7 @@ public class StagePanel extends Panel
 		int startX = Utils.getPercentOfValue(width, 1);
 
 		int groupBoxWidth =  width - startX - 245;
+		
 
 		JPanel _groupBox = _guiHelper.getGroupBox(Text.Stages.toString(), null);
 		int groupBoxX = startX + 210;
@@ -135,7 +139,7 @@ public class StagePanel extends Panel
 		add(_removeStage);
 		add(_groupBox);
 		add(_stageList);
-
+		
 	}
 
 
