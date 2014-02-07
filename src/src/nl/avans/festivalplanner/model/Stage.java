@@ -59,4 +59,9 @@ public class Stage implements Serializable
 	{
 		return this._sizeField;
 	}
+	
+	public String toString()
+	{
+		return getName();
+	}
 }

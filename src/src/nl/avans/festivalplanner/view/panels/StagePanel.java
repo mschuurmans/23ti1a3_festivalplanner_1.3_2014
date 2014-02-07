@@ -5,17 +5,29 @@ package nl.avans.festivalplanner.view.panels;
 
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
+import javax.swing.event.ListDataListener;
 
 import nl.avans.festivalplanner.model.Stage;
-import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.view.ApplicationView;
 import nl.avans.festivalplanner.view.GUIHelper;
 import nl.avans.festivalplanner.view.Panel;
@@ -26,6 +38,8 @@ public class StagePanel extends Panel
 	private JButton _addStage, _removeStage, _save, _cancel; 
 	private JTextField _nameText;
 	private final JList<Stage> _stageList;
+	private final AbstractListModel<Stage> abstractModel;
+	private ArrayList<Stage> _stageArrayList;
 	private JSpinner _spinnerStageL, _spinnerStageW, _spinnerFieldL, _spinnerFieldW;
 
 
@@ -43,7 +57,7 @@ public class StagePanel extends Panel
 		int startX = Utils.getPercentOfValue(width, 1);
 
 		int groupBoxWidth =  width - startX - 245;
-		
+
 
 		JPanel _groupBox = _guiHelper.getGroupBox(Text.Stages.toString(), null);
 		int groupBoxX = startX + 210;
@@ -103,43 +117,78 @@ public class StagePanel extends Panel
 		JLabel _sizeDef_2 = new JLabel(Text.SizeDef.toString());
 		_sizeDef_2.setBounds(320, 120, 50, 25);
 
-		_stageList = new JList<Stage>();
-		_stageList.setBounds(startX, startY, 200, workSetHeight - 60);
-		Border border = BorderFactory.createLineBorder(Color.gray, 1); 
-		_stageList.setBorder(border);
+		abstractModel = new AbstractListModel<Stage>()
+				{
+			public Stage getElementAt(int index)
+			{
+				return _stageArrayList.get(index);
+			}
 
-		_addStage = new JButton(Text.AddStage.toString());
-		_addStage.setBounds(startX, startY + (workSetHeight - 60) + 5, 200, 25);
-
-		_removeStage = new JButton(Text.RemoveStage.toString());
-		_removeStage.setBounds(startX, startY + (workSetHeight - 60) + 35, 200, 25);
-
-		_groupBox.add(_name);
-		_groupBox.add(_nameText);
-		_groupBox.add(_capacity);
-		_groupBox.add(_spinnerCapacity);
-		_groupBox.add(_people);
-		_groupBox.add(_fieldSize);
-		_groupBox.add(_stageSize);
-		_groupBox.add(_spinnerStageL);
-		_groupBox.add(_xLbl);
-		_groupBox.add(_spinnerStageW);
-		_groupBox.add(_sizeDef);
-		_groupBox.add(_spinnerFieldL);
-		_groupBox.add(_xLbl_2);
-		_groupBox.add(_spinnerFieldW);
-		_groupBox.add(_sizeDef_2);
+			public int getSize()
+			{
+				return _stageArrayList.size();
+			}
+				};
 
 
-		_groupBox.add(_save);
-		_groupBox.add(_cancel);
+				_stageArrayList = new ArrayList<Stage>();
+				_stageList = new JList(abstractModel);
+				_stageList.setBounds(startX, startY, 200, workSetHeight - 60);
+				Border border = BorderFactory.createLineBorder(Color.gray, 1); 
+				_stageList.setBorder(border);
+
+				int stageNbr = 1;		
+				_addStage = new JButton(Text.AddStage.toString());
+				_addStage.setBounds(startX, startY + (workSetHeight - 60) + 5, 200, 25);
+				_addStage.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e)
+					{
+						String stageName = "New stage " + _stageArrayList.size();
+						Stage stage = new Stage(stageName, 8000, new Dimension(20, 25), new Dimension(500, 200));
+						_stageArrayList.add(stage);
+						updateList();
+					}
+				});
+
+				_removeStage = new JButton(Text.RemoveStage.toString());
+				_removeStage.setBounds(startX, startY + (workSetHeight - 60) + 35, 200, 25);
+				_removeStage.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e)
+					{
+						if(!_stageList.isSelectionEmpty())
+						{
+							_stageArrayList.remove(_stageList.getSelectedValue());
+						}
+						updateList();
+					}
+				});
+
+				_groupBox.add(_name);
+				_groupBox.add(_nameText);
+				_groupBox.add(_capacity);
+				_groupBox.add(_spinnerCapacity);
+				_groupBox.add(_people);
+				_groupBox.add(_fieldSize);
+				_groupBox.add(_stageSize);
+				_groupBox.add(_spinnerStageL);
+				_groupBox.add(_xLbl);
+				_groupBox.add(_spinnerStageW);
+				_groupBox.add(_sizeDef);
+				_groupBox.add(_spinnerFieldL);
+				_groupBox.add(_xLbl_2);
+				_groupBox.add(_spinnerFieldW);
+				_groupBox.add(_sizeDef_2);
 
 
-		add(_addStage);
-		add(_removeStage);
-		add(_groupBox);
-		add(_stageList);
-		
+				_groupBox.add(_save);
+				_groupBox.add(_cancel);
+
+
+				add(_addStage);
+				add(_removeStage);
+				add(_groupBox);
+				add(_stageList);
+
 	}
 
 
@@ -154,6 +203,12 @@ public class StagePanel extends Panel
 		SpinnerModel _spinModelSteps10 = new SpinnerNumberModel(10.0, 0, 1000, 10);
 		JSpinner _spinner10Steps = new JSpinner(_spinModelSteps10);
 		return _spinner10Steps;
+	}
+
+	public void updateList()
+	{
+		for(ListDataListener p : abstractModel.getListDataListeners())
+			p.contentsChanged(null);		
 	}
 
 	public Panel getPanel() 
