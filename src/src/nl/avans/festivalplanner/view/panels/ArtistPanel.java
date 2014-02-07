@@ -1,10 +1,17 @@
 package nl.avans.festivalplanner.view.panels;
 
 import java.awt.Color;
-import java.awt.TextArea;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -37,6 +44,8 @@ public class ArtistPanel extends Panel
 	private JLabel _genreLabel;
 	private JLabel _commentsLabel;
 	
+	private JLabel _imageLabel;
+	
 	private JTextField _nameTextField;
 	private JTextField _genreTextField;
 	private JTextArea _commentTextArea;
@@ -45,13 +54,7 @@ public class ArtistPanel extends Panel
 	
 	private GUIHelper _guiHelper;
 	
-	public static void main(String[] args)
-	{
-		ApplicationView appview = new ApplicationView();
-		Panel p = new ArtistPanel();
-		appview.showGui(p);
-	}
-	
+		
 	@SuppressWarnings("unchecked")
 	public ArtistPanel()
 	{
@@ -61,7 +64,7 @@ public class ArtistPanel extends Panel
 		int width = ApplicationView.WIDTH;
 		int height = ApplicationView.HEIGHT;
 		int startY = 20;
-		int workSetHeight = 500;
+		int workSetHeight = 480;
 		int startX = Utils.getPercentOfValue(width, 1);
 			
 		int groupBoxWidth =  width - startX - 245;
@@ -119,8 +122,9 @@ public class ArtistPanel extends Panel
 		groupBox.add(_genreTextField);
 		groupBox.add(_commentsLabel);
 		groupBox.add(_commentTextArea);
+		groupBox.add(new ArtistImage(new Dimension(groupBoxWidth, workSetHeight)));
 	}
-	
+			
 	public Panel getPanel()
 	{
 		return this;
@@ -132,4 +136,39 @@ public class ArtistPanel extends Panel
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public class ArtistImage extends JPanel
+	{
+		private static final long serialVersionUID = 3299360828679325339L;
+		
+		private Dimension _size;
+		private Image _image;
+		public ArtistImage(Dimension dim)
+		{
+			setPreferredSize(dim);
+			_size = dim;
+			try 
+			{
+				_image = ImageIO.read(ClassLoader.getSystemResourceAsStream("test.jpg"));
+				System.out.println("loaded succesfully");
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		@Override
+		public void paintComponent(Graphics g)
+		{
+			super.paintComponent(g);
+			System.out.println("Paint component");
+			
+			if(_image != null)
+				g.drawImage(_image, 200, 200, 200, 200, null);
+		}
+	}
+
 }
+
+

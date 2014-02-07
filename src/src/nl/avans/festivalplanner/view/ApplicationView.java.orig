@@ -4,8 +4,14 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
+<<<<<<< HEAD
+
 import nl.avans.festivalplanner.view.panels.ArtistPanel;
+import nl.avans.festivalplanner.view.panels.StagePanel;
+=======
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+>>>>>>> 8e8967d633eadf1870c35fab105757768d06920e
 
 public class ApplicationView extends JFrame
 {
@@ -36,11 +42,19 @@ public class ApplicationView extends JFrame
 	    getContentPane().add(guiHelper.getMenuBar(), BorderLayout.PAGE_START);
 	    getContentPane().add(guiHelper.getTabBar(), BorderLayout.CENTER);
 	    
+<<<<<<< HEAD
+//<<<<<<< HEAD
+	  //  getContentPane().add(new ArtistPanel(), BorderLayout.CENTER);
+///=======
+	    getContentPane().add(new StagePanel(), BorderLayout.CENTER);
+////>>>>>>> 1137f5f7a5f657accd72e0b04856b220a7c91b5f
+=======
 
 	    //getContentPane().add(new ArtistPanel(), BorderLayout.CENTER);
 
-	    getContentPane().add(new StagePanel(), BorderLayout.CENTER);
+	   // getContentPane().add(new StagePanel(), BorderLayout.CENTER);
 
+>>>>>>> 8e8967d633eadf1870c35fab105757768d06920e
 	    
 	    //getContentPane().add(guiHelper.getStatusBar(), BorderLayout.PAGE_START);
 	    pack();

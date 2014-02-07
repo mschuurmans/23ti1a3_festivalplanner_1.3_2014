@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import nl.avans.festivalplanner.view.panels.ArtistPanel;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class ApplicationView extends JFrame
 {
@@ -39,7 +39,7 @@ public class ApplicationView extends JFrame
 
 	    //getContentPane().add(new ArtistPanel(), BorderLayout.CENTER);
 
-	    getContentPane().add(new StagePanel(), BorderLayout.CENTER);
+	   // getContentPane().add(new StagePanel(), BorderLayout.CENTER);
 
 	    
 	    //getContentPane().add(guiHelper.getStatusBar(), BorderLayout.PAGE_START);

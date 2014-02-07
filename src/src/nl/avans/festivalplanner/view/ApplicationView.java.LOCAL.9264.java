@@ -4,8 +4,9 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
+
 import nl.avans.festivalplanner.view.panels.ArtistPanel;
+import nl.avans.festivalplanner.view.panels.StagePanel;
 
 public class ApplicationView extends JFrame
 {
@@ -15,32 +16,18 @@ public class ApplicationView extends JFrame
 	private Panel activePanel;
 	private GUIHelper guiHelper = new GUIHelper();
 	
-	public static void main(String[] args)
-	{
-		new ApplicationView();
-		
-		try 
-		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	    } 
-	    catch (Exception e) {
-	       // handle exception
-	    }
-	}
-	
 	public ApplicationView() {
 	    setTitle("Festival Planner TI1.3 A3");
-	    setResizable(false);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setPreferredSize(new Dimension(WIDTH, HEIGHT));
 	    getContentPane().add(guiHelper.getMenuBar(), BorderLayout.PAGE_START);
 	    getContentPane().add(guiHelper.getTabBar(), BorderLayout.CENTER);
 	    
-
-	    //getContentPane().add(new ArtistPanel(), BorderLayout.CENTER);
-
+//<<<<<<< HEAD
+	  //  getContentPane().add(new ArtistPanel(), BorderLayout.CENTER);
+///=======
 	    getContentPane().add(new StagePanel(), BorderLayout.CENTER);
-
+////>>>>>>> 1137f5f7a5f657accd72e0b04856b220a7c91b5f
 	    
 	    //getContentPane().add(guiHelper.getStatusBar(), BorderLayout.PAGE_START);
 	    pack();
