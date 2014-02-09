@@ -40,8 +40,9 @@ public class Stage implements Serializable
 		return this._capacity;
 	}
 	
-	public void setStageSize(Dimension value)
+	public void setStageSize(double width, double height)
 	{
+		Dimension value = new Dimension((int)width,(int) height);
 		this._sizeStage = value;
 	}
 	
@@ -50,8 +51,9 @@ public class Stage implements Serializable
 		return this._sizeStage;
 	}
 	
-	public void setFieldSize(Dimension value)
+	public void setFieldSize(double width, double height)
 	{
+		Dimension value = new Dimension((int)width, (int)height);
 		this._sizeField = value;
 	}
 	

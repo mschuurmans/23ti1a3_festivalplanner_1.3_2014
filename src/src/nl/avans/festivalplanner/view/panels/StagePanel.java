@@ -64,10 +64,7 @@ public class StagePanel extends Panel
 		int groupBoxX = startX + 210;
 		_groupBox.setBounds(groupBoxX, startY - 8, groupBoxWidth, workSetHeight + 8); // the -8 and + 8 is for nice allignment of the borders.
 
-
 		
-
-
 		_nameText = new JTextField();
 		_nameText.setBounds(180, 30, 150, 25);
 
@@ -133,8 +130,7 @@ public class StagePanel extends Panel
 				_stageList.setBounds(startX, startY, 200, workSetHeight - 60);
 				Border border = BorderFactory.createLineBorder(Color.gray, 1); 
 				_stageList.setBorder(border);
-				_stageList.addListSelectionListener(new ListSelectionListener() {
-					
+				_stageList.addListSelectionListener(new ListSelectionListener() {					
 					@Override
 					public void valueChanged(ListSelectionEvent e) 
 					{
@@ -148,14 +144,13 @@ public class StagePanel extends Panel
 					}
 				});
 
-				int stageNbr = 1;		
 				_addStage = new JButton(Text.AddStage.toString());
 				_addStage.setBounds(startX, startY + (workSetHeight - 60) + 5, 200, 25);
 				_addStage.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e)
 					{
 						String stageName = "New stage " + _stageArrayList.size();
-						Stage stage = new Stage(stageName, 8000, new Dimension(20, 25), new Dimension(500, 200));
+						Stage stage = new Stage(stageName, 0, new Dimension(10, 10), new Dimension(10, 10));
 						_stageArrayList.add(stage);
 						updateList();
 					}
@@ -173,25 +168,39 @@ public class StagePanel extends Panel
 						updateList();
 					}
 				});
-				
+
 				_save = new JButton(Text.Save.toString());
 				_save.setBounds(groupBoxWidth - 220, workSetHeight - 25, 100, 25);
 				_save.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e)
 					{
-						if(_stageList.getSelectedIndex() >= 0)
+						if(!_stageList.isSelectionEmpty())
 						{
-						_stageArrayList.get(_stageList.getSelectedIndex()).setName(_nameText.getText());
-						_stageArrayList.get(_stageList.getSelectedIndex()).setCapacity((int)_spinnerCapacity.getValue());
-					//	_stageArrayList.get(_stageList.getSelectedIndex()).setStageSize(new Dimension((int)_spinnerStageW.getValue(), (int)_spinnerStageL.getValue()));
-					//	_stageArrayList.get(_stageList.getSelectedIndex()).setFieldSize(new Dimension((int)_spinnerFieldL.getValue(), (int)_spinnerFieldW.getValue()));
-						updateList();
+							int index = _stageList.getSelectedIndex();
+							_stageArrayList.get(index).setName(_nameText.getText());
+							_stageArrayList.get(index).setCapacity((int)_spinnerCapacity.getValue());
+							_stageArrayList.get(index).setStageSize((double)_spinnerStageW.getValue(), (double)_spinnerStageL.getValue());
+							_stageArrayList.get(index).setFieldSize((double)_spinnerFieldL.getValue(), (double)_spinnerFieldW.getValue());
+							updateList();
 						}
 					}
 				});
 
 				_cancel = new JButton(Text.Cancel.toString());
 				_cancel.setBounds(groupBoxWidth - 110, workSetHeight - 25 ,100,25);
+				_cancel.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e)
+					{
+						int index = _stageList.getSelectedIndex();
+						_nameText.setText(_stageArrayList.get(index).getName());
+						_spinnerCapacity.setValue(_stageArrayList.get(index).getCapacity());
+						_spinnerStageL.setValue(_stageArrayList.get(index).getStageSize().getHeight());
+						_spinnerStageW.setValue(_stageArrayList.get(index).getStageSize().getWidth());
+						_spinnerFieldL.setValue(_stageArrayList.get(index).getFieldSize().getHeight());
+						_spinnerFieldW.setValue(_stageArrayList.get(index).getFieldSize().getWidth());
+						updateList();
+					}
+				});
 
 				_groupBox.add(_name);
 				_groupBox.add(_nameText);
@@ -223,17 +232,22 @@ public class StagePanel extends Panel
 
 
 	/*
-	 * for creating a JSpinner. Counts from 0  to 1000 with steps from 10
+	 * for creating a JSpinner. Counts from 10  to 1000 with steps from 10
 	 * @author Kasper
 	 * @return JSpinner
 	 */
 
 	public JSpinner getSpinner10Steps()
 	{
-		SpinnerModel _spinModelSteps10 = new SpinnerNumberModel(10.0, 0, 1000, 10);
+		SpinnerModel _spinModelSteps10 = new SpinnerNumberModel(10.0, 10, 1000, 10);
 		JSpinner _spinner10Steps = new JSpinner(_spinModelSteps10);
 		return _spinner10Steps;
 	}
+
+	/*
+	 * Updates the JList
+	 * @author Kasper
+	 */
 
 	public void updateList()
 	{
