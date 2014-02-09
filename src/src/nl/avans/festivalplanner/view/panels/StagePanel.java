@@ -12,18 +12,18 @@ import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import nl.avans.festivalplanner.model.Stage;
 import nl.avans.festivalplanner.utils.Enums.Text;
@@ -36,11 +36,12 @@ public class StagePanel extends Panel
 {
 
 	private JButton _addStage, _removeStage, _save, _cancel; 
+	private JLabel _name, _capacity, _people, _stageSize, _fieldSize, _xLbl, _xLbl_2, _sizeDef, _sizeDef_2;
 	private JTextField _nameText;
 	private final JList<Stage> _stageList;
 	private final AbstractListModel<Stage> abstractModel;
 	private ArrayList<Stage> _stageArrayList;
-	private JSpinner _spinnerStageL, _spinnerStageW, _spinnerFieldL, _spinnerFieldW;
+	private JSpinner _spinnerStageL, _spinnerStageW, _spinnerFieldL, _spinnerFieldW, _spinnerCapacity;
 
 
 	private GUIHelper _guiHelper;
@@ -64,57 +65,53 @@ public class StagePanel extends Panel
 		_groupBox.setBounds(groupBoxX, startY - 8, groupBoxWidth, workSetHeight + 8); // the -8 and + 8 is for nice allignment of the borders.
 
 
-		_save = new JButton(Text.Save.toString());
-		_save.setBounds(groupBoxWidth - 220, workSetHeight - 25, 100, 25);
-
-		_cancel = new JButton(Text.Cancel.toString());
-		_cancel.setBounds(groupBoxWidth - 110, workSetHeight - 25 ,100,25);
+		
 
 
 		_nameText = new JTextField();
 		_nameText.setBounds(180, 30, 150, 25);
 
-		JLabel _name = new JLabel(Text.Name.toString());
+		_name = new JLabel(Text.Name.toString());
 		_name.setBounds(20, 30, 150,25);
 
-		JLabel _capacity = new JLabel(Text.Capacity.toString());
+		_capacity = new JLabel(Text.Capacity.toString());
 		_capacity.setBounds(20, 60, 150, 25);
 
-		SpinnerModel _spinModelSteps100 = new SpinnerNumberModel(1000, 0, 99999, 100); 
-		JSpinner _spinnerCapacity = new JSpinner(_spinModelSteps100);
+		SpinnerModel spinModelSteps100 = new SpinnerNumberModel(1000, 0, 99999, 100); 
+		_spinnerCapacity = new JSpinner(spinModelSteps100);
 		_spinnerCapacity.setBounds(180, 60, 100, 25);
 
-		JLabel _people = new JLabel(Text.People.toString());
+		_people = new JLabel(Text.People.toString());
 		_people.setBounds(295, 60, 150, 25);
 
-		JLabel _stageSize = new JLabel(Text.StageSize.toString());
+		_stageSize = new JLabel(Text.StageSize.toString());
 		_stageSize.setBounds(20, 90, 150, 25);
 
 		_spinnerStageL = getSpinner10Steps();
 		_spinnerStageL.setBounds(180, 90, 50, 25);
 
-		JLabel _xLbl = new JLabel("x");
+		_xLbl = new JLabel("x");
 		_xLbl.setBounds(240, 90, 20, 20);
 
 		_spinnerStageW = getSpinner10Steps();
 		_spinnerStageW.setBounds(260, 90, 50, 25);
 
-		JLabel _sizeDef = new JLabel(Text.SizeDef.toString());
+		_sizeDef = new JLabel(Text.SizeDef.toString());
 		_sizeDef.setBounds(320, 90, 50, 25);
 
-		JLabel _fieldSize = new JLabel(Text.FieldSize.toString());
+		_fieldSize = new JLabel(Text.FieldSize.toString());
 		_fieldSize.setBounds(20, 120, 150, 25);
 
 		_spinnerFieldL = getSpinner10Steps();
 		_spinnerFieldL.setBounds(180, 120, 50, 25);
 
-		JLabel _xLbl_2 = new JLabel("x");
+		_xLbl_2 = new JLabel("x");
 		_xLbl_2.setBounds(240, 120, 20, 20);
 
 		_spinnerFieldW = getSpinner10Steps();
 		_spinnerFieldW.setBounds(260, 120, 50, 25);
 
-		JLabel _sizeDef_2 = new JLabel(Text.SizeDef.toString());
+		_sizeDef_2 = new JLabel(Text.SizeDef.toString());
 		_sizeDef_2.setBounds(320, 120, 50, 25);
 
 		abstractModel = new AbstractListModel<Stage>()
@@ -136,6 +133,20 @@ public class StagePanel extends Panel
 				_stageList.setBounds(startX, startY, 200, workSetHeight - 60);
 				Border border = BorderFactory.createLineBorder(Color.gray, 1); 
 				_stageList.setBorder(border);
+				_stageList.addListSelectionListener(new ListSelectionListener() {
+					
+					@Override
+					public void valueChanged(ListSelectionEvent e) 
+					{
+						int index = _stageList.getSelectedIndex();
+						_nameText.setText(_stageArrayList.get(index).getName());
+						_spinnerCapacity.setValue(_stageArrayList.get(index).getCapacity());
+						_spinnerStageL.setValue(_stageArrayList.get(index).getStageSize().getHeight());
+						_spinnerStageW.setValue(_stageArrayList.get(index).getStageSize().getWidth());
+						_spinnerFieldL.setValue(_stageArrayList.get(index).getFieldSize().getHeight());
+						_spinnerFieldW.setValue(_stageArrayList.get(index).getFieldSize().getWidth());
+					}
+				});
 
 				int stageNbr = 1;		
 				_addStage = new JButton(Text.AddStage.toString());
@@ -162,6 +173,25 @@ public class StagePanel extends Panel
 						updateList();
 					}
 				});
+				
+				_save = new JButton(Text.Save.toString());
+				_save.setBounds(groupBoxWidth - 220, workSetHeight - 25, 100, 25);
+				_save.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e)
+					{
+						if(_stageList.getSelectedIndex() >= 0)
+						{
+						_stageArrayList.get(_stageList.getSelectedIndex()).setName(_nameText.getText());
+						_stageArrayList.get(_stageList.getSelectedIndex()).setCapacity((int)_spinnerCapacity.getValue());
+					//	_stageArrayList.get(_stageList.getSelectedIndex()).setStageSize(new Dimension((int)_spinnerStageW.getValue(), (int)_spinnerStageL.getValue()));
+					//	_stageArrayList.get(_stageList.getSelectedIndex()).setFieldSize(new Dimension((int)_spinnerFieldL.getValue(), (int)_spinnerFieldW.getValue()));
+						updateList();
+						}
+					}
+				});
+
+				_cancel = new JButton(Text.Cancel.toString());
+				_cancel.setBounds(groupBoxWidth - 110, workSetHeight - 25 ,100,25);
 
 				_groupBox.add(_name);
 				_groupBox.add(_nameText);
