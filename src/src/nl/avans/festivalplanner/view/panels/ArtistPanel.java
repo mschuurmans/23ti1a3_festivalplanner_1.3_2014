@@ -145,6 +145,7 @@ public class ArtistPanel extends Panel
 		private Image _image;
 		public ArtistImage(Dimension dim)
 		{
+			super(null);
 			setPreferredSize(dim);
 			_size = dim;
 			try 

@@ -50,16 +50,22 @@ public class StagePanel extends Panel
 		int widthGroup = (int) (endWidthGroup - beginWidthGroup);
 		int heightGroup = (int) (endHeightGroup - beginHeightGroup);
 		
+		int startY = 20;
+		int workSetHeight = 500;
+		int startX = Utils.getPercentOfValue(width, 1);
+			
+		int groupBoxWidth =  width - startX - 245;
 
-
-		JPanel groupBox = _guiHelper.getGroupBox(Text.Stages.toString(), null);
-		groupBox.setBounds(beginWidthGroup, beginHeightGroup, endWidthGroup, endHeightGroup);
+		JPanel _groupBox = _guiHelper.getGroupBox(Text.Stages.toString(), null);
+		int groupBoxX = startX + 210;
+		_groupBox.setBounds(groupBoxX, startY - 8, groupBoxWidth, workSetHeight + 8); // the -8 and + 8 is for nice allignment of the borders.
+		
 		
 		_save = new JButton(Text.Save.toString());
-		_save.setBounds(Utils.getPercentOfValue(widthGroup, 120), Utils.getPercentOfValue(heightGroup, 115), 100, 25);
+		_save.setBounds(groupBoxWidth - 220, workSetHeight - 25 ,100,25);
 		
 		_cancel = new JButton(Text.Cancel.toString());
-		_cancel.setBounds(Utils.getPercentOfValue(widthGroup, 150), Utils.getPercentOfValue(heightGroup, 115), 100, 25);
+		_cancel.setBounds(groupBoxWidth - 110, workSetHeight - 25 ,100,25);
 		
 		
 		_nameText = new JTextField();
@@ -115,46 +121,42 @@ public class StagePanel extends Panel
 		_sizeDef_2.setBounds(320, 120, 50, 25);
 				
 		_stageList = new JList<Stage>();
-		_stageList.setBounds(Utils.getPercentOfValue(width, 5), beginHeightGroup, -Utils.getPercentOfValue(width, 5) + width - Utils.getPercentOfValue(width, 80), -Utils.getPercentOfValue(height, 11) + height - Utils.getPercentOfValue(height, 39));
+		_stageList.setBounds(startX, startY, 200, workSetHeight - 60);
 		Border border = BorderFactory.createLineBorder(Color.gray, 1); 
 		_stageList.setBorder(border);
 		
 		_addStage = new JButton(Text.AddStage.toString());
-		_addStage.setBounds(Utils.getPercentOfValue(width, 5), Utils.getPercentOfValue(height, 72), -Utils.getPercentOfValue(width, 5) + width - Utils.getPercentOfValue(width, 80), 25);
+		_addStage.setBounds(startX, startY + (workSetHeight - 60) + 5, 200, 25);
 		
 		_removeStage = new JButton(Text.RemoveStage.toString());
-		_removeStage.setBounds(Utils.getPercentOfValue(width, 5), Utils.getPercentOfValue(height, 77), -Utils.getPercentOfValue(width, 5) + width - Utils.getPercentOfValue(width, 80), 25);
+		_removeStage.setBounds(startX, startY + (workSetHeight - 60) + 35, 200, 25);
 		
-	 
-		
-		
-		groupBox.add(_nameText);
-		groupBox.add(_capacity);
-		groupBox.add(_people);
-		groupBox.add(_fieldSize);
-		groupBox.add(_stageSize);
-		groupBox.add(_comboCapacity);
-		groupBox.add(_comboStageL);
-		groupBox.add(_xLbl);
-		groupBox.add(_comboStageW);
-		groupBox.add(_sizeDef);
-		groupBox.add(_comboFieldL);
-		groupBox.add(_xLbl_2);
-		groupBox.add(_comboFieldW);
-		groupBox.add(_sizeDef_2);
+	 	_groupBox.add(_nameText);
+		_groupBox.add(_capacity);
+		_groupBox.add(_people);
+		_groupBox.add(_fieldSize);
+		_groupBox.add(_stageSize);
+		_groupBox.add(_comboCapacity);
+		_groupBox.add(_comboStageL);
+		_groupBox.add(_xLbl);
+		_groupBox.add(_comboStageW);
+		_groupBox.add(_sizeDef);
+		_groupBox.add(_comboFieldL);
+		_groupBox.add(_xLbl_2);
+		_groupBox.add(_comboFieldW);
+		_groupBox.add(_sizeDef_2);
 		
 
-		groupBox.add(_name);
-		groupBox.add(_save);
-		groupBox.add(_cancel);
-		groupBox.add(_nameText);
+		_groupBox.add(_name);
+		_groupBox.add(_save);
+		_groupBox.add(_cancel);
 		
 		
 		
 		//groupBox.add(_comboCapacity);
 		add(_addStage);
 		add(_removeStage);
-		add(groupBox);
+		add(_groupBox);
 		add(_stageList);
 		
 	}
