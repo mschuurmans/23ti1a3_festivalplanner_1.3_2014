@@ -20,10 +20,14 @@ import javax.swing.border.BevelBorder;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.view.panels.ArtistPanel;
 import nl.avans.festivalplanner.view.panels.InfoPanel;
+import nl.avans.festivalplanner.view.panels.SchedulePanel;
 import nl.avans.festivalplanner.view.panels.StagePanel;
 
 
 public class GUIHelper {
+
+	public static final int XOFFSET = 10; //static public variables for each panel
+	public static final int YOFFSET = 20; //for a uniform look troughout the panels
 
 	public GUIHelper()
 	{
@@ -38,8 +42,8 @@ public class GUIHelper {
 		JPanel infoPanel = new InfoPanel();
 		tabBar.addTab(Text.Info.toString(), infoPanel);
 		
-//		JPanel schedulePanel = new Schedule();
-//		tabBar.addTab(Text.Schedule.toString(), schedulePanel);
+		JPanel schedulePanel = new SchedulePanel();
+		tabBar.addTab(Text.Schedule.toString(), schedulePanel);
 		
 		JPanel artistPanel = new ArtistPanel();
 		tabBar.addTab(Text.Artist.toString(), artistPanel);

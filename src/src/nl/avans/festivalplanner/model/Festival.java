@@ -14,7 +14,7 @@ public class Festival implements Serializable
 	private GregorianCalendar _date;
 	private int _tickets;
 	private ArrayList<Artist> _artists;
-	private ArrayList<Stage> _stageList;
+	private ArrayList<Stage> _stages = new ArrayList<Stage>();
 	private Schedule _schedule;
 	
 	public void setSchedule(Schedule value)
@@ -39,12 +39,12 @@ public class Festival implements Serializable
 	
 	public void setStages(ArrayList<Stage> value)
 	{
-		this._stageList = value;
+		this._stages = value;
 	}
 	
 	public ArrayList<Stage> getStages()
 	{
-		return this._stageList;
+		return this._stages;
 	}
 	
 	public void setTicket(int value)
