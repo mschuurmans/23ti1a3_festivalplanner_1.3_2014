@@ -1,6 +1,7 @@
 package nl.avans.festivalplanner.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FestivalHandler 
 {
@@ -64,5 +65,15 @@ public class FestivalHandler
 //		stageList.add(new Stage("test12", 100,null,null));
 		
 		return stageList;
+	}
+	
+	public void setArtists(List<Artist> artists)
+	{
+		this._festival.setArtists(artists);
+	}
+	
+	public List<Artist> getArtists()
+	{
+		return this._festival.getArtists();
 	}
 }

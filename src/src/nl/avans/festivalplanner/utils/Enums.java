@@ -1,4 +1,7 @@
+
 package nl.avans.festivalplanner.utils;
+
+import nl.avans.festivalplanner.utils.Enums.Languages;
 
 public class Enums 
 {
@@ -34,7 +37,12 @@ public class Enums
 		SizeDef("L x B [m]", "L x W [m]"),
 		Capacity("Capaciteit", "Capacity"),
 		People("Bezoekers", "Visitors"),
-		NoImageAvailable("Geen Afbeelding \nbeschikbaar", "No image \navailable");
+		NoImageAvailable("Geen Afbeelding \nbeschikbaar", "No image \navailable"),
+		FestivalName("Festival naam", "Festival name"),
+		Date("Datum", "Date"),
+		Tickets("Kaartjes", "Tickets"),
+		NewArtist("Nieuwe artiest", "New artist"),
+		DateFormat("dd-MM-yyyy", "MM/dd/yyyy");
 
 		
 		private String _nl;
@@ -56,3 +64,4 @@ public class Enums
 		}
 	}
 }
+

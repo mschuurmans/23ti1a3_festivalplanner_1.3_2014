@@ -1,4 +1,4 @@
-package nl.avans.festivalplanner.view;
+package nl.avans.festivalplanner.view.panels;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -9,6 +9,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import nl.avans.festivalplanner.view.Panel;
 
 public class MapPanel extends Panel {
 	private Image image;
@@ -32,11 +34,7 @@ public class MapPanel extends Panel {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public void actionPerformed(ActionEvent e) {
-=======
-	public void actionPerformed(ActionEvent arg0) {
->>>>>>> 1137f5f7a5f657accd72e0b04856b220a7c91b5f
 		// TODO Auto-generated method stub
 		
 	}
