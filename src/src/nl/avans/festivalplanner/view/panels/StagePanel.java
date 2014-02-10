@@ -52,7 +52,6 @@ public class StagePanel extends Panel
 		_guiHelper = new GUIHelper();
 		int width = ApplicationView.WIDTH;
 		int height = ApplicationView.HEIGHT;
-<<<<<<< HEAD
 		
 		int beginWidthGroup = (int) Utils.getPercentOfValue(width, 25);
 		int beginHeightGroup = (int) Utils.getPercentOfValue(height, 10);
@@ -80,21 +79,7 @@ public class StagePanel extends Panel
 		_cancel = new JButton(Text.Cancel.toString());
 		_cancel.setBounds(groupBoxWidth - 110, workSetHeight - 25 ,100,25);
 		
-=======
 
-		int startY = 20;
-		int workSetHeight = 480;
-		int startX = Utils.getPercentOfValue(width, 1);
-
-		int groupBoxWidth =  width - startX - 245;
-
-
-		JPanel _groupBox = _guiHelper.getGroupBox(Text.Stages.toString(), null);
-		int groupBoxX = startX + 210;
-		_groupBox.setBounds(groupBoxX, startY - 8, groupBoxWidth, workSetHeight + 8); // the -8 and + 8 is for nice allignment of the borders.
-
->>>>>>> 7cdf80da7ddc37517fdb3e9a920cf2a36680ebaa
-		
 		_nameText = new JTextField();
 		_nameText.setBounds(180, 30, 150, 25);
 
@@ -140,7 +125,6 @@ public class StagePanel extends Panel
 
 		_sizeDef_2 = new JLabel(Text.SizeDef.toString());
 		_sizeDef_2.setBounds(320, 120, 50, 25);
-<<<<<<< HEAD
 				
 		_stageList = new JList<Stage>();
 		_stageList.setBounds(startX, startY, 200, workSetHeight - 60);
@@ -153,22 +137,6 @@ public class StagePanel extends Panel
 		_removeStage = new JButton(Text.RemoveStage.toString());
 		_removeStage.setBounds(startX, startY + (workSetHeight - 60) + 35, 200, 25);
 		
-	 	_groupBox.add(_nameText);
-		_groupBox.add(_capacity);
-		_groupBox.add(_people);
-		_groupBox.add(_fieldSize);
-		_groupBox.add(_stageSize);
-		_groupBox.add(_comboCapacity);
-		_groupBox.add(_comboStageL);
-		_groupBox.add(_xLbl);
-		_groupBox.add(_comboStageW);
-		_groupBox.add(_sizeDef);
-		_groupBox.add(_comboFieldL);
-		_groupBox.add(_xLbl_2);
-		_groupBox.add(_comboFieldW);
-		_groupBox.add(_sizeDef_2);
-		
-
 		_groupBox.add(_name);
 		_groupBox.add(_save);
 		_groupBox.add(_cancel);
@@ -180,8 +148,6 @@ public class StagePanel extends Panel
 		add(_removeStage);
 		add(_groupBox);
 		add(_stageList);
-		
-=======
 
 		abstractModel = new AbstractListModel<Stage>()
 				{
@@ -197,11 +163,7 @@ public class StagePanel extends Panel
 				};
 
 
-				_stageArrayList = new ArrayList<Stage>();
-				_stageList = new JList(abstractModel);
-				_stageList.setBounds(startX, startY, 200, workSetHeight - 60);
-				Border border = BorderFactory.createLineBorder(Color.gray, 1); 
-				_stageList.setBorder(border);
+				
 				_stageList.addListSelectionListener(new ListSelectionListener() {					
 					@Override
 					public void valueChanged(ListSelectionEvent e) 
@@ -300,7 +262,6 @@ public class StagePanel extends Panel
 				add(_groupBox);
 				add(_stageList);
 
->>>>>>> 7cdf80da7ddc37517fdb3e9a920cf2a36680ebaa
 	}
 
 
