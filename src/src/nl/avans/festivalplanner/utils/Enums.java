@@ -41,7 +41,8 @@ public class Enums
 		FestivalName("Festival naam", "Festival name"),
 		Date("Datum", "Date"),
 		Tickets("Kaartjes", "Tickets"),
-		NewArtist("Nieuwe artiest", "New artist");
+		NewArtist("Nieuwe artiest", "New artist"),
+		DateFormat("dd-MM-yyyy", "MM/dd/yyyy");
 
 		
 		private String _nl;

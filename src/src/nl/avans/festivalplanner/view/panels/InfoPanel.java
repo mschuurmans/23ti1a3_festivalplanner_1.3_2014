@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
 
 import nl.avans.festivalplanner.utils.Utils;
@@ -32,9 +33,10 @@ public class InfoPanel extends Panel
 	private JLabel _dateLabel = null;
 	private JLabel _ticketsLabel = null;
 	private JTextField _nameInput = null;
-	private JTextField _dateInput = null;
+	private JSpinner _dateInput = null;
+	private SpinnerDateModel _spinnerDateModel = new SpinnerDateModel();
 	private JSpinner _ticketsInput = null;
-	private SpinnerNumberModel _spinnerModel = new SpinnerNumberModel(1000,0,100_000,1000); //Default, min, max, stepsize
+	private SpinnerNumberModel _spinnerNumberModel = new SpinnerNumberModel(1000,0,100_000,1000); //Default, min, max, stepsize
 
 	/**
 	 * Creates a new InfoPanel. This panel is used to display and edit the
@@ -84,7 +86,8 @@ public class InfoPanel extends Panel
 		_dateLabel = new JLabel(Text.Date.toString()+":", JLabel.LEFT);
 		_dateLabel.setBounds(posX, posY, 100, 20);
 			posX += incrementX; // Due to new column
-		_dateInput = new JTextField();
+		_dateInput = new JSpinner(_spinnerDateModel);
+		_dateInput.setEditor(new JSpinner.DateEditor(_dateInput, Text.DateFormat.toString()));
 		_dateInput.setBounds(posX, posY, 200, 20);
 		
 			posY += incrementY; //Due to new row
@@ -93,16 +96,21 @@ public class InfoPanel extends Panel
 		_ticketsLabel.setBounds(posX, posY, 100, 20);
 			posX += incrementX; // Due to new column
 		_ticketsInput = new JSpinner();
-		_ticketsInput.setModel(_spinnerModel);
+		_ticketsInput.setModel(_spinnerNumberModel);
 		_ticketsInput.setBounds(posX, posY, 200, 20);
 			
+		_saveButton.setBounds(769, 467, 100, 25);
+		_cancelButton.setBounds(879, 467, 100, 25);
+		
+		
 		add(_nameLabel);
 		add(_dateLabel);
 		add(_ticketsLabel);
 		add(_nameInput);
+		add(_dateInput);
 		add(_ticketsInput);
-		//add(_saveButton);
-		//add(_cancelButton);
+		add(_saveButton);
+		add(_cancelButton);
 	}
 
 
