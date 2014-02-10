@@ -78,7 +78,7 @@ public class ArtistPanel extends Panel
 		int groupBoxWidth =  width - startX - 245;
 		
 		_list = new JList(_defaultListModel);
-		//_list.setBounds(startX, startY, 200, workSetHeight - 60);
+		_list.setBounds(startX, startY, 200, workSetHeight - 60);
 		Border border = BorderFactory.createLineBorder(Color.gray, 1); 
 		_list.setBorder(border);
 		

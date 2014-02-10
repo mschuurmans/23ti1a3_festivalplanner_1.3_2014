@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
@@ -63,6 +64,7 @@ public class StagePanel extends Panel
 		JPanel _groupBox = _guiHelper.getGroupBox(Text.Stages.toString(), null);
 		int groupBoxX = startX + 210;
 		_groupBox.setBounds(groupBoxX, startY - 8, groupBoxWidth, workSetHeight + 8); // the -8 and + 8 is for nice allignment of the borders.
+
 
 		
 		_nameText = new JTextField();
@@ -143,6 +145,8 @@ public class StagePanel extends Panel
 						_spinnerFieldW.setValue(_stageArrayList.get(index).getFieldSize().getWidth());
 					}
 				});
+				JScrollPane scrollPane = new JScrollPane(_stageList);
+				scrollPane.setBounds(startX, startY, 200, workSetHeight - 60);
 
 				_addStage = new JButton(Text.AddStage.toString());
 				_addStage.setBounds(startX, startY + (workSetHeight - 60) + 5, 200, 25);
@@ -222,11 +226,11 @@ public class StagePanel extends Panel
 				_groupBox.add(_save);
 				_groupBox.add(_cancel);
 
-
+				add(scrollPane);
 				add(_addStage);
 				add(_removeStage);
 				add(_groupBox);
-				add(_stageList);
+				//add(_stageList);
 
 	}
 
