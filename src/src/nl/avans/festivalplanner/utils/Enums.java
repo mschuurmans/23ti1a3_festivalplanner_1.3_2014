@@ -40,8 +40,7 @@ public class Enums
 		NoImageAvailable("Geen Afbeelding \nbeschikbaar", "No image \navailable"),
 		FestivalName("Festival naam", "Festival name"),
 		Date("Datum", "Date"),
-		Tickets("Kaartjes", "Tickets");
-		NoImageAvailable("Geen Afbeelding \nbeschikbaar", "No image \navailable"),
+		Tickets("Kaartjes", "Tickets"),
 		NewArtist("Nieuwe artiest", "New artist");
 
 		
