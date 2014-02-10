@@ -264,7 +264,7 @@ public class StagePanel extends Panel
 		return this;
 	}
 
-
+ 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
