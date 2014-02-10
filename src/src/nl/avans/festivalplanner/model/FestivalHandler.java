@@ -1,5 +1,7 @@
 package nl.avans.festivalplanner.model;
 
+import java.util.List;
+
 public class FestivalHandler 
 {
 	private static FestivalHandler _instance = null;
@@ -37,5 +39,15 @@ public class FestivalHandler
 	public boolean readFromFile()
 	{
 		return true;
+	}
+	
+	public void setArtists(List<Artist> artists)
+	{
+		this._festival.setArtists(artists);
+	}
+	
+	public List<Artist> getArtists()
+	{
+		return this._festival.getArtists();
 	}
 }

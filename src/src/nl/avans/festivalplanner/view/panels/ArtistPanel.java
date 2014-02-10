@@ -25,6 +25,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import nl.avans.festivalplanner.model.Artist;
+import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.view.ApplicationView;
@@ -167,6 +168,9 @@ public class ArtistPanel extends Panel
 				}
 			}
 		});
+		
+		// finally load data into the list
+		loadArtistsFromHandler();
 	}
 			
 	public void updateView(Artist artist)
@@ -273,10 +277,23 @@ public class ArtistPanel extends Panel
 		if(debug)
 			System.out.println("Aantal artiesten in lijst: " + artists.size());
 		
+		FestivalHandler.Instance().setArtists(artists);
+		
 		if(debug)
 			System.out.println("Artiesten zijn opgeslagen.");
 	}
 			
+	public void loadArtistsFromHandler()
+	{
+		List<Artist> artists = FestivalHandler.Instance().getArtists();
+		
+		for(Artist artist : artists)
+		{
+			_defaultListModel.clear();
+			_defaultListModel.addElement(artist);
+		}
+	}
+	
 	public void changeArtistImage(String source)
 	{
 		URL artistImageUrl = getClass().getClassLoader().getResource(source);

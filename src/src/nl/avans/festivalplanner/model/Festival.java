@@ -3,8 +3,7 @@ package nl.avans.festivalplanner.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-
-import nl.avans.festivalplanner.view.ApplicationView;
+import java.util.List;
 
 public class Festival implements Serializable
 {
@@ -13,7 +12,7 @@ public class Festival implements Serializable
 	private String _name;
 	private GregorianCalendar _date;
 	private int _tickets;
-	private ArrayList<Artist> _artists;
+	private List<Artist> _artists = new ArrayList<Artist>();
 	private ArrayList<Stage> _stageList;
 	private Schedule _schedule;
 	
@@ -27,12 +26,12 @@ public class Festival implements Serializable
 		return this._schedule;
 	}
 	
-	public void setArtists(ArrayList<Artist> value)
+	public void setArtists(List<Artist> value)
 	{
 		this._artists = value;
 	}
 	
-	public ArrayList<Artist> getArtists()
+	public List<Artist> getArtists()
 	{
 		return this._artists;
 	}
@@ -42,7 +41,7 @@ public class Festival implements Serializable
 		this._stageList = value;
 	}
 	
-	public ArrayList<Stage> getStages()
+	public List<Stage> getStages()
 	{
 		return this._stageList;
 	}
