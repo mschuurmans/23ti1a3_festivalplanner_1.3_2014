@@ -34,7 +34,8 @@ public class Enums
 		SizeDef("L x B [m]", "L x W [m]"),
 		Capacity("Capaciteit", "Capacity"),
 		People("Bezoekers", "Visitors"),
-		NoImageAvailable("Geen Afbeelding \nbeschikbaar", "No image \navailable");
+		NoImageAvailable("Geen Afbeelding \nbeschikbaar", "No image \navailable"),
+		NewArtist("Nieuwe artiest", "New artist");
 
 		
 		private String _nl;
