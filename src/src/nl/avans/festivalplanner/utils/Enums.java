@@ -1,4 +1,7 @@
+
 package nl.avans.festivalplanner.utils;
+
+import nl.avans.festivalplanner.utils.Enums.Languages;
 
 public class Enums 
 {
@@ -38,6 +41,8 @@ public class Enums
 		FestivalName("Festival naam", "Festival name"),
 		Date("Datum", "Date"),
 		Tickets("Kaartjes", "Tickets");
+		NoImageAvailable("Geen Afbeelding \nbeschikbaar", "No image \navailable"),
+		NewArtist("Nieuwe artiest", "New artist");
 
 		
 		private String _nl;
@@ -59,3 +64,4 @@ public class Enums
 		}
 	}
 }
+
