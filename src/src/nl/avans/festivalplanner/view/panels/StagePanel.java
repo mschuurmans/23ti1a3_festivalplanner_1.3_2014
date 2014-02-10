@@ -52,34 +52,19 @@ public class StagePanel extends Panel
 		_guiHelper = new GUIHelper();
 		int width = ApplicationView.WIDTH;
 		int height = ApplicationView.HEIGHT;
-		
-		int beginWidthGroup = (int) Utils.getPercentOfValue(width, 25);
-		int beginHeightGroup = (int) Utils.getPercentOfValue(height, 10);
-		
-		int endWidthGroup = (int) -beginWidthGroup + width - Utils.getPercentOfValue(width, 5);
-		int endHeightGroup = (int) -beginHeightGroup + height - Utils.getPercentOfValue(height, 28);
-		
-		int widthGroup = (int) (endWidthGroup - beginWidthGroup);
-		int heightGroup = (int) (endHeightGroup - beginHeightGroup);
-		
+
 		int startY = 20;
-		int workSetHeight = 500;
+		int workSetHeight = 480;
 		int startX = Utils.getPercentOfValue(width, 1);
-			
+
 		int groupBoxWidth =  width - startX - 245;
+
 
 		JPanel _groupBox = _guiHelper.getGroupBox(Text.Stages.toString(), null);
 		int groupBoxX = startX + 210;
 		_groupBox.setBounds(groupBoxX, startY - 8, groupBoxWidth, workSetHeight + 8); // the -8 and + 8 is for nice allignment of the borders.
-		
-		
-		_save = new JButton(Text.Save.toString());
-		_save.setBounds(groupBoxWidth - 220, workSetHeight - 25 ,100,25);
-		
-		_cancel = new JButton(Text.Cancel.toString());
-		_cancel.setBounds(groupBoxWidth - 110, workSetHeight - 25 ,100,25);
-		
 
+		
 		_nameText = new JTextField();
 		_nameText.setBounds(180, 30, 150, 25);
 
@@ -125,29 +110,6 @@ public class StagePanel extends Panel
 
 		_sizeDef_2 = new JLabel(Text.SizeDef.toString());
 		_sizeDef_2.setBounds(320, 120, 50, 25);
-				
-		_stageList = new JList<Stage>();
-		_stageList.setBounds(startX, startY, 200, workSetHeight - 60);
-		Border border = BorderFactory.createLineBorder(Color.gray, 1); 
-		_stageList.setBorder(border);
-		
-		_addStage = new JButton(Text.AddStage.toString());
-		_addStage.setBounds(startX, startY + (workSetHeight - 60) + 5, 200, 25);
-		
-		_removeStage = new JButton(Text.RemoveStage.toString());
-		_removeStage.setBounds(startX, startY + (workSetHeight - 60) + 35, 200, 25);
-		
-		_groupBox.add(_name);
-		_groupBox.add(_save);
-		_groupBox.add(_cancel);
-		
-		
-		
-		//groupBox.add(_comboCapacity);
-		add(_addStage);
-		add(_removeStage);
-		add(_groupBox);
-		add(_stageList);
 
 		abstractModel = new AbstractListModel<Stage>()
 				{
@@ -163,7 +125,11 @@ public class StagePanel extends Panel
 				};
 
 
-				
+				_stageArrayList = new ArrayList<Stage>();
+				_stageList = new JList(abstractModel);
+				_stageList.setBounds(startX, startY, 200, workSetHeight - 60);
+				Border border = BorderFactory.createLineBorder(Color.gray, 1); 
+				_stageList.setBorder(border);
 				_stageList.addListSelectionListener(new ListSelectionListener() {					
 					@Override
 					public void valueChanged(ListSelectionEvent e) 
