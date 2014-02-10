@@ -38,6 +38,9 @@ public class Enums
 		Capacity("Capaciteit", "Capacity"),
 		People("Bezoekers", "Visitors"),
 		NoImageAvailable("Geen Afbeelding \nbeschikbaar", "No image \navailable"),
+		FestivalName("Festival naam", "Festival name"),
+		Date("Datum", "Date"),
+		Tickets("Kaartjes", "Tickets"),
 		NewArtist("Nieuwe artiest", "New artist");
 
 		
