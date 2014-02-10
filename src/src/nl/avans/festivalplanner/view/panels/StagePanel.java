@@ -5,15 +5,29 @@ package nl.avans.festivalplanner.view.panels;
 
 
 import java.awt.Color;
-import java.awt.GridBagLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import nl.avans.festivalplanner.model.Stage;
-import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.view.ApplicationView;
 import nl.avans.festivalplanner.view.GUIHelper;
 import nl.avans.festivalplanner.view.Panel;
@@ -22,10 +36,13 @@ public class StagePanel extends Panel
 {
 
 	private JButton _addStage, _removeStage, _save, _cancel; 
+	private JLabel _name, _capacity, _people, _stageSize, _fieldSize, _xLbl, _xLbl_2, _sizeDef, _sizeDef_2;
 	private JTextField _nameText;
-	private JList<Stage> _stageList;
-	private JComboBox<String> _comboCapacity, _comboStageL, _comboStageW, _comboFieldL, _comboFieldW;
-	
+	private final JList<Stage> _stageList;
+	private final AbstractListModel<Stage> abstractModel;
+	private ArrayList<Stage> _stageArrayList;
+	private JSpinner _spinnerStageL, _spinnerStageW, _spinnerFieldL, _spinnerFieldW, _spinnerCapacity;
+
 
 	private GUIHelper _guiHelper;
 
@@ -33,144 +50,209 @@ public class StagePanel extends Panel
 	{
 		super(null);
 		_guiHelper = new GUIHelper();
-		JPanel _status = _guiHelper.getStatusBar(new JLabel("StatusBar"), this);
-		
-		//JTabbedPane tabs = _guiHelper.getTabBar();
-		
-		
 		int width = ApplicationView.WIDTH;
 		int height = ApplicationView.HEIGHT;
-		
-		int beginWidthGroup = (int) Utils.getPercentOfValue(width, 25);
-		int beginHeightGroup = (int) Utils.getPercentOfValue(height, 10);
-		
-		int endWidthGroup = (int) -beginWidthGroup + width - Utils.getPercentOfValue(width, 5);
-		int endHeightGroup = (int) -beginHeightGroup + height - Utils.getPercentOfValue(height, 28);
-		
-		int widthGroup = (int) (endWidthGroup - beginWidthGroup);
-		int heightGroup = (int) (endHeightGroup - beginHeightGroup);
-		
+
+		int startY = 20;
+		int workSetHeight = 480;
+		int startX = Utils.getPercentOfValue(width, 1);
+
+		int groupBoxWidth =  width - startX - 245;
 
 
-		JPanel groupBox = _guiHelper.getGroupBox(Text.Stages.toString(), null);
-		groupBox.setBounds(beginWidthGroup, beginHeightGroup, endWidthGroup, endHeightGroup);
-		
-		_save = new JButton(Text.Save.toString());
-		_save.setBounds(Utils.getPercentOfValue(widthGroup, 120), Utils.getPercentOfValue(heightGroup, 115), 100, 25);
-		
-		_cancel = new JButton(Text.Cancel.toString());
-		_cancel.setBounds(Utils.getPercentOfValue(widthGroup, 150), Utils.getPercentOfValue(heightGroup, 115), 100, 25);
-		
+		JPanel _groupBox = _guiHelper.getGroupBox(Text.Stages.toString(), null);
+		int groupBoxX = startX + 210;
+		_groupBox.setBounds(groupBoxX, startY - 8, groupBoxWidth, workSetHeight + 8); // the -8 and + 8 is for nice allignment of the borders.
+
 		
 		_nameText = new JTextField();
 		_nameText.setBounds(180, 30, 150, 25);
-		
-		JLabel _name = new JLabel(Text.Name.toString());
-		_name.setBounds(20, 30, 150,25);
-				
-		JLabel _capacity = new JLabel(Text.Capacity.toString());
-		_capacity.setBounds(20, 60, 150, 25);
-		
-		
-		_comboCapacity = new JComboBox<String>();
-		for(int i=0; i<=100; i++)
-		{
-		String waarde = "" + (i*1000);
-		_comboCapacity.addItem(waarde);
-		}
-		_comboCapacity.setBounds(180, 60, 100, 25);
-		_comboCapacity.setBackground(Color.white);
-		
-		JLabel _people = new JLabel(Text.People.toString());
-		_people.setBounds(295, 60, 150, 25);
-		
-		JLabel _stageSize = new JLabel(Text.StageSize.toString());
-		_stageSize.setBounds(20, 90, 150, 25);
-		
-		_comboStageL = getComboBox();
-		_comboStageL.setBounds(180, 90, 50, 25);
-		
-		JLabel _xLbl = new JLabel("x");
-		_xLbl.setBounds(240, 90, 20, 20);
-		
-		_comboStageW = getComboBox();
-		_comboStageW.setBounds(260, 90, 50, 25);
-		
-		JLabel _sizeDef = new JLabel(Text.SizeDef.toString());
-		_sizeDef.setBounds(320, 90, 50, 25);
-						
-		JLabel _fieldSize = new JLabel(Text.FieldSize.toString());
-		_fieldSize.setBounds(20, 120, 150, 25);
-		
-		_comboFieldL = getComboBox();
-		_comboFieldL.setBounds(180, 120, 50, 25);
-		
-		JLabel _xLbl_2 = new JLabel("x");
-		_xLbl_2.setBounds(240, 120, 20, 20);
-		
-		_comboFieldW = getComboBox();
-		_comboFieldW.setBounds(260, 120, 50, 25);
-				
-		JLabel _sizeDef_2 = new JLabel(Text.SizeDef.toString());
-		_sizeDef_2.setBounds(320, 120, 50, 25);
-				
-		_stageList = new JList<Stage>();
-		_stageList.setBounds(Utils.getPercentOfValue(width, 5), beginHeightGroup, -Utils.getPercentOfValue(width, 5) + width - Utils.getPercentOfValue(width, 80), -Utils.getPercentOfValue(height, 11) + height - Utils.getPercentOfValue(height, 39));
-		Border border = BorderFactory.createLineBorder(Color.gray, 1); 
-		_stageList.setBorder(border);
-		
-		_addStage = new JButton(Text.AddStage.toString());
-		_addStage.setBounds(Utils.getPercentOfValue(width, 5), Utils.getPercentOfValue(height, 72), -Utils.getPercentOfValue(width, 5) + width - Utils.getPercentOfValue(width, 80), 25);
-		
-		_removeStage = new JButton(Text.RemoveStage.toString());
-		_removeStage.setBounds(Utils.getPercentOfValue(width, 5), Utils.getPercentOfValue(height, 77), -Utils.getPercentOfValue(width, 5) + width - Utils.getPercentOfValue(width, 80), 25);
-		
-	 
-		
-		
-		groupBox.add(_nameText);
-		groupBox.add(_capacity);
-		groupBox.add(_people);
-		groupBox.add(_fieldSize);
-		groupBox.add(_stageSize);
-		groupBox.add(_comboCapacity);
-		groupBox.add(_comboStageL);
-		groupBox.add(_xLbl);
-		groupBox.add(_comboStageW);
-		groupBox.add(_sizeDef);
-		groupBox.add(_comboFieldL);
-		groupBox.add(_xLbl_2);
-		groupBox.add(_comboFieldW);
-		groupBox.add(_sizeDef_2);
-		
 
-		groupBox.add(_name);
-		groupBox.add(_save);
-		groupBox.add(_cancel);
-		groupBox.add(_nameText);
-		
-		
-		
-		//groupBox.add(_comboCapacity);
-		add(_addStage);
-		add(_removeStage);
-		add(groupBox);
-		add(_stageList);
-		
+		_name = new JLabel(Text.Name.toString());
+		_name.setBounds(20, 30, 150,25);
+
+		_capacity = new JLabel(Text.Capacity.toString());
+		_capacity.setBounds(20, 60, 150, 25);
+
+		SpinnerModel spinModelSteps100 = new SpinnerNumberModel(1000, 0, 99999, 100); 
+		_spinnerCapacity = new JSpinner(spinModelSteps100);
+		_spinnerCapacity.setBounds(180, 60, 100, 25);
+
+		_people = new JLabel(Text.People.toString());
+		_people.setBounds(295, 60, 150, 25);
+
+		_stageSize = new JLabel(Text.StageSize.toString());
+		_stageSize.setBounds(20, 90, 150, 25);
+
+		_spinnerStageL = getSpinner10Steps();
+		_spinnerStageL.setBounds(180, 90, 50, 25);
+
+		_xLbl = new JLabel("x");
+		_xLbl.setBounds(240, 90, 20, 20);
+
+		_spinnerStageW = getSpinner10Steps();
+		_spinnerStageW.setBounds(260, 90, 50, 25);
+
+		_sizeDef = new JLabel(Text.SizeDef.toString());
+		_sizeDef.setBounds(320, 90, 50, 25);
+
+		_fieldSize = new JLabel(Text.FieldSize.toString());
+		_fieldSize.setBounds(20, 120, 150, 25);
+
+		_spinnerFieldL = getSpinner10Steps();
+		_spinnerFieldL.setBounds(180, 120, 50, 25);
+
+		_xLbl_2 = new JLabel("x");
+		_xLbl_2.setBounds(240, 120, 20, 20);
+
+		_spinnerFieldW = getSpinner10Steps();
+		_spinnerFieldW.setBounds(260, 120, 50, 25);
+
+		_sizeDef_2 = new JLabel(Text.SizeDef.toString());
+		_sizeDef_2.setBounds(320, 120, 50, 25);
+
+		abstractModel = new AbstractListModel<Stage>()
+				{
+			public Stage getElementAt(int index)
+			{
+				return _stageArrayList.get(index);
+			}
+
+			public int getSize()
+			{
+				return _stageArrayList.size();
+			}
+				};
+
+
+				_stageArrayList = new ArrayList<Stage>();
+				_stageList = new JList(abstractModel);
+				_stageList.setBounds(startX, startY, 200, workSetHeight - 60);
+				Border border = BorderFactory.createLineBorder(Color.gray, 1); 
+				_stageList.setBorder(border);
+				_stageList.addListSelectionListener(new ListSelectionListener() {					
+					@Override
+					public void valueChanged(ListSelectionEvent e) 
+					{
+						int index = _stageList.getSelectedIndex();
+						_nameText.setText(_stageArrayList.get(index).getName());
+						_spinnerCapacity.setValue(_stageArrayList.get(index).getCapacity());
+						_spinnerStageL.setValue(_stageArrayList.get(index).getStageSize().getHeight());
+						_spinnerStageW.setValue(_stageArrayList.get(index).getStageSize().getWidth());
+						_spinnerFieldL.setValue(_stageArrayList.get(index).getFieldSize().getHeight());
+						_spinnerFieldW.setValue(_stageArrayList.get(index).getFieldSize().getWidth());
+					}
+				});
+
+				_addStage = new JButton(Text.AddStage.toString());
+				_addStage.setBounds(startX, startY + (workSetHeight - 60) + 5, 200, 25);
+				_addStage.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e)
+					{
+						String stageName = "New stage " + _stageArrayList.size();
+						Stage stage = new Stage(stageName, 0, new Dimension(10, 10), new Dimension(10, 10));
+						_stageArrayList.add(stage);
+						updateList();
+					}
+				});
+
+				_removeStage = new JButton(Text.RemoveStage.toString());
+				_removeStage.setBounds(startX, startY + (workSetHeight - 60) + 35, 200, 25);
+				_removeStage.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e)
+					{
+						if(!_stageList.isSelectionEmpty())
+						{
+							_stageArrayList.remove(_stageList.getSelectedValue());
+						}
+						updateList();
+					}
+				});
+
+				_save = new JButton(Text.Save.toString());
+				_save.setBounds(groupBoxWidth - 220, workSetHeight - 25, 100, 25);
+				_save.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e)
+					{
+						if(!_stageList.isSelectionEmpty())
+						{
+							int index = _stageList.getSelectedIndex();
+							_stageArrayList.get(index).setName(_nameText.getText());
+							_stageArrayList.get(index).setCapacity((int)_spinnerCapacity.getValue());
+							_stageArrayList.get(index).setStageSize((double)_spinnerStageW.getValue(), (double)_spinnerStageL.getValue());
+							_stageArrayList.get(index).setFieldSize((double)_spinnerFieldL.getValue(), (double)_spinnerFieldW.getValue());
+							updateList();
+						}
+					}
+				});
+
+				_cancel = new JButton(Text.Cancel.toString());
+				_cancel.setBounds(groupBoxWidth - 110, workSetHeight - 25 ,100,25);
+				_cancel.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e)
+					{
+						int index = _stageList.getSelectedIndex();
+						_nameText.setText(_stageArrayList.get(index).getName());
+						_spinnerCapacity.setValue(_stageArrayList.get(index).getCapacity());
+						_spinnerStageL.setValue(_stageArrayList.get(index).getStageSize().getHeight());
+						_spinnerStageW.setValue(_stageArrayList.get(index).getStageSize().getWidth());
+						_spinnerFieldL.setValue(_stageArrayList.get(index).getFieldSize().getHeight());
+						_spinnerFieldW.setValue(_stageArrayList.get(index).getFieldSize().getWidth());
+						updateList();
+					}
+				});
+
+				_groupBox.add(_name);
+				_groupBox.add(_nameText);
+				_groupBox.add(_capacity);
+				_groupBox.add(_spinnerCapacity);
+				_groupBox.add(_people);
+				_groupBox.add(_fieldSize);
+				_groupBox.add(_stageSize);
+				_groupBox.add(_spinnerStageL);
+				_groupBox.add(_xLbl);
+				_groupBox.add(_spinnerStageW);
+				_groupBox.add(_sizeDef);
+				_groupBox.add(_spinnerFieldL);
+				_groupBox.add(_xLbl_2);
+				_groupBox.add(_spinnerFieldW);
+				_groupBox.add(_sizeDef_2);
+
+
+				_groupBox.add(_save);
+				_groupBox.add(_cancel);
+
+
+				add(_addStage);
+				add(_removeStage);
+				add(_groupBox);
+				add(_stageList);
+
+	}
+
+
+	/*
+	 * for creating a JSpinner. Counts from 10  to 1000 with steps from 10
+	 * @author Kasper
+	 * @return JSpinner
+	 */
+
+	public JSpinner getSpinner10Steps()
+	{
+		SpinnerModel _spinModelSteps10 = new SpinnerNumberModel(10.0, 10, 1000, 10);
+		JSpinner _spinner10Steps = new JSpinner(_spinModelSteps10);
+		return _spinner10Steps;
 	}
 
 	/*
-	 * for creating a JComboBox. Counts from 0  to 1000 with steps from 100
+	 * Updates the JList
 	 * @author Kasper
-	 * @return JComboBox<String>
 	 */
-	public JComboBox<String> getComboBox()
+
+	public void updateList()
 	{
-		JComboBox<String> _comboBox = new JComboBox<String>();
-		for(int i=0; i<=100; i++)
-			_comboBox.addItem(new String(""+i*10));
-		_comboBox.setBackground(Color.white);
-		return _comboBox;
+		for(ListDataListener p : abstractModel.getListDataListeners())
+			p.contentsChanged(null);		
 	}
 
 	public Panel getPanel() 
@@ -179,11 +261,10 @@ public class StagePanel extends Panel
 	}
 
 
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

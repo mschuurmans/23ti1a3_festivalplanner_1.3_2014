@@ -22,12 +22,7 @@ public class InfoPanel extends Panel
 	 * WARNING: This method is for debug-purposes only.
 	 * The usage of this method is restricted to testing this class only!
 	 */
-	public static void main(String[] args)
-	{
-		ApplicationView appview = new ApplicationView();
-//		Panel p = new InfoPanel();
-//		appview.showGui(p);
-	}
+	
 
 	private static final long serialVersionUID = 2879106751679669257L;
 	
@@ -58,7 +53,6 @@ public class InfoPanel extends Panel
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 	

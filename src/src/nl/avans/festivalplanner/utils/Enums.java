@@ -33,7 +33,8 @@ public class Enums
 		FieldSize("Oppervlak (veld)", "Size (field)"),
 		SizeDef("L x B [m]", "L x W [m]"),
 		Capacity("Capaciteit", "Capacity"),
-		People("Bezoekers", "Visitors");
+		People("Bezoekers", "Visitors"),
+		NoImageAvailable("Geen Afbeelding \nbeschikbaar", "No image \navailable");
 
 		
 		private String _nl;
