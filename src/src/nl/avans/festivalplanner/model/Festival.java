@@ -41,7 +41,7 @@ public class Festival implements Serializable
 		this._stages = value;
 	}
 	
-	public List<Stage> getStages()
+	public ArrayList<Stage> getStages()
 	{
 		return this._stages;
 	}
