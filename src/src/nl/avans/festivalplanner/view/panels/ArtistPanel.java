@@ -110,7 +110,7 @@ public class ArtistPanel extends Panel
 		
 		_nameTextField = new JTextField();
 		_nameTextField.setBounds(70, 40, 200, 25);
-		
+		 
 		_genreLabel = new JLabel(Text.Genre.toString());
 		_genreLabel.setBounds(15, 75, 50, 25);
 		

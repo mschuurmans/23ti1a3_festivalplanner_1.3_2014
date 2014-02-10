@@ -250,7 +250,7 @@ public class StagePanel extends Panel
 
 	/*
 	 * Updates the JList
-	 * @author Kasper
+	 * @author Kasper 
 	 */
 
 	public void updateList()
