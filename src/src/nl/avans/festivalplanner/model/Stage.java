@@ -12,6 +12,14 @@ public class Stage implements Serializable
 	private Dimension _sizeStage;
 	private Dimension _sizeField;
 	
+	public Stage(String name, int capacity, Dimension stageSize, Dimension fieldSize)
+	{
+		this._name = name;
+		this._capacity = capacity;
+		this._sizeStage = stageSize;
+		this._sizeField = fieldSize;
+	}
+	
 	public void setName(String value)
 	{
 		_name = value;
@@ -32,8 +40,9 @@ public class Stage implements Serializable
 		return this._capacity;
 	}
 	
-	public void setStageSize(Dimension value)
+	public void setStageSize(double width, double height)
 	{
+		Dimension value = new Dimension((int)width,(int) height);
 		this._sizeStage = value;
 	}
 	
@@ -42,13 +51,19 @@ public class Stage implements Serializable
 		return this._sizeStage;
 	}
 	
-	public void setFieldSize(Dimension value)
+	public void setFieldSize(double width, double height)
 	{
+		Dimension value = new Dimension((int)width, (int)height);
 		this._sizeField = value;
 	}
 	
 	public Dimension getFieldSize()
 	{
 		return this._sizeField;
+	}
+	
+	public String toString()
+	{
+		return getName();
 	}
 }

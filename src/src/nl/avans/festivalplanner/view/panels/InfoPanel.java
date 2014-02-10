@@ -53,7 +53,6 @@ public class InfoPanel extends Panel
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 	
