@@ -26,6 +26,7 @@ public class ApplicationView extends JFrame
 	    
 	    //getContentPane().add(guiHelper.getStatusBar(), BorderLayout.PAGE_START);
 	    pack();
+	    setLocationRelativeTo(null);
 	    setVisible(true);
 	}
 	
