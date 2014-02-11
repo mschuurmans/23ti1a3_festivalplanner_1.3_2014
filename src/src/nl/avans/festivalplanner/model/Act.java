@@ -3,75 +3,103 @@
  */
 package nl.avans.festivalplanner.model;
 
-import java.awt.Dimension;
+import java.util.GregorianCalendar;
 
 /**
  * @author Jordy Sipkema
- *
+ * 
  */
 public class Act
 {
 	private String _name = "";
-	private int _capacity = -1;
-	private Dimension _sizeStage = null;
-	private Dimension _sizeField = null;
+	private Stage _stage = null;
+	private Artist _artist = null;
+	private GregorianCalendar _startTime = null;
+	private GregorianCalendar _endTime = null;
+
 	/**
-	 * @return the _name
+	 * @return the name
 	 */
 	public String getName()
 	{
 		return _name;
 	}
+
 	/**
-	 * @param _name the _name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name)
 	{
 		this._name = name;
 	}
+
 	/**
-	 * @return the _capacity
+	 * @return the stage
 	 */
-	public int getCapacity()
+	public Stage getStage()
 	{
-		return _capacity;
+		return _stage;
 	}
+
 	/**
-	 * @param _capacity the _capacity to set
+	 * @param stage
+	 *            the stage to set
 	 */
-	public void setCapacity(int capacity)
+	public void setStage(Stage stage)
 	{
-		this._capacity = capacity;
+		this._stage = stage;
 	}
+
 	/**
-	 * @return the _sizeStage
+	 * @return the artist
 	 */
-	public Dimension getSizeStage()
+	public Artist getArtist()
 	{
-		return _sizeStage;
+		return _artist;
 	}
+
 	/**
-	 * @param _sizeStage the _sizeStage to set
+	 * @param artist
+	 *            the artist to set
 	 */
-	public void setSizeStage(Dimension sizeStage)
+	public void setArtist(Artist artist)
 	{
-		this._sizeStage = sizeStage;
+		this._artist = artist;
 	}
+
 	/**
-	 * @return the _sizeField
+	 * @return the startTime
 	 */
-	public Dimension getSizeField()
+	public GregorianCalendar getStartTime()
 	{
-		return _sizeField;
+		return _startTime;
 	}
+
 	/**
-	 * @param _sizeField the _sizeField to set
+	 * @param startTime
+	 *            the startTime to set
 	 */
-	public void setSizeField(Dimension sizeField)
+	public void setStartTime(GregorianCalendar startTime)
 	{
-		this._sizeField = sizeField;
+		this._startTime = startTime;
 	}
-	
-	
-	
+
+	/**
+	 * @return the endTime
+	 */
+	public GregorianCalendar getEndTime()
+	{
+		return _endTime;
+	}
+
+	/**
+	 * @param endTime
+	 *            the endTime to set
+	 */
+	public void setEndTime(GregorianCalendar endTime)
+	{
+		this._endTime = endTime;
+	}
+
 }
