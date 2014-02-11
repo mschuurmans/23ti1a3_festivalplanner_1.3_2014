@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -29,6 +31,8 @@ public class FestivalHandler
 	}
 
 	private Festival _festival;
+	private Stage _testStage1; //TESTING! TODO REMOVE
+	private Stage _testStage2; //TESTING! TODO REMOVE
 
 	public FestivalHandler() 
 	{
@@ -164,12 +168,19 @@ public class FestivalHandler
 	{
 		ArrayList<Stage> stageList = new ArrayList<Stage>();
 
+
 		stageList.add(new Stage("test1", 100, new Dimension(10, 20),
 				new Dimension(10, 20)));
-		stageList.add(new Stage("test2", 100, new Dimension(10, 20),
-				new Dimension(10, 20)));
-		stageList.add(new Stage("test3", 100, new Dimension(10, 20),
-				new Dimension(10, 20)));
+		
+		_testStage1 = new Stage("test2", 100, new Dimension(10, 20),	new Dimension(10, 20));
+		
+		stageList.add(_testStage1);
+		
+		_testStage2 = new Stage("test3", 100, new Dimension(10, 20),
+				new Dimension(10, 20));
+		
+		stageList.add(_testStage2);
+		
 		stageList.add(new Stage("test4", 100, new Dimension(10, 20),
 				new Dimension(10, 20)));
 		stageList.add(new Stage("test5", 100, new Dimension(10, 20),
@@ -190,11 +201,41 @@ public class FestivalHandler
 	{
 		ArrayList<Act> actList = new ArrayList<Act>();
 		
-		actList.add(new Act());
-		actList.add(new Act());
-		actList.add(new Act());
-		actList.add(new Act());
+		// act1
+		GregorianCalendar startTime = new GregorianCalendar();
+		startTime.set(Calendar.HOUR_OF_DAY, 16);
+		startTime.set(Calendar.MINUTE, 00);
+
+		GregorianCalendar endTime = (GregorianCalendar) startTime.clone();
+		endTime.add(Calendar.HOUR_OF_DAY, 4); //duration of the event
+
+		Act act = new Act();
+		act.setName("Dries Roelvink");
+		act.setStartTime(startTime);
+		act.setEndTime(endTime);
+		act.setStage(_testStage1);
+
+		actList.add(act);
+		// endofact1
 		
+		// act2
+		startTime = new GregorianCalendar();
+		startTime.set(Calendar.HOUR_OF_DAY, 13);
+		startTime.set(Calendar.MINUTE, 00);
+
+		endTime = (GregorianCalendar) startTime.clone();
+		endTime.add(Calendar.HOUR_OF_DAY, 1); //duration of the event
+		endTime.add(Calendar.MINUTE, 45);
+
+		act = new Act();
+		act.setName("Annie en de Rekels");
+		act.setStartTime(startTime);
+		act.setEndTime(endTime);
+		act.setStage(_testStage2);
+
+		actList.add(act);
+		// endofact2
+
 		return actList;
 	}
 

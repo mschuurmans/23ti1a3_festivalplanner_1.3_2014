@@ -26,40 +26,32 @@ import nl.avans.festivalplanner.view.ApplicationView;
 import nl.avans.festivalplanner.view.GUIHelper;
 import nl.avans.festivalplanner.view.Panel;
 
-public class SchedulePanel extends Panel implements MouseMotionListener,
-		MouseListener
+public class SchedulePanel extends Panel implements MouseMotionListener, MouseListener
 {
 	private GUIHelper _guiHelper;
 
 	private final int startX = GUIHelper.XOFFSET;
 	private final int startY = GUIHelper.YOFFSET;
 
-	Color defaultColor = new Color(0x09000000, true); // color black with alpha
-														// 09 and alpha=true
+	Color defaultBoxColor = new Color(0x09_00_00_00, true); // color black with alpha  09 and alpha=true
 
-	// ArrayList<Stage> stageList = FestivalHandler.Instance().getStages(); //
-	// TODO UNCOMMENT
-	ArrayList<Stage> stageList = FestivalHandler.Instance().getStagesTest(); // debugging
-																				// purposes
-																				// //
-																				// TODO
-																				// COMMENT
-	List<Artist> _artistList = FestivalHandler.Instance().getArtists(); // TODO
-																		// COMMENT
-	ArrayList<Act> actList = FestivalHandler.Instance().getActsTest();
+//	ArrayList<Stage> stageList = FestivalHandler.Instance().getStages(); // TODO UNCOMMENT
+	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStagesTest(); // debugging purposes // TODO COMMENT
+	List<Artist> _artistList = FestivalHandler.Instance().getArtists(); // TODO COMMENT
+	ArrayList<Act> _actList = FestivalHandler.Instance().getActsTest();
 
-	private final int ROWS = stageList.size(); // rows in schedule to show
-												// depends on stages in festival
+	private final int ROWS = _stageList.size(); // rows in schedule to show depends on stages in festival
 	private final int COLS = 16;
 
 	int stageHeight[] = new int[ROWS];
+	int lineHeight;
 
 	Shape rectangle[][] = new Shape[ROWS][COLS]; // button array of 12 * 16
 	Color rectColor[][] = new Color[ROWS][COLS];
+	
+	Shape _actShapeList[] = new Shape[_actList.size()];
 
-	boolean plusSign[][] = new boolean[ROWS][COLS]; // tracks weather a plus
-													// sign should be displayed
-													// or not
+	boolean plusSign[][] = new boolean[ROWS][COLS]; // tracks weather a plus sign should be displayed or not
 
 	public SchedulePanel()
 	{
@@ -81,8 +73,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener,
 					{
 						if (rectangle[x][y].contains(e.getPoint()))
 						{
-							System.out.println("ROW: " + x + " COLUMN: " + y); // TODO
-																				// CHANGE
+							System.out.println("ROW: " + x + " COLUMN: " + y); // TODO CHANGE
 							showDialog(x, y);
 						}
 					}
@@ -96,15 +87,11 @@ public class SchedulePanel extends Panel implements MouseMotionListener,
 		Object[] _artists = _artistList.toArray(new Object[_artistList.size()]);
 		if (_artists.length != 0)
 		{
-			Object _selectedValue = JOptionPane.showInputDialog(null,
-					"Choose artist", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _artists,
-					_artists[0]);
-		}
-		else
+			Object selectedValue = JOptionPane.showInputDialog(null, "Choose artist", "Create new act",
+					JOptionPane.INFORMATION_MESSAGE, null, _artists, _artists[0]);
+		} else
 		{
-			JOptionPane.showMessageDialog(this,
-					"No artists have been registered");
+			JOptionPane.showMessageDialog(this, "No artists have been registered");
 		}
 	}
 
@@ -113,8 +100,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener,
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 
-		int titleWidth = 180; // the width of the column that shows the stage
-								// name *timeline starts to the right
+		int titleWidth = 180; // the width of the column that shows the stage name *timeline starts to the right
 
 		// used to get formatted time for the timeline scale in the top
 		Calendar timeValue = new GregorianCalendar();
@@ -143,35 +129,27 @@ public class SchedulePanel extends Panel implements MouseMotionListener,
 		curY += 40;
 		curX += 20;
 
-		int lineHeight = 50;
+		lineHeight = 50;
 
-		if (stageList.size() > 10) // stageList defined in constructor
+		if (_stageList.size() > 10) // stageList defined in constructor
 		{
-			lineHeight += -(stageList.size() - 10) * 4.5; // decrease the
-															// lineHeight for
-															// every stage > 8
-															// that is added.
+			lineHeight += -(_stageList.size() - 10) * 4.5; // decrease the lineHeight for every stage > 8 that is added.
 		}
 
 		int x = 0; // DON'T JUDGE ME!
-		for (Stage s : stageList)
+		for (Stage s : _stageList)
 		{
 			if (lineHeight < 10)
 				System.out.println("lineHeight too small!");
 
-			// draws the String in front of the line and the line itself
-			// (without blocks)
+			// draws the String in front of the line and the line itself (without blocks)
 			g2.drawString(s.getName(), curX, curY);
 
 			g2.setColor(Color.lightGray);
-			g2.drawLine(curX + titleWidth + 20 - 5, curY - 5 - 1,
-					ApplicationView.WIDTH - 30, curY - 5 - 1);
-			stageHeight[x] = curY - 5 + 0; // fills an array with the height of
-											// each timeline for later reference
-			g2.drawLine(curX + titleWidth + 20 - 5, stageHeight[x],
-					ApplicationView.WIDTH - 30, curY - 5 + 0);
-			g2.drawLine(curX + titleWidth + 20 - 5, curY - 5 + 1,
-					ApplicationView.WIDTH - 30, curY - 5 + 1);
+			g2.drawLine(curX + titleWidth + 20 - 5, curY - 5 - 1, ApplicationView.WIDTH - 30, curY - 5 - 1);
+			stageHeight[x] = curY - 5 + 0; // fills an array with the height of each timeline for later reference
+			g2.drawLine(curX + titleWidth + 20 - 5, stageHeight[x], ApplicationView.WIDTH - 30, curY - 5 + 0);
+			g2.drawLine(curX + titleWidth + 20 - 5, curY - 5 + 1, ApplicationView.WIDTH - 30, curY - 5 + 1);
 			// debugging purposes
 			// for(int k = 0; k < stageHeight.length; k++)
 			// {
@@ -180,17 +158,15 @@ public class SchedulePanel extends Panel implements MouseMotionListener,
 
 			// code that draws the rectangles
 			int boxWidth = 40;
-			g2.setColor(defaultColor);
+			g2.setColor(defaultBoxColor);
 			for (int y = 0; y < 16; y++)
 			{
 				g2.setColor(rectColor[x][y]);
 				int rectX = curX + titleWidth + 20 + (y * 48);
 				int rectY = curY - lineHeight / 2;
-				rectangle[x][y] = new Rectangle2D.Double(rectX, rectY,
-						boxWidth, lineHeight - 10);
+				rectangle[x][y] = new Rectangle2D.Double(rectX, rectY, boxWidth, lineHeight - 10);
 				g2.fill(rectangle[x][y]);
-				// g2.fillRect(curX + titleWidth + 20 + (i * 48), curY -
-				// lineHeight / 2, boxWidth, lineHeight - 10);
+				// g2.fillRect(curX + titleWidth + 20 + (i * 48), curY - lineHeight / 2, boxWidth, lineHeight - 10);
 
 				if (plusSign[x][y] == true)
 				{
@@ -198,11 +174,8 @@ public class SchedulePanel extends Panel implements MouseMotionListener,
 					int plusLength = 20;
 					int plusX = rectX + boxWidth / 2 - plusLength / 2;
 					int plusY = rectY + lineHeight / 2 - 8;
-					Shape plusShapeX = new Rectangle2D.Double(plusX, plusY,
-							plusLength, 6);
-					Shape plusShapeY = new Rectangle2D.Double(plusX
-							+ (plusLength / 2 - 3), plusY
-							- (plusLength / 2 - 3), 6, plusLength);
+					Shape plusShapeX = new Rectangle2D.Double(plusX, plusY, plusLength, 6);
+					Shape plusShapeY = new Rectangle2D.Double(plusX + (plusLength / 2 - 3), plusY - (plusLength / 2 - 3), 6, plusLength);
 					g2.fill(plusShapeX);
 					g2.fill(plusShapeY);
 				}
@@ -213,38 +186,58 @@ public class SchedulePanel extends Panel implements MouseMotionListener,
 			x++;
 		}
 
+		// create ACTS Shapes
+//		for (Act act : _actList)
+//		{
+//			_actShapeList[99]] = createActShape(act); //TODO CHANGE INDEX
+//			//TODO MOVE CODEBLOCK TO NEXT CODEBLOCK AND INSERT INDEXING IN SHAPE VAR, CREATESHAPE AND FILLSHAPE
+//		}
+		
 		// DISPLAY ACTS
 		// code here
-		for (Act act : actList)
+		for (Act act : _actList)
 		{
-			// Shape actShape = createActShape(act);
+			Shape shape = createActShape(act);
+			g2.setColor(Color.gray);
+			g2.fill(shape);
+			g2.setColor(Color.lightGray);
+			String actName = act.getName();
+			actName = Utils.cropString(actName, (int)shape.getBounds().getWidth() - 6); //cropString on the string and maxwidth
+			int stringWidth = Utils.getWidth(actName);
+			g2.drawString(actName,(int)( (shape.getBounds().x) + (shape.getBounds().getWidth() /2) - (stringWidth /2) -3 ), shape.getBounds().y + 4 + 20);
+			g2.setColor(Color.black);
 		}
 	}
 
-	private Shape createActShape(int stage, int timeStart, int timeEnd)
+	private Shape createActShape(Act act)
 	{
-		// TODO change parameter to Act act
-		// int timeStart = act.getTimeStart();
-		// int timeEnd = act.getTimeEnd();
-		// int stage = act.getStageId();
-		int ppHour = 10; // pixels per hour
-		int timeOffset = -12; // time offset. the ammount to add to the time in
-								// order for 12pm to be the origin
-		int shapeHeight = 40;
-		int x = 100 + (timeStart + timeOffset) * ppHour;
-		int y = stageHeight[stage] - shapeHeight / 2;
-		int shapeWidth = timeEnd - timeStart * ppHour;
+		double timeStart = ( (act.getStartTime().get(Calendar.HOUR_OF_DAY) * 60) + act.getStartTime().get(Calendar.MINUTE) ) / 60.0;
+		double timeEnd = ( (act.getEndTime().get(Calendar.HOUR_OF_DAY) * 60) + act.getEndTime().get(Calendar.MINUTE) ) / 60.0;
+//		System.out.println("act.timeEnd: " + timeEnd); // DEBUGGING PURPOSES
+//		System.out.println(act.getName() + act.getEndTime().get(Calendar.MINUTE)); // DEBUGGING PURPOSES
+		Stage stage = act.getStage();
+		int stageIndex = _stageList.indexOf(stage);
+		int ppMinute = 48; // pixels per minute
+		if(timeEnd < 12) //when the end time is after midnight its between 0 and 4 (or higher)
+		{
+			timeEnd += 24; // add 12 so the calculated shapeWidth value makes sense
+		}
+		int timeOffset = -12; // time offset. the amount to add to the time in order for 12pm to be the origin
+		int shapeHeight = lineHeight -10; //value used to be 40, lineheight is 50* - *when stagelist.size <= 8
+		int x = (int) (227 + ( (timeStart + timeOffset) * ppMinute));
+		int y = stageHeight[stageIndex] - shapeHeight / 2;
+		int shapeWidth = (int) ((timeEnd - timeStart) * ppMinute);
+		
 		Shape shape = new Rectangle2D.Double(x, y, shapeWidth, shapeHeight);
 
 		return shape;
 	}
-
+	
 	public void mouseMoved(MouseEvent e)
 	{
 		for (int i = 0; i < ROWS; i++)
 		{
-			for (int j = 0; j < COLS; j++) // TODO CHANGE VALUE OF 16 TO USE
-											// GLOBAL VALUE
+			for (int j = 0; j < COLS; j++) // TODO CHANGE VALUE OF 16 TO USE GLOBAL VALUE
 			{
 				if (rectangle[i][j].contains(e.getPoint()))
 				{
@@ -252,10 +245,9 @@ public class SchedulePanel extends Panel implements MouseMotionListener,
 					plusSign[i][j] = true;
 
 					repaint();
-				}
-				else
+				} else
 				{
-					rectColor[i][j] = defaultColor;
+					rectColor[i][j] = defaultBoxColor;
 					plusSign[i][j] = false;
 
 					repaint();
