@@ -264,7 +264,7 @@ public class StagePanel extends Panel
 			p.contentsChanged(null);		
 	}
 
-
+	
 	public void loadArtistsFromHandler()
 	{
 		ArrayList<Stage> stages = FestivalHandler.Instance().getStages();
