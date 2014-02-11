@@ -15,10 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.view.panels.ArtistPanel;
 
 public class FestivalHandler {
 	private static FestivalHandler _instance = null;
-
+	private boolean debug = true;
 	public static FestivalHandler Instance() {
 		if (_instance == null)
 			_instance = new FestivalHandler();
@@ -99,12 +100,16 @@ public class FestivalHandler {
 	 * 
 	 * @return
 	 */
-	public boolean readFromFile(String path) 
+	public boolean readFromFile() 
 	{
-		File file = new File(path);
+		JFileChooser fc = new JFileChooser();
+		 
+		int returnVal = fc.showOpenDialog(new JPanel());
 
-		if (file.exists()) 
+		if (returnVal == JFileChooser.APPROVE_OPTION)
 		{
+			File file = fc.getSelectedFile();
+           
 			try
 			{
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
@@ -116,15 +121,25 @@ public class FestivalHandler {
 			}
 			catch (Exception e) 
 			{
-
+				JOptionPane.showMessageDialog(null,Text.FileDoesNotExist.toString(), Text.Info.toString(), 1);
+				return false;
 			}
+			
+			if(debug)
+				System.out.println("File geladen: " + file.getAbsolutePath());
+			
 			return true;
-		} 
-		else 
-		{
-			JOptionPane.showMessageDialog(null,Text.FileDoesNotExist.toString(), Text.Info.toString(), 1);
-			return false;
-		}
+       } 
+       else
+       {
+    	   //JOptionPane.showMessageDialog(null,Text.FileDoesNotExist.toString(), Text.Info.toString(), 1);
+    	   _festival = new Festival();
+    	   
+       		if(debug)
+       			System.out.println("Open command geannuleerd.");
+       		
+       		return false;
+       }
 	}
 
 	public ArrayList<Stage> getStages()

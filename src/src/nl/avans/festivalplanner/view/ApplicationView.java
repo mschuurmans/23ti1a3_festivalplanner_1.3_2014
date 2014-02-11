@@ -23,12 +23,8 @@ public class ApplicationView extends JFrame
 		/***
 		 * TEST PURPOSES.
 		 */
-		ClassLoader classLoader = FestivalHandler.class.getClassLoader();
-	    File classpathRoot = new File(classLoader.getResource("").getPath());
-
-	    String path = classpathRoot.getPath() + "/festival.dat";
-		System.out.println(path);
-	    FestivalHandler.Instance().readFromFile(path);
+		
+	    FestivalHandler.Instance().readFromFile();
 	    
 		new ApplicationView();
 		
