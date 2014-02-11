@@ -16,6 +16,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import nl.avans.festivalplanner.model.Act;
 import nl.avans.festivalplanner.model.Artist;
@@ -33,6 +34,9 @@ public class SchedulePanel extends Panel implements MouseMotionListener,
 
 	private final int startX = GUIHelper.XOFFSET;
 	private final int startY = GUIHelper.YOFFSET;
+
+	private ArrayList<Integer> _timeList = new ArrayList<Integer>();
+	private int _curAct = 0;
 
 	Color defaultColor = new Color(0x09000000, true); // color black with alpha
 														// 09 and alpha=true
@@ -89,23 +93,67 @@ public class SchedulePanel extends Panel implements MouseMotionListener,
 				}
 			}
 		});
+		for (int hours = 12; hours != 4; hours++)
+		{
+			if (hours == 24)
+			{
+				hours = 0;
+			}
+			for (int minutes = 0; minutes < 4; minutes++)
+			{
+				_timeList.add(hours * 100 + minutes * 15);
+			}
+		}
 	}
 
 	private void showDialog(int stage, int time)
 	{
+		JPanel _dialogPanel = createDialogBox();
+		_artistList = FestivalHandler.Instance().getArtists();
+		stageList = FestivalHandler.Instance().getStagesTest(); // TODO change to actual list instead of test list
+		GregorianCalendar _startTime = new GregorianCalendar();
+		GregorianCalendar _endTime = new GregorianCalendar();
+		
 		Object[] _artists = _artistList.toArray(new Object[_artistList.size()]);
+		Object[] _stages = stageList.toArray(new Object[stageList.size()]);
+
+		Object[] _times = _timeList.toArray(new Object[_timeList.size()]);
 		if (_artists.length != 0)
 		{
-			Object _selectedValue = JOptionPane.showInputDialog(null,
+			Object _selectedArtist = JOptionPane.showInputDialog(null,
 					"Choose artist", "Create new act",
 					JOptionPane.INFORMATION_MESSAGE, null, _artists,
 					_artists[0]);
+			Object _selectedStage = JOptionPane.showInputDialog(null,
+					"Choose stage", "Create new act",
+					JOptionPane.INFORMATION_MESSAGE, null, _stages,
+					_stages[stage]);
+			Object _selectedStartTime = JOptionPane.showInputDialog(null,
+					"Choose start time", "Create new act",
+					JOptionPane.INFORMATION_MESSAGE, null, _times,
+					_times[time*4]);
+			Object _selectedEndTime = JOptionPane.showInputDialog(null,
+					"Choose end time", "Create new act",
+					JOptionPane.INFORMATION_MESSAGE, null, _times,
+					_times[(time+1)*4]);
+
+			FestivalHandler.Instance().addAct(new Act("", (Stage)_selectedStage, (Artist)_selectedArtist, _startTime,
+							_endTime));
+			System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
+			_curAct++;
 		}
 		else
 		{
 			JOptionPane.showMessageDialog(this,
 					"No artists have been registered");
 		}
+	}
+	
+	private JPanel createDialogBox()
+	{
+		JPanel panel = new JPanel();
+		
+		return panel;
 	}
 
 	public void paintComponent(Graphics g)
