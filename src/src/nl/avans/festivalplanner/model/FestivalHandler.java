@@ -102,7 +102,8 @@ public class FestivalHandler {
 	 */
 	public boolean readFromFile() 
 	{
-		JFileChooser fc = new JFileChooser();
+
+		JFileChooser fc = new JFileChooser(new File(FestivalHandler.class.getClassLoader().getResource("").getPath()).getPath());
 		 
 		int returnVal = fc.showOpenDialog(new JPanel());
 
