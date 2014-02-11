@@ -172,27 +172,17 @@ public class FestivalHandler
 		stageList.add(new Stage("test1", 100, new Dimension(10, 20),
 				new Dimension(10, 20)));
 		
-		_testStage1 = new Stage("test2", 100, new Dimension(10, 20),	new Dimension(10, 20));
+		_testStage1 = new Stage("test2", 100, new Dimension(10, 20), new Dimension(10, 20));
 		
 		stageList.add(_testStage1);
 		
-		_testStage2 = new Stage("test3", 100, new Dimension(10, 20),
-				new Dimension(10, 20));
+		_testStage2 = new Stage("test3", 100, new Dimension(10, 20), new Dimension(10, 20));
 		
 		stageList.add(_testStage2);
 		
-		stageList.add(new Stage("test4", 100, new Dimension(10, 20),
-				new Dimension(10, 20)));
-		stageList.add(new Stage("test5", 100, new Dimension(10, 20),
-				new Dimension(10, 20)));
-		stageList.add(new Stage("test6", 100, new Dimension(10, 20),
-				new Dimension(10, 20)));
-		// stageList.add(new Stage("test7", 100,null,null));
-		// stageList.add(new Stage("test8", 100,null,null));
-		// stageList.add(new Stage("test9", 100,null,null));
-		// stageList.add(new Stage("test10", 100,null,null));
-		// stageList.add(new Stage("test11", 100,null,null));
-		// stageList.add(new Stage("test12", 100,null,null));
+		stageList.add(new Stage("test4", 100, new Dimension(10, 20), new Dimension(10, 20)));
+		stageList.add(new Stage("test5", 100, new Dimension(10, 20), new Dimension(10, 20)));
+		stageList.add(new Stage("test6", 100, new Dimension(10, 20), new Dimension(10, 20)));
 
 		return stageList;
 	}

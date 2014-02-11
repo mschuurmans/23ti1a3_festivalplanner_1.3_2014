@@ -99,18 +99,18 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 
 	private void showDialog(int stage, int time)
 	{
-		JPanel _dialogPanel = createDialogBox();
-		_artistList = FestivalHandler.Instance().getArtists();
-		_stageList = FestivalHandler.Instance().getStagesTest(); // TODO change to actual list instead of test list
-		GregorianCalendar _startTime = new GregorianCalendar();
-		GregorianCalendar _endTime = new GregorianCalendar();
-		
-		Object[] _artists = _artistList.toArray(new Object[_artistList.size()]);
-		Object[] _stages = _stageList.toArray(new Object[_stageList.size()]);
-
-		Object[] _times = _timeList.toArray(new Object[_timeList.size()]);
-		if (_artists.length != 0)
-		{
+//		JPanel _dialogPanel = createDialogBox();
+//		_artistList = FestivalHandler.Instance().getArtists();
+//		_stageList = FestivalHandler.Instance().getStagesTest(); // TODO change to actual list instead of test list
+//		GregorianCalendar _startTime = new GregorianCalendar();
+//		GregorianCalendar _endTime = new GregorianCalendar();
+//		
+//		Object[] _artists = _artistList.toArray(new Object[_artistList.size()]);
+//		Object[] _stages = _stageList.toArray(new Object[_stageList.size()]);
+//
+//		Object[] _times = _timeList.toArray(new Object[_timeList.size()]);
+//		if (_artists.length != 0)
+//		{
 //			Object _selectedArtist = JOptionPane.showInputDialog(null,
 //					"Choose artist", "Create new act",
 //					JOptionPane.INFORMATION_MESSAGE, null, _artists,
@@ -132,11 +132,11 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 //							_endTime));
 //			System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
 //			_curAct++;
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(this, "No artists have been registered");
-		}
+//		}
+//		else
+//		{
+//			JOptionPane.showMessageDialog(this, "No artists have been registered");
+//		}
 	}
 	
 	private JPanel createDialogBox()
