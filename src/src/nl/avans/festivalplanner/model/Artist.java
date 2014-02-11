@@ -10,10 +10,10 @@ public class Artist implements Serializable
 	private String _name;
 	private String _genre;
 	private String _comment;
-	private String _imageSource = "";
+	private String _imageSource;
 	
 	
-	public void setImageSource(String value)
+	public void setImageSouce(String value)
 	{
 		this._imageSource = value;
 	}

@@ -1,6 +1,7 @@
 package nl.avans.festivalplanner.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,7 +16,7 @@ public class ApplicationView extends JFrame
 	private Panel activePanel;
 	private GUIHelper guiHelper = new GUIHelper();
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
 		new ApplicationView();
 		
@@ -28,7 +29,7 @@ public class ApplicationView extends JFrame
 	    }
 	}
 	
-	public ApplicationView() {
+	public ApplicationView() throws IOException {
 	    setTitle("Festival Planner TI1.3 A3");
 	    setResizable(false);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

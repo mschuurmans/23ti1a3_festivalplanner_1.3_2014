@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -20,6 +21,7 @@ import javax.swing.border.BevelBorder;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.view.panels.ArtistPanel;
 import nl.avans.festivalplanner.view.panels.InfoPanel;
+import nl.avans.festivalplanner.view.panels.MapPanel;
 import nl.avans.festivalplanner.view.panels.SchedulePanel;
 import nl.avans.festivalplanner.view.panels.StagePanel;
 
@@ -34,7 +36,7 @@ public class GUIHelper {
 		
 	}
 	
-	public JTabbedPane getTabBar()
+	public JTabbedPane getTabBar() throws IOException
 	{
 		JTabbedPane tabBar = new JTabbedPane();
 		tabBar.setPreferredSize(new Dimension(ApplicationView.WIDTH, ApplicationView.HEIGHT));
@@ -51,8 +53,8 @@ public class GUIHelper {
 		JPanel stagePanel = new StagePanel();
 		tabBar.addTab(Text.Stages.toString(), stagePanel);
 		
-//		JPanel mapPanel = new MapPanel();
-//		tabBar.addTab(Text.Map.toString(), mapPanel);
+		JPanel mapPanel = new MapPanel();
+		tabBar.addTab(Text.Map.toString(), mapPanel);
 		
 		return tabBar;
 	}
@@ -65,14 +67,14 @@ public class GUIHelper {
 	{
 		JMenuBar menuBar = new JMenuBar();
 
-		JMenu menu = new JMenu(Text.File.toString()); // ?eng: File
-		JMenu settings = new JMenu(Text.Settings.toString());
-		JMenu help = new JMenu(Text.Help.toString()); // ?eng: Help
+		JMenu menu = new JMenu("File"); // ?eng: File
+		JMenu settings = new JMenu("Settings");
+		JMenu help = new JMenu("help"); // ?eng: Help
 		menuBar.add(menu);
 		menuBar.add(settings);
 		menuBar.add(help);
 
-		JMenuItem menu_item_close = new JMenuItem(Text.Close.toString()); // ?eng: Close
+		JMenuItem menu_item_close = new JMenuItem("Close"); // ?eng: Close
 		menu_item_close.addActionListener(new ActionListener()
 		{
 			@Override
@@ -84,16 +86,16 @@ public class GUIHelper {
 
 		menu.add(menu_item_close);
 
-		JMenuItem help_about = new JMenuItem(Text.About.toString()); // ?eng: About
+		JMenuItem help_about = new JMenuItem("About"); // ?eng: About
 		
 		help_about.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				String about = Text.About.toString(); 
-				String aboutMessage = Text.AboutMessage.toString();
-				
+				String about = "About"; // ?eng: About
+				String aboutMessage = "About message"; // ?eng:
+		
 				JOptionPane.showMessageDialog(null, aboutMessage, about, 1);
 
 			}
