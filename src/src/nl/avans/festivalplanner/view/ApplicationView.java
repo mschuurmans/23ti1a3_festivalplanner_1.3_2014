@@ -1,10 +1,14 @@
 package nl.avans.festivalplanner.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+
+import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.view.panels.ArtistPanel;
 
 public class ApplicationView extends JFrame
@@ -17,6 +21,12 @@ public class ApplicationView extends JFrame
 	
 	public static void main(String[] args)
 	{
+		/***
+		 * TEST PURPOSES.
+		 */
+		
+	    FestivalHandler.Instance().readFromFile();
+	    
 		new ApplicationView();
 		
 		try 

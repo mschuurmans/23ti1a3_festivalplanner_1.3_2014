@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -20,6 +21,7 @@ import javax.swing.border.BevelBorder;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.view.panels.ArtistPanel;
 import nl.avans.festivalplanner.view.panels.InfoPanel;
+import nl.avans.festivalplanner.view.panels.MapPanel;
 import nl.avans.festivalplanner.view.panels.SchedulePanel;
 import nl.avans.festivalplanner.view.panels.StagePanel;
 
@@ -51,8 +53,8 @@ public class GUIHelper {
 		JPanel stagePanel = new StagePanel();
 		tabBar.addTab(Text.Stages.toString(), stagePanel);
 		
-//		JPanel mapPanel = new MapPanel();
-//		tabBar.addTab(Text.Map.toString(), mapPanel);
+		JPanel mapPanel = new MapPanel();
+		tabBar.addTab(Text.Map.toString(), mapPanel);
 		
 		return tabBar;
 	}
