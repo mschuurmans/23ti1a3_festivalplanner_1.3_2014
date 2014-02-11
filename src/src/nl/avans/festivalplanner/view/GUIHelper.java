@@ -65,14 +65,14 @@ public class GUIHelper {
 	{
 		JMenuBar menuBar = new JMenuBar();
 
-		JMenu menu = new JMenu("File"); // ?eng: File
-		JMenu settings = new JMenu("Settings");
-		JMenu help = new JMenu("help"); // ?eng: Help
+		JMenu menu = new JMenu(Text.File.toString()); // ?eng: File
+		JMenu settings = new JMenu(Text.Settings.toString());
+		JMenu help = new JMenu(Text.Help.toString()); // ?eng: Help
 		menuBar.add(menu);
 		menuBar.add(settings);
 		menuBar.add(help);
 
-		JMenuItem menu_item_close = new JMenuItem("Close"); // ?eng: Close
+		JMenuItem menu_item_close = new JMenuItem(Text.Close.toString()); // ?eng: Close
 		menu_item_close.addActionListener(new ActionListener()
 		{
 			@Override
@@ -84,16 +84,16 @@ public class GUIHelper {
 
 		menu.add(menu_item_close);
 
-		JMenuItem help_about = new JMenuItem("About"); // ?eng: About
+		JMenuItem help_about = new JMenuItem(Text.About.toString()); // ?eng: About
 		
 		help_about.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				String about = "About"; // ?eng: About
-				String aboutMessage = "About message"; // ?eng:
-		
+				String about = Text.About.toString(); 
+				String aboutMessage = Text.AboutMessage.toString();
+				
 				JOptionPane.showMessageDialog(null, aboutMessage, about, 1);
 
 			}
