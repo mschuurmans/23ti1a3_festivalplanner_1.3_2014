@@ -201,7 +201,6 @@ public class FestivalHandler
 	public void setArtists(List<Artist> artists) 
 	{
 		this._festival.setArtists(artists);
-		System.out.println("File saved: " + this.saveToFile());
 	}
 
 	public List<Artist> getArtists()

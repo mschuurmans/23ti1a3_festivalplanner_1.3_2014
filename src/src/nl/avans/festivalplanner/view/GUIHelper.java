@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -18,6 +17,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.view.panels.ArtistPanel;
 import nl.avans.festivalplanner.view.panels.InfoPanel;
@@ -74,6 +74,16 @@ public class GUIHelper {
 		menuBar.add(settings);
 		menuBar.add(help);
 
+		JMenuItem menu_item_save = new JMenuItem(Text.Save.toString());
+		menu_item_save.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				FestivalHandler.Instance().saveToFile();
+			}
+		});
+		
 		JMenuItem menu_item_close = new JMenuItem(Text.Close.toString()); // ?eng: Close
 		menu_item_close.addActionListener(new ActionListener()
 		{
@@ -84,6 +94,7 @@ public class GUIHelper {
 			}
 		});
 
+		menu.add(menu_item_save);
 		menu.add(menu_item_close);
 
 		JMenuItem help_about = new JMenuItem(Text.About.toString()); // ?eng: About
