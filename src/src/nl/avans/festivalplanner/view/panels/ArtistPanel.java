@@ -286,11 +286,16 @@ public class ArtistPanel extends Panel
 			
 	public void loadArtistsFromHandler()
 	{
+		
 		List<Artist> artists = FestivalHandler.Instance().getArtists();
+		if(debug)
+			System.out.println("Laden gestart van: " + artists.size() + " artiesten");
+		
+
+		_defaultListModel.clear();
 		
 		for(Artist artist : artists)
 		{
-			_defaultListModel.clear();
 			_defaultListModel.addElement(artist);
 		}
 	}
