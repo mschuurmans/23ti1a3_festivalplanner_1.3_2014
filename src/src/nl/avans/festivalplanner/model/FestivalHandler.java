@@ -82,4 +82,8 @@ public class FestivalHandler
 	{
 		return this._festival.getArtists();
 	}
+	
+	public Festival getFestival(){
+		return this._festival;
+	}
 }
