@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.view.Panel;
 
 public class MapPanel extends Panel implements ActionListener {
@@ -20,7 +21,7 @@ public class MapPanel extends Panel implements ActionListener {
 	public MapPanel() throws IOException {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		_image = ImageIO.read(new File("resources/map.jpg"));
-		JButton _mapButton = new JButton("Load new map");
+		JButton _mapButton = new JButton(Text.LoadMap.toString());
 		_mapButton.addActionListener(this);
 		add(_mapButton);
 	}
@@ -43,6 +44,11 @@ public class MapPanel extends Panel implements ActionListener {
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = _fc.getSelectedFile();
+			try {
+				_image = ImageIO.read(file);
+			} catch (IOException e1) {
+				System.out.println("ERROR WITH IMAGE FILE");
+			}
 		}
 	}
 }

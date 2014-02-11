@@ -76,7 +76,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	
 	private void showDialog(int stage, int time) {
 		Object[] _artists = _artistList.toArray(new Object[_artistList.size()]);
-		Object _selectedValue = JOptionPane.showInputDialog(null, "Choose one", "Input",
+		Object _selectedValue = JOptionPane.showInputDialog(null, "Choose artist", "Create new act",
 			JOptionPane.INFORMATION_MESSAGE, null,	_artists, _artists[0]);
 		
 	}

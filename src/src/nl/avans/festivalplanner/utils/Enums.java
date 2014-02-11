@@ -53,7 +53,8 @@ public class Enums
 		Warning("Waarschuwing", "Warning"),
 		FileSavedSucces("Het bestand is opgeslagen.", "The file has been saved."),
 		FileDoesNotExist("Bestand bestaat niet.", "File does not exist"),
-		FileOpenedSucces("Het bestand is geladen.", "File has been loaded.");
+		FileOpenedSucces("Het bestand is geladen.", "File has been loaded."),
+		LoadMap("Nieuwe kaart openen", "Open new map");
 
 		
 		private String _nl;
