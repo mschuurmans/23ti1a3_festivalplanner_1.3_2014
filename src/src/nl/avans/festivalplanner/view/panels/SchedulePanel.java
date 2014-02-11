@@ -3,7 +3,6 @@ package nl.avans.festivalplanner.view.panels;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import nl.avans.festivalplanner.model.Act;
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
 import nl.avans.festivalplanner.utils.Utils;
@@ -31,11 +31,16 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	
 	Color defaultColor = new Color(0x09000000 ,true); //color black with alpha 09 and alpha=true
 
-//	ArrayList<Stage> stageList = FestivalHandler.Instance().getStages() // TODO UNCOMMENT
-	ArrayList<Stage> stageList = FestivalHandler.Instance().getStagesTest(); // TODO COMMENT
+//	ArrayList<Stage> stageList = FestivalHandler.Instance().getStages(); // TODO UNCOMMENT
+	ArrayList<Stage> stageList = FestivalHandler.Instance().getStagesTest(); //debugging purposes // TODO COMMENT
+	
+	ArrayList<Act> actList = FestivalHandler.Instance().getActsTest();
+	
 	
 	private final int ROWS = stageList.size(); // rows in schedule to show depends on stages in festival
 	private final int COLS = 16;
+
+	int stageHeight[] = new int[ROWS];
 	
 	Shape rectangle[][] = new Shape[ROWS][COLS]; // button array of 12 * 16
 	Color rectColor[][] = new Color[ROWS][COLS];
@@ -73,39 +78,38 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 		
-		int titleWidth = 180; // the width of the column that shows the stage name
+		int titleWidth = 180; // the width of the column that shows the stage name *timeline starts to the right
 		
+		// used to get formatted time for the timeline scale in the top
 		Calendar timeValue = new GregorianCalendar();
 		timeValue.set(Calendar.HOUR_OF_DAY, 12);
 		timeValue.set(Calendar.MINUTE, 0);
 		
+		// constructs the string that displays the time line in the top
 		String timeString = "";
-		for(int i = 0; i < 17; i++) // constructs the string that displays the time line in the top
+		for(int i = 0; i < 17; i++)
 		{
-			String time = "";
-			
 			if(i > 0)
-				time += " - ";
+			{
+				timeString += " - ";	
+			}
 			
-			time += Utils.getTimeString(timeValue);
-			//TODO CHECK THIS IMPROVE READABILITY
-			timeString += time;
-			
+			timeString += Utils.getTimeString(timeValue);
+
 			timeValue.add(Calendar.MINUTE, 60);
 		}
-		
 		g2.drawString(timeString, startX + titleWidth + 20, startY);
 		
 		int curX = startX;
 		int curY = startY;
 		
+		//Drawing the timelines start here!
 		curY += 40;
 		curX += 20;
 		
 		int lineHeight = 50;
 		
-		//stageList defined in constructor
-		if(stageList.size() > 10)
+		if(stageList.size() > 10) //stageList defined in constructor
 		{
 			lineHeight += - (stageList.size() - 10) * 4.5; // decrease the lineHeight for every stage > 8 that is added.
 		}
@@ -121,8 +125,14 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 			
 			g2.setColor(Color.lightGray);
 			g2.drawLine(curX + titleWidth + 20 -5, curY - 5 -1, ApplicationView.WIDTH - 30, curY - 5 -1);
-			g2.drawLine(curX + titleWidth + 20 -5, curY - 5 +0, ApplicationView.WIDTH - 30, curY - 5 +0);
+			stageHeight[x] = curY - 5 +0; //fills an array with the height of each timeline for later reference
+			g2.drawLine(curX + titleWidth + 20 -5, stageHeight[x], ApplicationView.WIDTH - 30, curY - 5 +0);
 			g2.drawLine(curX + titleWidth + 20 -5, curY - 5 +1, ApplicationView.WIDTH - 30, curY - 5 +1);
+			//debugging purposes
+//			for(int k = 0; k < stageHeight.length; k++)
+//			{	
+//				System.out.println("row: " + k + "height: " + stageHeight[k]);
+//			}
 			
 			//code that draws the rectangles
 			int boxWidth = 40;
@@ -153,6 +163,30 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 			curY += lineHeight;
 			x++;
 		}
+		
+		// DISPLAY ACTS
+		//code here
+		for(Act act : actList)
+		{
+//			Shape actShape = createActShape(act);
+		}
+	}
+	
+	private Shape createActShape(int stage, int timeStart, int timeEnd)
+	{
+		//TODO change parameter to Act act
+		// int timeStart = act.getTimeStart();
+		// int timeEnd = act.getTimeEnd();
+		// int stage = act.getStageId();
+		int ppHour = 10; //pixels per hour
+		int timeOffset = -12; // time offset. the ammount to add to the time in order for 12pm to be the origin
+		int shapeHeight = 40;
+		int x = 100 + (timeStart + timeOffset) * ppHour;
+		int y = stageHeight[stage] - shapeHeight /2;
+		int shapeWidth = timeEnd - timeStart * ppHour;
+		Shape shape = new Rectangle2D.Double(x, y, shapeWidth, shapeHeight);
+		
+		return shape;
 	}
 	
 	public void mouseMoved(MouseEvent e)

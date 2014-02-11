@@ -53,6 +53,9 @@ public class FestivalHandler
 		_festival.setStages(value);
 	}
 	
+	/*
+	 * debugging purposes
+	 */
 	public ArrayList<Stage> getStagesTest()
 	{
 		ArrayList<Stage> stageList = new ArrayList<Stage>();
@@ -71,6 +74,18 @@ public class FestivalHandler
 //		stageList.add(new Stage("test12", 100,null,null));
 		
 		return stageList;
+	}
+	
+	public ArrayList<Act> getActsTest()
+	{
+		ArrayList<Act> actList = new ArrayList<Act>();
+		
+		actList.add(new Act());
+		actList.add(new Act());
+		actList.add(new Act());
+		actList.add(new Act());
+		
+		return actList;
 	}
 	
 	public void setArtists(List<Artist> artists)
