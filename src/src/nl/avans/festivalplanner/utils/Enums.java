@@ -43,12 +43,18 @@ public class Enums
 		Tickets("Kaartjes", "Tickets"),
 		NewArtist("Nieuwe artiest", "New artist"),
 		DateFormat("dd-MM-yyyy", "MM/dd/yyyy"),
-		AboutMessage("Software geschreven door: 23TI1A5", "Software written by: 23TI1A5"),
+		AboutMessage("Software geschreven door: 23TI1A3", "Software written by: 23TI1A3"),
 		About("Over", "About"),
 		Close("Sluiten", "Close"),
 		File("Bestand", "File"),
 		Settings("Instellingen", "Settings"),
-		Help("Help", "Help");
+		Help("Help", "Help"),
+		FileExistsWantToOverride("Bestand bestaat al. Wilt u het overschrijven?", "File already exists. Do you want to override it?"),
+		Warning("Waarschuwing", "Warning"),
+		FileSavedSucces("Het bestand is opgeslagen.", "The file has been saved."),
+		FileDoesNotExist("Bestand bestaat niet.", "File does not exist"),
+		FileOpenedSucces("Het bestand is geladen.", "File has been loaded."),
+		LoadMap("Nieuwe kaart openen", "Open new map");
 
 		
 		private String _nl;
