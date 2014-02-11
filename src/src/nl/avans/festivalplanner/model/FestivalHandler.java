@@ -15,12 +15,13 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import nl.avans.festivalplanner.utils.Enums.Text;
-import nl.avans.festivalplanner.view.panels.ArtistPanel;
 
-public class FestivalHandler {
+public class FestivalHandler 
+{
 	private static FestivalHandler _instance = null;
 	private boolean debug = true;
-	public static FestivalHandler Instance() {
+	public static FestivalHandler Instance() 
+	{
 		if (_instance == null)
 			_instance = new FestivalHandler();
 
@@ -29,7 +30,8 @@ public class FestivalHandler {
 
 	private Festival _festival;
 
-	public FestivalHandler() {
+	public FestivalHandler() 
+	{
 		_festival = new Festival();
 	}
 
@@ -67,7 +69,9 @@ public class FestivalHandler {
 					if (dialogResult == JOptionPane.YES_OPTION)
 					{
 						// doorgaan
-					} else {
+					} 
+					else
+					{
 						return false;
 					}
 				}
