@@ -13,29 +13,31 @@ import javax.swing.*;
 import nl.avans.festivalplanner.view.Panel;
 
 public class MapPanel extends Panel {
-	private Image image;
-	
-	public MapPanel() throws IOException 
-	{
+	private Image _image;
+	private final JFileChooser fc = new JFileChooser();
+
+	public MapPanel() throws IOException {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		image = ImageIO.read(ClassLoader.getSystemResourceAsStream("map.jpg"));
+		_image = ImageIO.read(ClassLoader.getSystemResourceAsStream("map.jpg"));
 	}
-	
-	protected void paintComponent(Graphics g) 
-	{
-	    super.paintComponent(g);
-	    g.drawImage(image, 0, 0, getWidth(), getHeight(), null); // see javadoc for more info on the parameters            
+
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		repaint();
+		g.drawImage(_image, 0, 0, getWidth(), getHeight(), null);
 	}
 
 	@Override
-	public Panel getPanel() 
-	{
+	public Panel getPanel() {
 		return this;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		int returnVal = fc.showOpenDialog(this);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = fc.getSelectedFile();
+		}
 	}
 }
