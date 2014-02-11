@@ -101,37 +101,37 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	{
 		JPanel _dialogPanel = createDialogBox();
 		_artistList = FestivalHandler.Instance().getArtists();
-		stageList = FestivalHandler.Instance().getStagesTest(); // TODO change to actual list instead of test list
+		_stageList = FestivalHandler.Instance().getStagesTest(); // TODO change to actual list instead of test list
 		GregorianCalendar _startTime = new GregorianCalendar();
 		GregorianCalendar _endTime = new GregorianCalendar();
 		
 		Object[] _artists = _artistList.toArray(new Object[_artistList.size()]);
-		Object[] _stages = stageList.toArray(new Object[stageList.size()]);
+		Object[] _stages = _stageList.toArray(new Object[_stageList.size()]);
 
 		Object[] _times = _timeList.toArray(new Object[_timeList.size()]);
 		if (_artists.length != 0)
 		{
-			Object _selectedArtist = JOptionPane.showInputDialog(null,
-					"Choose artist", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _artists,
-					_artists[0]);
-			Object _selectedStage = JOptionPane.showInputDialog(null,
-					"Choose stage", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _stages,
-					_stages[stage]);
-			Object _selectedStartTime = JOptionPane.showInputDialog(null,
-					"Choose start time", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _times,
-					_times[time*4]);
-			Object _selectedEndTime = JOptionPane.showInputDialog(null,
-					"Choose end time", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _times,
-					_times[(time+1)*4]);
-
-			FestivalHandler.Instance().addAct(new Act("", (Stage)_selectedStage, (Artist)_selectedArtist, _startTime,
-							_endTime));
-			System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
-			_curAct++;
+//			Object _selectedArtist = JOptionPane.showInputDialog(null,
+//					"Choose artist", "Create new act",
+//					JOptionPane.INFORMATION_MESSAGE, null, _artists,
+//					_artists[0]);
+//			Object _selectedStage = JOptionPane.showInputDialog(null,
+//					"Choose stage", "Create new act",
+//					JOptionPane.INFORMATION_MESSAGE, null, _stages,
+//					_stages[stage]);
+//			Object _selectedStartTime = JOptionPane.showInputDialog(null,
+//					"Choose start time", "Create new act",
+//					JOptionPane.INFORMATION_MESSAGE, null, _times,
+//					_times[time*4]);
+//			Object _selectedEndTime = JOptionPane.showInputDialog(null,
+//					"Choose end time", "Create new act",
+//					JOptionPane.INFORMATION_MESSAGE, null, _times,
+//					_times[(time+1)*4]);
+//
+//			FestivalHandler.Instance().addAct(new Act("", (Stage)_selectedStage, (Artist)_selectedArtist, _startTime,
+//							_endTime));
+//			System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
+//			_curAct++;
 		}
 		else
 		{
