@@ -14,7 +14,7 @@ public class Festival implements Serializable
 	private int _tickets;
 	private List<Artist> _artists = new ArrayList<Artist>();
 	private ArrayList<Stage> _stages = new ArrayList<Stage>();
-	private Schedule _schedule;
+	private Schedule _schedule = new Schedule();
 	
 	public void setSchedule(Schedule value)
 	{
