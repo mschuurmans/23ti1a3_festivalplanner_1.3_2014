@@ -14,11 +14,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
-import javax.swing.JOptionPane;
-
-import nl.avans.festivalplanner.model.Artist;
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
 import nl.avans.festivalplanner.utils.Utils;
@@ -37,7 +33,6 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 
 //	ArrayList<Stage> stageList = FestivalHandler.Instance().getStages() // TODO UNCOMMENT
 	ArrayList<Stage> stageList = FestivalHandler.Instance().getStagesTest(); // TODO COMMENT
-	List<Artist> _artistList = FestivalHandler.Instance().getArtists(); // TODO COMMENT
 	
 	private final int ROWS = stageList.size(); // rows in schedule to show depends on stages in festival
 	private final int COLS = 16;
@@ -66,19 +61,11 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 						if(rectangle[x][y].contains(e.getPoint()))
 						{
 							System.out.println("ROW: " + x + " COLUMN: " + y); // TODO CHANGE
-							showDialog(x, y);
 						}						
 					}
 				}
 			}
 		});
-	}
-	
-	private void showDialog(int stage, int time) {
-		Object[] _artists = _artistList.toArray(new Object[_artistList.size()]);
-		Object _selectedValue = JOptionPane.showInputDialog(null, "Choose one", "Input",
-			JOptionPane.INFORMATION_MESSAGE, null,	_artists, _artists[0]);
-		
 	}
 	
 	public void paintComponent(Graphics g)

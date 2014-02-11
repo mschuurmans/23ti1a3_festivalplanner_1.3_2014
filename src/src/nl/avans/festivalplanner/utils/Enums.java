@@ -42,7 +42,13 @@ public class Enums
 		Date("Datum", "Date"),
 		Tickets("Kaartjes", "Tickets"),
 		NewArtist("Nieuwe artiest", "New artist"),
-		DateFormat("dd-MM-yyyy", "MM/dd/yyyy");
+		DateFormat("dd-MM-yyyy", "MM/dd/yyyy"),
+		AboutMessage("Software geschreven door: 23TI1A5", "Software written by: 23TI1A5"),
+		About("Over", "About"),
+		Close("Sluiten", "Close"),
+		File("Bestand", "File"),
+		Settings("Instellingen", "Settings"),
+		Help("Help", "Help");
 
 		
 		private String _nl;

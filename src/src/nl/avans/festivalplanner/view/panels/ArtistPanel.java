@@ -36,7 +36,7 @@ public class ArtistPanel extends Panel
 {
 	private static final long serialVersionUID = 165737805530990946L;
 	
-	private boolean debug = false;
+	private boolean debug = true;
 	
 	private JButton _addArtist;
 	private JButton _removeArtist;
@@ -61,13 +61,12 @@ public class ArtistPanel extends Panel
 		
 	private DefaultListModel<Artist> _defaultListModel;
 	private Artist _selectedArtist = new Artist();
-	
+		
 	@SuppressWarnings("unchecked")
 	public ArtistPanel()
 	{
 		super();
 		_guiHelper = new GUIHelper();
-		
 		_defaultListModel = new DefaultListModel<Artist>();
 				
 		int width = ApplicationView.WIDTH;
@@ -165,6 +164,7 @@ public class ArtistPanel extends Panel
 				if(obj instanceof Artist)
 				{
 					updateView((Artist)obj);
+					changeArtistImage(((Artist)obj).getImageSource());
 				}
 			}
 		});
@@ -180,7 +180,7 @@ public class ArtistPanel extends Panel
 		_genreTextField.setText(artist.getGenre());
 		_commentTextArea.setText(artist.getComment());
 		
-		changeArtistImage(artist.getImageSource());
+		//changeArtistImage(artist.getImageSource());
 		
 		if(debug)
 			System.out.println("View is aangepast.");
@@ -203,6 +203,7 @@ public class ArtistPanel extends Panel
 				artist.setName(_nameTextField.getText());
 				artist.setGenre(_genreTextField.getText());
 				artist.setComment(_commentTextArea.getText());
+				artist.setImageSource(_selectedArtist.getImageSource());
 				_defaultListModel.setElementAt(artist, _list.getSelectedIndex());
 				
 				if(debug)
@@ -296,7 +297,17 @@ public class ArtistPanel extends Panel
 	
 	public void changeArtistImage(String source)
 	{
-		URL artistImageUrl = getClass().getClassLoader().getResource(source);
+		URL artistImageUrl = null;
+		
+		if(debug)
+			System.out.println("Source is: " + source);
+		try
+		{
+			if(!source.trim().equals(""))
+				artistImageUrl = getClass().getClassLoader().getResource(source);
+		}
+		catch(Exception e){}
+		
 		boolean succes = false;
 		
 		if(artistImageUrl != null)
@@ -308,7 +319,7 @@ public class ArtistPanel extends Panel
 			
 			succes = true;
 		}
-		else
+		else if(!source.trim().equals(""))
 		{
 			try
 			{
@@ -319,10 +330,13 @@ public class ArtistPanel extends Panel
 		}
 		
 		if(succes)
-			_selectedArtist.setImageSouce(source);
+			_selectedArtist.setImageSource(source);
 		
 		if(!succes)
 		{
+			if(debug)
+				System.out.println("IMAGE HAS FAILED");
+			
 			changeArtistImage("no_image.jpg");
 			if(debug)
 				System.out.println("Source path is niet gevonden.");

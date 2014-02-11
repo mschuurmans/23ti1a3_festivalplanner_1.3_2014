@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
@@ -26,6 +27,8 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import nl.avans.festivalplanner.model.Artist;
+import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.Utils;
@@ -40,7 +43,7 @@ public class StagePanel extends Panel
 	private JLabel _name, _capacity, _people, _stageSize, _fieldSize, _xLbl, _xLbl_2, _sizeDef, _sizeDef_2;
 	private JTextField _nameText;
 	private final JList<Stage> _stageList;
-	private final AbstractListModel<Stage> abstractModel;
+	private final AbstractListModel<Stage> _abstractModel;
 	private ArrayList<Stage> _stageArrayList;
 	private JSpinner _spinnerStageL, _spinnerStageW, _spinnerFieldL, _spinnerFieldW, _spinnerCapacity;
 
@@ -66,7 +69,7 @@ public class StagePanel extends Panel
 		_groupBox.setBounds(groupBoxX, startY - 8, groupBoxWidth, workSetHeight + 8); // the -8 and + 8 is for nice allignment of the borders.
 
 
-		
+
 		_nameText = new JTextField();
 		_nameText.setBounds(180, 30, 150, 25);
 
@@ -113,7 +116,7 @@ public class StagePanel extends Panel
 		_sizeDef_2 = new JLabel(Text.SizeDef.toString());
 		_sizeDef_2.setBounds(320, 120, 50, 25);
 
-		abstractModel = new AbstractListModel<Stage>()
+		_abstractModel = new AbstractListModel<Stage>()
 				{
 			public Stage getElementAt(int index)
 			{
@@ -128,7 +131,7 @@ public class StagePanel extends Panel
 
 
 				_stageArrayList = new ArrayList<Stage>();
-				_stageList = new JList(abstractModel);
+				_stageList = new JList(_abstractModel);
 				_stageList.setBounds(startX, startY, 200, workSetHeight - 60);
 				Border border = BorderFactory.createLineBorder(Color.gray, 1); 
 				_stageList.setBorder(border);
@@ -186,6 +189,7 @@ public class StagePanel extends Panel
 							_stageArrayList.get(index).setStageSize((double)_spinnerStageW.getValue(), (double)_spinnerStageL.getValue());
 							_stageArrayList.get(index).setFieldSize((double)_spinnerFieldL.getValue(), (double)_spinnerFieldW.getValue());
 							updateList();
+							FestivalHandler.Instance().setStage(_stageArrayList);
 						}
 					}
 				});
@@ -231,6 +235,7 @@ public class StagePanel extends Panel
 				add(_removeStage);
 				add(_groupBox);
 				//add(_stageList);
+				loadArtistsFromHandler();
 
 	}
 
@@ -255,8 +260,23 @@ public class StagePanel extends Panel
 
 	public void updateList()
 	{
-		for(ListDataListener p : abstractModel.getListDataListeners())
+		for(ListDataListener p : _abstractModel.getListDataListeners())
 			p.contentsChanged(null);		
+	}
+
+	
+	public void loadArtistsFromHandler()
+	{
+		ArrayList<Stage> stages = FestivalHandler.Instance().getStages();
+
+		if(stages.size() != 0)
+		{
+			for(Stage stage : stages)
+			{
+				_stageArrayList.add(stage);
+			}
+		}
+		updateList();
 	}
 
 	public Panel getPanel() 
@@ -264,7 +284,7 @@ public class StagePanel extends Panel
 		return this;
 	}
 
- 
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

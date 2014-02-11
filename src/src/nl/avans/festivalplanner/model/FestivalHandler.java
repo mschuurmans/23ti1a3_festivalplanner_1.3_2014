@@ -1,5 +1,6 @@
 package nl.avans.festivalplanner.model;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,16 +48,21 @@ public class FestivalHandler
 		return _festival.getStages();
 	}
 	
+	public void setStage(ArrayList<Stage> value)
+	{
+		_festival.setStages(value);
+	}
+	
 	public ArrayList<Stage> getStagesTest()
 	{
 		ArrayList<Stage> stageList = new ArrayList<Stage>();
 		
-		stageList.add(new Stage("test1", 100,null,null));
-		stageList.add(new Stage("test2", 100,null,null));
-		stageList.add(new Stage("test3", 100,null,null));
-		stageList.add(new Stage("test4", 100,null,null));		
-		stageList.add(new Stage("test5", 100,null,null));
-		stageList.add(new Stage("test6", 100,null,null));
+		stageList.add(new Stage("test1", 100,new Dimension(10, 20),new Dimension(10, 20)));
+		stageList.add(new Stage("test2", 100,new Dimension(10, 20),new Dimension(10, 20)));
+		stageList.add(new Stage("test3", 100,new Dimension(10, 20),new Dimension(10, 20)));
+		stageList.add(new Stage("test4", 100,new Dimension(10, 20),new Dimension(10, 20)));	
+		stageList.add(new Stage("test5", 100,new Dimension(10, 20),new Dimension(10, 20)));
+		stageList.add(new Stage("test6", 100,new Dimension(10, 20),new Dimension(10, 20)));
 //		stageList.add(new Stage("test7", 100,null,null));
 //		stageList.add(new Stage("test8", 100,null,null));		
 //		stageList.add(new Stage("test9", 100,null,null));
@@ -75,10 +81,5 @@ public class FestivalHandler
 	public List<Artist> getArtists()
 	{
 		return this._festival.getArtists();
-	}
-	
-	public List getActs()
-	{
-		return this._festival.getSchedule().getActs();
 	}
 }

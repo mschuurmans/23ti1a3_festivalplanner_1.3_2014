@@ -4,7 +4,6 @@
 package nl.avans.festivalplanner.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Jordy Sipkema
@@ -12,13 +11,5 @@ import java.util.List;
  */
 public class Schedule
 {
-	private List<Act> _acts = new ArrayList<Act>();
-	
-	public Schedule() {
-		_acts.add(new Act());
-	}
-	
-	public List getActs() {
-		return _acts;
-	}
+	private ArrayList<Act> _acts = new ArrayList<Act>();
 }
