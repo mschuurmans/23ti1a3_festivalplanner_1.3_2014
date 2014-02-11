@@ -36,7 +36,7 @@ public class GUIHelper {
 		
 	}
 	
-	public JTabbedPane getTabBar() throws IOException
+	public JTabbedPane getTabBar()
 	{
 		JTabbedPane tabBar = new JTabbedPane();
 		tabBar.setPreferredSize(new Dimension(ApplicationView.WIDTH, ApplicationView.HEIGHT));

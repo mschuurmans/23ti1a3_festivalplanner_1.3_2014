@@ -18,9 +18,14 @@ public class MapPanel extends Panel implements ActionListener {
 	private Image _image;
 	private final JFileChooser _fc = new JFileChooser(new File("resources"));
 
-	public MapPanel() throws IOException {
+	public MapPanel() {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		_image = ImageIO.read(new File("resources/map.jpg"));
+		try {
+			_image = ImageIO.read(new File("resources/map.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		JButton _mapButton = new JButton(Text.LoadMap.toString());
 		_mapButton.addActionListener(this);
 		add(_mapButton);
