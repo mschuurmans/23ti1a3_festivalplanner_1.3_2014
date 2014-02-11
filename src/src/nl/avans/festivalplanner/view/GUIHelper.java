@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -30,6 +31,8 @@ public class GUIHelper {
 
 	public static final int XOFFSET = 10; //static public variables for each panel
 	public static final int YOFFSET = 20; //for a uniform look troughout the panels
+	
+	private SettingsDialog dialog = new SettingsDialog(null);
 
 	public GUIHelper()
 	{
@@ -68,12 +71,22 @@ public class GUIHelper {
 		JMenuBar menuBar = new JMenuBar();
 
 		JMenu menu = new JMenu(Text.File.toString()); // ?eng: File
-		JMenu settings = new JMenu(Text.Settings.toString());
 		JMenu help = new JMenu(Text.Help.toString()); // ?eng: Help
 		menuBar.add(menu);
-		menuBar.add(settings);
 		menuBar.add(help);
 
+		
+		JMenuItem menu_item_settings = new JMenuItem(Text.Settings.toString());
+		menu_item_settings.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				dialog.setVisible(true);
+			}
+		});
+		
+		
 		JMenuItem menu_item_save = new JMenuItem(Text.Save.toString());
 		menu_item_save.addActionListener(new ActionListener()
 		{
@@ -93,9 +106,10 @@ public class GUIHelper {
 				System.exit(0);
 			}
 		});
-
+		
 		menu.add(menu_item_save);
 		menu.add(menu_item_close);
+		help.add(menu_item_settings);
 
 		JMenuItem help_about = new JMenuItem(Text.About.toString()); // ?eng: About
 		

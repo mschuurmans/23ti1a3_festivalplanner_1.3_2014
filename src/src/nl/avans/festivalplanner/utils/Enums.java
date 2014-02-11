@@ -54,7 +54,12 @@ public class Enums
 		FileSavedSucces("Het bestand is opgeslagen.", "The file has been saved."),
 		FileDoesNotExist("Bestand bestaat niet.", "File does not exist"),
 		FileOpenedSucces("Het bestand is geladen.", "File has been loaded."),
-		LoadMap("Nieuwe kaart openen", "Open new map");
+		LoadMap("Nieuwe kaart openen", "Open new map"),
+		Language("Taal", "Language"),
+		ChangeMap("Map aanpassen", "Change map"),
+		RemoveMap("Map verwijderen", "Remove map"),
+		Dutch("Nederlands", "Dutch"),
+		English("Engels", "English");
 
 		
 		private String _nl;
