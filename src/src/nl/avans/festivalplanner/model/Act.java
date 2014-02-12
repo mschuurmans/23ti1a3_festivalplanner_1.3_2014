@@ -6,8 +6,10 @@ package nl.avans.festivalplanner.model;
 import java.util.GregorianCalendar;
 
 /**
- * @author Jordy Sipkema
+ * The Act-class is used to store the information about one act on a given start
+ * and end time. This act should contain a Stage and a Artist.
  * 
+ * @author Jordy Sipkema
  */
 public class Act
 {

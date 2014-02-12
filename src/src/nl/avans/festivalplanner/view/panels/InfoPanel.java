@@ -1,6 +1,3 @@
-/**
- * 
- */
 package nl.avans.festivalplanner.view.panels;
 
 import java.awt.event.ActionEvent;
@@ -22,8 +19,10 @@ import nl.avans.festivalplanner.view.ApplicationView;
 import nl.avans.festivalplanner.view.Panel;
 
 /**
- * @author Jordy Sipkema
+ * An implementation of JPanel which is used to display general information
+ * about a Festival-object.
  * 
+ * @author Jordy Sipkema
  */
 public class InfoPanel extends Panel
 {
@@ -40,7 +39,7 @@ public class InfoPanel extends Panel
 	private SpinnerDateModel _spinnerDateModel = new SpinnerDateModel();
 	private JSpinner _ticketsInput = null;
 	private SpinnerNumberModel _spinnerNumberModel = new SpinnerNumberModel(
-			1000, 0, 100_000, 1000); // Default, min, max, stepsize
+			1000, 0, 1_000_000, 1000); // Default, min, max, stepsize
 
 	/**
 	 * Creates a new InfoPanel. This panel is used to display and edit the
@@ -53,12 +52,23 @@ public class InfoPanel extends Panel
 		updateView();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see nl.avans.festivalplanner.view.Panel#getPanel()
+	 */
 	@Override
 	public Panel getPanel()
 	{
 		return this;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -98,6 +108,9 @@ public class InfoPanel extends Panel
 		}
 	}
 
+	/**
+	 * Saves the modified festival data.
+	 */
 	private void saveFestival()
 	{
 		// Converting Date to GregorianCalendar
