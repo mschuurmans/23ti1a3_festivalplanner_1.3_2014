@@ -56,8 +56,8 @@ public class Enums
 		FileOpenedSucces("Het bestand is geladen.", "File has been loaded."),
 		LoadMap("Nieuwe kaart openen", "Open new map"),
 		Language("Taal", "Language"),
-		ChangeMap("Map aanpassen", "Change map"),
-		RemoveMap("Map verwijderen", "Remove map"),
+		ChangeMap("Kaart aanpassen", "Change map"),
+		RemoveMap("Kaart verwijderen", "Remove map"),
 		Dutch("Nederlands", "Dutch"),
 		English("Engels", "English");
 

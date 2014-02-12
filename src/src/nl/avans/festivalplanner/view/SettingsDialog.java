@@ -14,15 +14,15 @@ import nl.avans.festivalplanner.utils.Enums.Text;
 public class SettingsDialog extends JDialog
 {
 	
-	JLabel lblLanguage = new JLabel(Text.Language.toString());
-	JLabel lblMap = new JLabel(Text.Map.toString());
-	JButton btnChangeMap = new JButton(Text.ChangeMap.toString());
-	JButton btnRemoveMap = new JButton(Text.RemoveMap.toString());
+	JLabel _lblLanguage = new JLabel(Text.Language.toString());
+	JLabel _lblMap = new JLabel(Text.Map.toString());
+	JButton _btnChangeMap = new JButton(Text.ChangeMap.toString());
+	JButton _btnRemoveMap = new JButton(Text.RemoveMap.toString());
 	
-	String[] languages = { Text.Dutch.toString(), Text.English.toString() };
-	JComboBox comLanguages;
+	String[] _languages = { Text.Dutch.toString(), Text.English.toString() };
+	JComboBox _comLanguages;
 	
-	JLabel imgMap = new JLabel(new ImageIcon(""));
+	// JLabel imgMap = new JLabel(new ImageIcon(""));
 	
 	public SettingsDialog(JFrame frame)
 	{
@@ -33,22 +33,29 @@ public class SettingsDialog extends JDialog
 	public void init()
 	{
 		this.setTitle(Text.Settings.toString());
-		this.setSize(300, 400);
+		this.setSize(300, 290);
+		this.setResizable(false);
+		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		lblLanguage.setBounds(10,20,50,20);
-		panel.add(lblLanguage);
-		comLanguages = new JComboBox(languages);
-		comLanguages.setSelectedIndex(0);
-		comLanguages.setBounds(150,20,100,20);
-		panel.add(comLanguages);
-		lblMap.setBounds(10,50,50,20);
-		panel.add(lblMap);
-		//this.add(imgMap); //TODO: afbeelding toevoegen
-		btnChangeMap.setBounds(150,180,120,25);
-		btnRemoveMap.setBounds(150,210,120,25);
-		panel.add(btnChangeMap);
-		panel.add(btnRemoveMap);
+		
+		_comLanguages = new JComboBox(_languages);
+		_comLanguages.setSelectedIndex(0);
+				
+		//TODO: afbeelding toevoegen
+		
+		_lblLanguage.setBounds(10,20,50,20);
+		_comLanguages.setBounds(120,20,150,20);
+		_lblMap.setBounds(10,50,50,20);
+		_btnChangeMap.setBounds(120,180,150,25);
+		_btnRemoveMap.setBounds(120,210,150,25);
+		
+		panel.add(_lblLanguage);
+		panel.add(_comLanguages);
+		panel.add(_lblMap);
+		panel.add(_btnChangeMap);
+		panel.add(_btnRemoveMap);
+		
 		this.add(panel);
 	}
 }
