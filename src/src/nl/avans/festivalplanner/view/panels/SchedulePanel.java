@@ -43,6 +43,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStagesTest(); // debugging purposes // TODO COMMENT
 	List<Artist> _artistList = FestivalHandler.Instance().getArtists(); // TODO COMMENT
 	ArrayList<Act> _actList = FestivalHandler.Instance().getActsTest();
+	ArrayList<Shape> _actShapeList = new ArrayList<Shape>();
 
 	private final int ROWS = _stageList.size(); // rows in schedule to show depends on stages in festival
 	private final int COLS = 16;
@@ -52,8 +53,6 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 
 	Shape rectangle[][] = new Shape[ROWS][COLS]; // button array of 12 * 16
 	Color rectColor[][] = new Color[ROWS][COLS];
-	
-	Shape _actShapeList[] = new Shape[_actList.size()];
 
 	boolean plusSign[][] = new boolean[ROWS][COLS]; // tracks weather a plus sign should be displayed or not
 
@@ -70,6 +69,18 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		{
 			public void mouseClicked(MouseEvent e)
 			{
+				for(Shape actShape : _actShapeList)
+				{
+					if(actShape.contains(e.getPoint()))
+					{
+						int actShapeNumber = _actShapeList.indexOf(actShape);
+						
+						System.out.println("Act: " + actShapeNumber + " has been clicked."); //TODO REPLACE
+						// TODO replace body of code
+						
+						return; //necessary to return operation in order to ignore clicks on rectangles when actShapes have been clicked
+					}
+				}
 
 				for (int x = 0; x < ROWS; x++)
 				{
@@ -153,24 +164,8 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 
 		int titleWidth = 180; // the width of the column that shows the stage name *timeline starts to the right
 
-		// used to get formatted time for the timeline scale in the top
-		Calendar timeValue = new GregorianCalendar();
-		timeValue.set(Calendar.HOUR_OF_DAY, 12);
-		timeValue.set(Calendar.MINUTE, 0);
-
-		// constructs the string that displays the time line in the top
-		String timeString = "";
-		for (int i = 0; i < 17; i++)
-		{
-			if (i > 0)
-			{
-				timeString += " - ";
-			}
-
-			timeString += Utils.getTimeString(timeValue);
-
-			timeValue.add(Calendar.MINUTE, 60);
-		}
+		// draws the timesString in the top
+		String timeString = getTimeString(12, 17, 60);
 		g2.drawString(timeString, startX + titleWidth + 20, startY);
 
 		int curX = startX;
@@ -180,15 +175,15 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		curY += 40;
 		curX += 20;
 
+		//determining the height of each timeline
 		lineHeight = 50;
-
 		if (_stageList.size() > 10) // stageList defined in constructor
 		{
 			lineHeight += -(_stageList.size() - 10) * 4.5; // decrease the lineHeight for every stage > 8 that is added.
 		}
 
 		int x = 0; // DON'T JUDGE ME!
-		for (Stage s : _stageList)
+		for (Stage s : _stageList) //for each stage in the stageList !
 		{
 			if (lineHeight < 10)
 				System.out.println("lineHeight too small!");
@@ -236,19 +231,13 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 			curY += lineHeight;
 			x++;
 		}
-
-		// create ACTS Shapes
-//		for (Act act : _actList)
-//		{
-//			_actShapeList[99]] = createActShape(act); //TODO CHANGE INDEX
-//			//TODO MOVE CODEBLOCK TO NEXT CODEBLOCK AND INSERT INDEXING IN SHAPE VAR, CREATESHAPE AND FILLSHAPE
-//		}
 		
 		// DISPLAY ACTS
 		// code here
 		for (Act act : _actList)
 		{
 			Shape shape = createActShape(act);
+			_actShapeList.add(shape);
 			g2.setColor(Color.gray);
 			g2.fill(shape);
 			g2.setColor(Color.lightGray);
@@ -282,6 +271,38 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		Shape shape = new Rectangle2D.Double(x, y, shapeWidth, shapeHeight);
 
 		return shape;
+	}
+	
+	/**
+	 * getTimeString generates a timeString, used for the schedulePanel
+	 * @param startTime the time from wich to start counting in hours
+	 * @param entries the amount of timeStrings to show. 2 means ¨12:00 - 13:00" with start time 12 and interval 60
+	 * @param interval the amount the second consecutive time gets increased with in minutes
+	 * @return a generated timeString
+	 * @author jack
+	 */
+	private String getTimeString(int startTime, int entries, int interval)
+	{
+		// used to get formatted time for the timeline scale in the top
+		Calendar timeValue = new GregorianCalendar();
+		timeValue.set(Calendar.HOUR_OF_DAY, startTime);
+		timeValue.set(Calendar.MINUTE, 0);
+
+		// constructs the string that displays the time line in the top
+		String timeString = "";
+		for (int i = 0; i < entries; i++)
+		{
+			if (i > 0)
+			{
+				timeString += " - ";
+			}
+
+			timeString += Utils.getTimeString(timeValue);
+
+			timeValue.add(Calendar.MINUTE, interval);
+		}
+		
+		return timeString;
 	}
 	
 	public void mouseMoved(MouseEvent e)
