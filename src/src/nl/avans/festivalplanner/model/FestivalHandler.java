@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -15,12 +17,13 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import nl.avans.festivalplanner.utils.Enums.Text;
-import nl.avans.festivalplanner.view.panels.ArtistPanel;
 
-public class FestivalHandler {
+public class FestivalHandler 
+{
 	private static FestivalHandler _instance = null;
 	private boolean debug = true;
-	public static FestivalHandler Instance() {
+	public static FestivalHandler Instance() 
+	{
 		if (_instance == null)
 			_instance = new FestivalHandler();
 
@@ -28,8 +31,11 @@ public class FestivalHandler {
 	}
 
 	private Festival _festival;
+	private Stage _testStage1; //TESTING! TODO REMOVE
+	private Stage _testStage2; //TESTING! TODO REMOVE
 
-	public FestivalHandler() {
+	public FestivalHandler() 
+	{
 		_festival = new Festival();
 	}
 
@@ -67,7 +73,9 @@ public class FestivalHandler {
 					if (dialogResult == JOptionPane.YES_OPTION)
 					{
 						// doorgaan
-					} else {
+					} 
+					else
+					{
 						return false;
 					}
 				}
@@ -153,36 +161,77 @@ public class FestivalHandler {
 		_festival.setStages(value);
 	}
 
+	/*
+	 * debugging purposes
+	 */
 	public ArrayList<Stage> getStagesTest() 
 	{
 		ArrayList<Stage> stageList = new ArrayList<Stage>();
 
+
 		stageList.add(new Stage("test1", 100, new Dimension(10, 20),
 				new Dimension(10, 20)));
-		stageList.add(new Stage("test2", 100, new Dimension(10, 20),
-				new Dimension(10, 20)));
-		stageList.add(new Stage("test3", 100, new Dimension(10, 20),
-				new Dimension(10, 20)));
-		stageList.add(new Stage("test4", 100, new Dimension(10, 20),
-				new Dimension(10, 20)));
-		stageList.add(new Stage("test5", 100, new Dimension(10, 20),
-				new Dimension(10, 20)));
-		stageList.add(new Stage("test6", 100, new Dimension(10, 20),
-				new Dimension(10, 20)));
-		// stageList.add(new Stage("test7", 100,null,null));
-		// stageList.add(new Stage("test8", 100,null,null));
-		// stageList.add(new Stage("test9", 100,null,null));
-		// stageList.add(new Stage("test10", 100,null,null));
-		// stageList.add(new Stage("test11", 100,null,null));
-		// stageList.add(new Stage("test12", 100,null,null));
+		
+		_testStage1 = new Stage("test2", 100, new Dimension(10, 20), new Dimension(10, 20));
+		
+		stageList.add(_testStage1);
+		
+		_testStage2 = new Stage("test3", 100, new Dimension(10, 20), new Dimension(10, 20));
+		
+		stageList.add(_testStage2);
+		
+		stageList.add(new Stage("test4", 100, new Dimension(10, 20), new Dimension(10, 20)));
+		stageList.add(new Stage("test5", 100, new Dimension(10, 20), new Dimension(10, 20)));
+		stageList.add(new Stage("test6", 100, new Dimension(10, 20), new Dimension(10, 20)));
 
 		return stageList;
+	}
+	
+	public ArrayList<Act> getActsTest()
+	{
+		ArrayList<Act> actList = new ArrayList<Act>();
+		
+		// act1
+		GregorianCalendar startTime = new GregorianCalendar();
+		startTime.set(Calendar.HOUR_OF_DAY, 16);
+		startTime.set(Calendar.MINUTE, 00);
+
+		GregorianCalendar endTime = (GregorianCalendar) startTime.clone();
+		endTime.add(Calendar.HOUR_OF_DAY, 4); //duration of the event
+
+		Act act = new Act();
+		act.setName("Dries Roelvink");
+		act.setStartTime(startTime);
+		act.setEndTime(endTime);
+		act.setStage(_testStage1);
+
+		actList.add(act);
+		// endofact1
+		
+		// act2
+		startTime = new GregorianCalendar();
+		startTime.set(Calendar.HOUR_OF_DAY, 13);
+		startTime.set(Calendar.MINUTE, 00);
+
+		endTime = (GregorianCalendar) startTime.clone();
+		endTime.add(Calendar.HOUR_OF_DAY, 1); //duration of the event
+		endTime.add(Calendar.MINUTE, 45);
+
+		act = new Act();
+		act.setName("Annie en de Rekels");
+		act.setStartTime(startTime);
+		act.setEndTime(endTime);
+		act.setStage(_testStage2);
+
+		actList.add(act);
+		// endofact2
+
+		return actList;
 	}
 
 	public void setArtists(List<Artist> artists) 
 	{
 		this._festival.setArtists(artists);
-		System.out.println("File saved: " + this.saveToFile());
 	}
 
 	public List<Artist> getArtists()

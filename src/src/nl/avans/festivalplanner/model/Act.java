@@ -3,6 +3,7 @@
  */
 package nl.avans.festivalplanner.model;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -13,6 +14,22 @@ import java.util.GregorianCalendar;
  */
 public class Act
 {
+	public Act(String _name, Stage _stage, Artist _artist,
+			GregorianCalendar _startTime, GregorianCalendar _endTime)
+	{
+		super();
+		this._name = _name;
+		this._stage = _stage;
+		this._artist = _artist;
+		this._startTime = _startTime;
+		this._endTime = _endTime;
+	}
+	
+	public Act()
+	{
+		
+	}
+
 	private String _name = "";
 	private Stage _stage = null;
 	private Artist _artist = null;
@@ -102,6 +119,13 @@ public class Act
 	public void setEndTime(GregorianCalendar endTime)
 	{
 		this._endTime = endTime;
+	}
+	
+	public String toString()
+	{
+		String result = "";
+		result = " Act naam: " + _name + " Stage naam: " + _stage.getName() + " Artiest naam: " + _artist.getName() + " Start tijd: " +  _startTime.get(Calendar.HOUR_OF_DAY) + ":" + _startTime.get(Calendar.MINUTE) + " Eind tijd: "  + _endTime.toString();
+		return result;
 	}
 
 }
