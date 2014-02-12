@@ -5,6 +5,7 @@ import nl.avans.festivalplanner.utils.Enums.Languages;
 
 public class Enums 
 {
+	
 	public static enum Languages
 	{
 		dutch,
@@ -79,6 +80,8 @@ public class Enums
 			else
 				return this._eng;
 		}
+		
+		
 	}
 }
 
