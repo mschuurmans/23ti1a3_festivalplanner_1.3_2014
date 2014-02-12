@@ -228,7 +228,11 @@ public class FestivalHandler
 
 		return actList;
 	}
-
+	
+	public void addAct(Act act) 
+	{
+		_festival.getSchedule().addAct(act);
+	}
 	public void setArtists(List<Artist> artists) 
 	{
 		this._festival.setArtists(artists);

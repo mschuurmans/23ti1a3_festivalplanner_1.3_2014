@@ -13,11 +13,9 @@ import java.util.GregorianCalendar;
  * @author Jordy Sipkema & Rudy Tjin-Kon-Koen
  * @version 11/02/2014
  */
-public class Act
-{
+public class Act {
 	public Act(String _name, Stage _stage, Artist _artist,
-			GregorianCalendar _startTime, GregorianCalendar _endTime)
-	{
+			GregorianCalendar _startTime, GregorianCalendar _endTime) {
 		super();
 		this._name = _name;
 		this._stage = _stage;
@@ -25,10 +23,9 @@ public class Act
 		this._startTime = _startTime;
 		this._endTime = _endTime;
 	}
-	
-	public Act()
-	{
-		
+
+	public Act() {
+
 	}
 
 	private String _name = "";
@@ -40,8 +37,7 @@ public class Act
 	/**
 	 * @return the name
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return _name;
 	}
 
@@ -49,16 +45,14 @@ public class Act
 	 * @param name
 	 *            the name to set
 	 */
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this._name = name;
 	}
 
 	/**
 	 * @return the stage
 	 */
-	public Stage getStage()
-	{
+	public Stage getStage() {
 		return _stage;
 	}
 
@@ -66,16 +60,14 @@ public class Act
 	 * @param stage
 	 *            the stage to set
 	 */
-	public void setStage(Stage stage)
-	{
+	public void setStage(Stage stage) {
 		this._stage = stage;
 	}
 
 	/**
 	 * @return the artist
 	 */
-	public Artist getArtist()
-	{
+	public Artist getArtist() {
 		return _artist;
 	}
 
@@ -83,16 +75,14 @@ public class Act
 	 * @param artist
 	 *            the artist to set
 	 */
-	public void setArtist(Artist artist)
-	{
+	public void setArtist(Artist artist) {
 		this._artist = artist;
 	}
 
 	/**
 	 * @return the startTime
 	 */
-	public GregorianCalendar getStartTime()
-	{
+	public GregorianCalendar getStartTime() {
 		return _startTime;
 	}
 
@@ -100,16 +90,14 @@ public class Act
 	 * @param startTime
 	 *            the startTime to set
 	 */
-	public void setStartTime(GregorianCalendar startTime)
-	{
+	public void setStartTime(GregorianCalendar startTime) {
 		this._startTime = startTime;
 	}
 
 	/**
 	 * @return the endTime
 	 */
-	public GregorianCalendar getEndTime()
-	{
+	public GregorianCalendar getEndTime() {
 		return _endTime;
 	}
 
@@ -117,15 +105,18 @@ public class Act
 	 * @param endTime
 	 *            the endTime to set
 	 */
-	public void setEndTime(GregorianCalendar endTime)
-	{
+	public void setEndTime(GregorianCalendar endTime) {
 		this._endTime = endTime;
 	}
-	
-	public String toString()
-	{
+
+	public String toString() {
 		String result = "";
-		result = " Act naam: " + _name + " Stage naam: " + _stage.getName() + " Artiest naam: " + _artist.getName() + " Start tijd: " +  _startTime.get(Calendar.HOUR_OF_DAY) + ":" + _startTime.get(Calendar.MINUTE) + " Eind tijd: "  + _endTime.toString();
+		result = " Act naam: " + _name + " Stage naam: " + _stage.getName()
+				+ " Artiest naam: " + _artist.getName() + " Start tijd: "
+				+ _startTime.get(Calendar.HOUR_OF_DAY) + ":"
+				+ _startTime.get(Calendar.MINUTE) + " Eind tijd: "
+				+ _endTime.get(Calendar.HOUR_OF_DAY) + ":"
+				+ _endTime.get(Calendar.MINUTE);
 		return result;
 	}
 
