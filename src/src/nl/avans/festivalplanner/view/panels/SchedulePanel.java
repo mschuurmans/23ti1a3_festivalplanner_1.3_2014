@@ -73,9 +73,11 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 				{
 					if(actShape.contains(e.getPoint()))
 					{
+						// actShapes are being created with a for each loop that goes trough the _actList
+						// the first shape in the _actShapeList is a visual representation of the first act in the _actList
 						int actShapeNumber = _actShapeList.indexOf(actShape);
 						
-						System.out.println("Act: " + actShapeNumber + " has been clicked."); //TODO REPLACE
+						System.out.println("Act: " + _actList.get(actShapeNumber).getName() + " has been clicked."); //TODO REPLACE
 						// TODO replace body of code
 						
 						return; //necessary to return operation in order to ignore clicks on rectangles when actShapes have been clicked
