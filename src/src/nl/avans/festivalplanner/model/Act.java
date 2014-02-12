@@ -10,7 +10,8 @@ import java.util.GregorianCalendar;
  * The Act-class is used to store the information about one act on a given start
  * and end time. This act should contain a Stage and a Artist.
  * 
- * @author Jordy Sipkema
+ * @author Jordy Sipkema & Rudy Tjin-Kon-Koen
+ * @version 11/02/2014
  */
 public class Act
 {
