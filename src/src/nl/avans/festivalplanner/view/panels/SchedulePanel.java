@@ -39,7 +39,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	private int _curAct = 0;
 
 
-//	ArrayList<Stage> stageList = FestivalHandler.Instance().getStages(); // TODO UNCOMMENT
+//	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStages(); // TODO UNCOMMENT
 	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStagesTest(); // debugging purposes // TODO COMMENT
 	List<Artist> _artistList = FestivalHandler.Instance().getArtists(); // TODO COMMENT
 	ArrayList<Act> _actList = FestivalHandler.Instance().getActsTest();
