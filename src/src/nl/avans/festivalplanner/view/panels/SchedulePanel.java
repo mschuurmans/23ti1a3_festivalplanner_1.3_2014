@@ -150,7 +150,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 								_times[(time+1)*4]);
 						if (_selectedEndTime != null)
 						{
-							while (_selectedStage != _stageList.get(i))
+							while (_selectedStage != _stages[i])
 							{
 								i++;
 							}
