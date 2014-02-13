@@ -117,6 +117,8 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		List stageList = FestivalHandler.Instance().getStagesTest(); // TODO change to actual list instead of test list
 		GregorianCalendar _startTime = new GregorianCalendar();
 		GregorianCalendar _endTime = new GregorianCalendar();
+		Boolean actAdded = false;
+		int i = 0;
 		
 		Object[] _artists = _artistList.toArray(new Object[_artistList.size()]);
 		Object[] _stages = stageList.toArray(new Object[stageList.size()]);
@@ -128,26 +130,46 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 					"Choose artist", "Create new act",
 					JOptionPane.INFORMATION_MESSAGE, null, _artists,
 					_artists[0]);
-			Object _selectedStage = JOptionPane.showInputDialog(null,
-					"Choose stage", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _stages,
-					_stages[stage]);
-			Object _selectedStartTime = JOptionPane.showInputDialog(null,
-					"Choose start time", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _times,
-					_times[time*4]);
-			Object _selectedEndTime = JOptionPane.showInputDialog(null,
-					"Choose end time", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _times,
-					_times[(time+1)*4]);
-
-			_startTime.set(2014, 2, 1, (int)_selectedStartTime/100, (int)_selectedStartTime%100);
-			_endTime.set(2014, 2, 1, (int)_selectedEndTime/100, (int)_selectedEndTime%100);
-			
-			FestivalHandler.Instance().addAct(new Act("", (Stage)_selectedStage, (Artist)_selectedArtist, _startTime,
-							_endTime));
-			System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
-			_curAct++;
+			if (_selectedArtist != null)
+			{
+				Object _selectedStage = JOptionPane.showInputDialog(null,
+						"Choose stage", "Create new act",
+						JOptionPane.INFORMATION_MESSAGE, null, _stages,
+						_stages[stage]);
+				if (_selectedStage != null)
+				{
+					Object _selectedStartTime = JOptionPane.showInputDialog(null,
+							"Choose start time", "Create new act",
+							JOptionPane.INFORMATION_MESSAGE, null, _times,
+							_times[time*4]);
+					if (_selectedStartTime != null)
+					{
+						Object _selectedEndTime = JOptionPane.showInputDialog(null,
+								"Choose end time", "Create new act",
+								JOptionPane.INFORMATION_MESSAGE, null, _times,
+								_times[(time+1)*4]);
+						if (_selectedEndTime != null)
+						{
+							while (_selectedStage != _stageList.get(i))
+							{
+								i++;
+							}
+							_startTime.set(2014, 2, 1, (int)_selectedStartTime/100, (int)_selectedStartTime%100);
+							_endTime.set(2014, 2, 1, (int)_selectedEndTime/100, (int)_selectedEndTime%100);
+							
+							FestivalHandler.Instance().addAct(new Act("", _stageList.get(i), (Artist)_selectedArtist, _startTime,
+											_endTime));
+							System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
+							actAdded = true;
+							_curAct++;
+						}
+					}
+				}
+			}
+			if (!actAdded)
+			{
+				System.out.println("Dialog window quit! No Act added!");
+			}
 		}
 		else
 		{
