@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+/**
+ * @author Jordy Sipkema & Jack Evers & Rudy Tjin-Kon-Koen
+ * @version 13-02-2014
+ */
 public class Festival implements Serializable
 {
 	private static final long serialVersionUID = -284695987818801744L;
@@ -12,6 +16,7 @@ public class Festival implements Serializable
 	private String _name;
 	private GregorianCalendar _date;
 	private int _tickets;
+	private String _imageSoure = "";
 	private List<Artist> _artists = new ArrayList<Artist>();
 	private ArrayList<Stage> _stages = new ArrayList<Stage>();
 	private Schedule _schedule = new Schedule();
@@ -74,6 +79,22 @@ public class Festival implements Serializable
 	public GregorianCalendar getDate()
 	{
 		return this._date;
+	}
+
+	/**
+	 * @return the image soure of the festival image.
+	 */
+	public String getImageSoure()
+	{
+		return _imageSoure;
+	}
+
+	/**
+	 * @param imageSoure the imageSoure to set
+	 */
+	public void setImageSoure(String imageSoure)
+	{
+		this._imageSoure = imageSoure;
 	}
 	
 	

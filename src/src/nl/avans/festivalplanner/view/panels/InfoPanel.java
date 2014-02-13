@@ -1,10 +1,19 @@
 package nl.avans.festivalplanner.view.panels;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -23,17 +32,33 @@ import nl.avans.festivalplanner.view.Panel;
  * about a Festival-object.
  * 
  * @author Jordy Sipkema
+ * @version 13-02-2014
+ */
+/**
+ * @author jordysipkema
+ *
+ */
+/**
+ * @author jordysipkema
+ * 
  */
 public class InfoPanel extends Panel
 {
 	private static final long serialVersionUID = 2879106751679669257L;
 
-	private JButton _saveButton = new JButton(Text.Save.toString());
-	private JButton _cancelButton = new JButton(Text.Cancel.toString());
+	private JButton _saveButton = new JButton(Text.Save.toString()); // ?eng:
+																		// Save
+	private JButton _cancelButton = new JButton(Text.Cancel.toString()); // ?eng:
+																			// Cancel
+	private JButton _changeImageButton = new JButton(
+			Text.ChangeImage.toString());
+	private JButton _removeImageButton = new JButton(
+			Text.RemoveImage.toString());
 
 	private JLabel _nameLabel = null;
 	private JLabel _dateLabel = null;
 	private JLabel _ticketsLabel = null;
+	private JLabel _imageLabel = null;
 	private JTextField _nameInput = null;
 	private JSpinner _dateInput = null;
 	private SpinnerDateModel _spinnerDateModel = new SpinnerDateModel();
@@ -81,6 +106,22 @@ public class InfoPanel extends Panel
 		{
 			updateView();
 		}
+		else if (e.getSource() == _changeImageButton)
+		{
+			JFileChooser fc = new JFileChooser();
+
+			int returnVal = fc.showOpenDialog(InfoPanel.this);
+
+			if (returnVal == JFileChooser.APPROVE_OPTION)
+			{
+				File file = fc.getSelectedFile();
+				changeFestivalImage(file.getAbsolutePath());
+			}
+		}
+		else if (e.getSource() == _removeImageButton)
+		{
+			changeFestivalImage("no_image.jpg");
+		}
 	}
 
 	/**
@@ -105,6 +146,76 @@ public class InfoPanel extends Panel
 				_nameInput.setText("No festival loaded!");
 				_ticketsInput.getModel().setValue(0);
 			}
+		}
+	}
+
+	/**
+	 * Draws the FestivalImage (as stored in Festival) on the image jpanel.
+	 */
+	private void drawFestivalImage()
+	{
+		this.changeFestivalImage(FestivalHandler.Instance().getFestival()
+				.getImageSoure());
+	}
+
+	/**
+	 * Updates the festival image source. Afterwards it draws the FestivalImage
+	 * (as stored in Festival) on the image jpanel.
+	 * 
+	 * @param source
+	 *            The source (Project-resource, file-path or URL) of the image
+	 *            file.
+	 */
+	private void changeFestivalImage(String source)
+	{
+		URL artistImageUrl = null;
+
+		try
+		{
+			if (!source.trim().equals(""))
+				artistImageUrl = getClass().getClassLoader()
+						.getResource(source);
+			if (artistImageUrl == null && source != null)
+			{
+				if (new File(source).exists())
+				{
+					artistImageUrl = new File(source).toURI().toURL();
+				}
+			}
+		}
+		catch (Exception e)
+		{
+		}
+
+		boolean succes = false;
+
+		if (artistImageUrl != null)
+		{
+			try
+			{
+				BufferedImage originalImage = ImageIO.read(artistImageUrl);
+				// Scale the image to fit the JPanel's size.
+				Image scaledImage = originalImage.getScaledInstance(
+						(int) _imageLabel.getSize().getWidth(),
+						(int) _imageLabel.getSize().getHeight(),
+						Image.SCALE_SMOOTH);
+
+				_imageLabel.setIcon(new ImageIcon(scaledImage));
+
+				succes = true;
+			}
+			catch (IOException e)
+			{
+			}
+		}
+
+		if (succes)
+		{
+			FestivalHandler.Instance().getFestival().setImageSoure(source);
+		}
+		else
+		{
+			changeFestivalImage("no_image.jpg");
 		}
 	}
 
@@ -143,15 +254,20 @@ public class InfoPanel extends Panel
 		int incrementY = 25;
 		int incrementX = 100;
 
-		_nameLabel = new JLabel(Text.FestivalName.toString() + ":", JLabel.LEFT);
+		_nameLabel = new JLabel(Text.FestivalName.toString() + ":", JLabel.LEFT); // ?eng:
+																					// Festivalname
 		_nameLabel.setBounds(posX, posY, 100, 20);
 		posX += incrementX; // Due to new column
 		_nameInput = new JTextField();
 		_nameInput.setBounds(posX, posY, 200, 20);
 
+		_imageLabel = new JLabel();
+		_imageLabel.setBounds(769, posY, 225, 225);
+
 		posY += incrementY; // Due to new row
 		posX = startPosX; // Resetting to column 1
-		_dateLabel = new JLabel(Text.Date.toString() + ":", JLabel.LEFT);
+		_dateLabel = new JLabel(Text.Date.toString() + ":", JLabel.LEFT); // ?eng:
+																			// Date
 		_dateLabel.setBounds(posX, posY, 100, 20);
 		posX += incrementX; // Due to new column
 		_dateInput = new JSpinner(_spinnerDateModel);
@@ -161,7 +277,8 @@ public class InfoPanel extends Panel
 
 		posY += incrementY; // Due to new row
 		posX = startPosX; // Resetting to column 1
-		_ticketsLabel = new JLabel(Text.Tickets.toString() + ":", JLabel.LEFT);
+		_ticketsLabel = new JLabel(Text.Tickets.toString() + ":", JLabel.LEFT); // ?eng:
+																				// Tickets
 		_ticketsLabel.setBounds(posX, posY, 100, 20);
 		posX += incrementX; // Due to new column
 		_ticketsInput = new JSpinner();
@@ -173,14 +290,24 @@ public class InfoPanel extends Panel
 		_cancelButton.setBounds(879, height - 133, 100, 25);
 		_cancelButton.addActionListener(this);
 
+		_changeImageButton.setBounds(769, 287, 210, 25);
+		_changeImageButton.addActionListener(this);
+		_removeImageButton.setBounds(769, 322, 210, 25);
+		_removeImageButton.addActionListener(this);
+
 		add(_nameLabel);
 		add(_dateLabel);
 		add(_ticketsLabel);
+		add(_imageLabel);
 		add(_nameInput);
 		add(_dateInput);
 		add(_ticketsInput);
 		add(_saveButton);
 		add(_cancelButton);
+		add(_changeImageButton);
+		add(_removeImageButton);
+
+		this.drawFestivalImage();
 	}
 
 }
