@@ -3,8 +3,10 @@ package nl.avans.festivalplanner.view.panels;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,8 +17,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import nl.avans.festivalplanner.model.Act;
 import nl.avans.festivalplanner.model.Artist;
@@ -37,6 +41,14 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	Color defaultBoxColor = new Color(0x09_00_00_00, true); // color black with alpha  09 and alpha=true
 	private ArrayList<Integer> _timeList = new ArrayList<Integer>();
 	private int _curAct = 0;
+
+	JButton _acceptButton = new JButton("Accept");
+	JFrame _dialogFrame = new JFrame("Maak nieuwe Act aan");
+	int _selectedArtist;
+	int _selectedStage;
+	int _selectedStartTime;
+	int _selectedEndTime;	
+	Boolean done = true;
 
 
 //	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStages(); // TODO UNCOMMENT
@@ -69,29 +81,32 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				for(Shape actShape : _actShapeList)
+				if (done)
 				{
-					if(actShape.contains(e.getPoint()))
+					for(Shape actShape : _actShapeList)
 					{
-						// actShapes are being created with a for each loop that goes trough the _actList
-						// the first shape in the _actShapeList is a visual representation of the first act in the _actList
-						int actShapeNumber = _actShapeList.indexOf(actShape);
-						
-						System.out.println("Act: " + _actList.get(actShapeNumber).getName() + " has been clicked."); //TODO REPLACE
-						// TODO replace body of code
-						
-						return; //necessary to return operation in order to ignore clicks on rectangles when actShapes have been clicked
-					}
-				}
-
-				for (int x = 0; x < ROWS; x++)
-				{
-					for (int y = 0; y < COLS; y++)
-					{
-						if (rectangle[x][y].contains(e.getPoint()))
+						if(actShape.contains(e.getPoint()))
 						{
-							System.out.println("ROW: " + x + " COLUMN: " + y); // TODO CHANGE
-							showDialog(x, y);
+							// actShapes are being created with a for each loop that goes trough the _actList
+							// the first shape in the _actShapeList is a visual representation of the first act in the _actList
+							int actShapeNumber = _actShapeList.indexOf(actShape);
+							
+							System.out.println("Act: " + _actList.get(actShapeNumber).getName() + " has been clicked."); //TODO REPLACE
+							// TODO replace body of code
+							
+							return; //necessary to return operation in order to ignore clicks on rectangles when actShapes have been clicked
+						}
+					}
+	
+					for (int x = 0; x < ROWS; x++)
+					{
+						for (int y = 0; y < COLS; y++)
+						{
+							if (rectangle[x][y].contains(e.getPoint()))
+							{
+								System.out.println("ROW: " + x + " COLUMN: " + y); // TODO CHANGE
+								showDialog(x, y);
+							}
 						}
 					}
 				}
@@ -112,79 +127,120 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 
 	private void showDialog(int stage, int time)
 	{
-		JPanel _dialogPanel = createDialogBox();
 		_artistList = FestivalHandler.Instance().getArtists();
-		List stageList = FestivalHandler.Instance().getStagesTest(); // TODO change to actual list instead of test list
-		GregorianCalendar _startTime = new GregorianCalendar();
-		GregorianCalendar _endTime = new GregorianCalendar();
-		Boolean actAdded = false;
-		int i = 0;
+		_stageList = FestivalHandler.Instance().getStagesTest(); // TODO change to actual list instead of test list
 		
-		Object[] _artists = _artistList.toArray(new Object[_artistList.size()]);
-		Object[] _stages = stageList.toArray(new Object[stageList.size()]);
+		done = false;
 
-		Object[] _times = _timeList.toArray(new Object[_timeList.size()]);
-		if (_artists.length != 0)
+		String[] _artistNames = new String[_artistList.size()];
+		String[] _stageNames = new String[_stageList.size()];
+		for (int i = 0; i < _artistList.size(); i++)
 		{
-			Object _selectedArtist = JOptionPane.showInputDialog(null,
-					"Choose artist", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _artists,
-					_artists[0]);
-			if (_selectedArtist != null)
+			_artistNames[i] = (_artistList.get(i).getName());
+		}
+		
+		for (int i = 0; i < _stageList.size(); i++)
+		{
+			_stageNames[i] = (_stageList.get(i).getName());
+		}
+		
+		Object[] _times = _timeList.toArray(new Object[_timeList.size()]);
+		
+		JComboBox<Object> _artistsBox = new JComboBox(_artistNames);
+		JComboBox _stagesBox = new JComboBox(_stageNames);
+		_stagesBox.setSelectedIndex(stage);
+		JComboBox _startTimeBox = new JComboBox(_times);
+		_startTimeBox.setSelectedIndex(time*4);
+		JComboBox _endTimeBox = new JComboBox(_times);
+		_endTimeBox.setSelectedIndex((time+1)*4);
+		
+		_selectedArtist = _artistsBox.getSelectedIndex();
+		_selectedStage = _stagesBox.getSelectedIndex();
+		_selectedStartTime = _startTimeBox.getSelectedIndex();
+		_selectedEndTime = _endTimeBox.getSelectedIndex();
+		
+		_artistsBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
 			{
-				Object _selectedStage = JOptionPane.showInputDialog(null,
-						"Choose stage", "Create new act",
-						JOptionPane.INFORMATION_MESSAGE, null, _stages,
-						_stages[stage]);
-				if (_selectedStage != null)
+				JComboBox cb = (JComboBox) e.getSource();
+				_selectedArtist = cb.getSelectedIndex();
+			}
+		});
+		
+		_stagesBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				JComboBox cb = (JComboBox) e.getSource();
+				_selectedStage = cb.getSelectedIndex();
+			}
+		});
+		
+		_startTimeBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				JComboBox cb = (JComboBox) e.getSource();
+				_selectedStartTime = cb.getSelectedIndex();
+			}
+		});
+		
+		_endTimeBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				JComboBox cb = (JComboBox) e.getSource();
+				_selectedEndTime = cb.getSelectedIndex();
+			}
+		});
+		
+		_acceptButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				_dialogFrame.setVisible(false);
+				_dialogFrame.getContentPane().removeAll();
+				if (_selectedStartTime < _selectedEndTime)
 				{
-					Object _selectedStartTime = JOptionPane.showInputDialog(null,
-							"Choose start time", "Create new act",
-							JOptionPane.INFORMATION_MESSAGE, null, _times,
-							_times[time*4]);
-					if (_selectedStartTime != null)
-					{
-						Object _selectedEndTime = JOptionPane.showInputDialog(null,
-								"Choose end time", "Create new act",
-								JOptionPane.INFORMATION_MESSAGE, null, _times,
-								_times[(time+1)*4]);
-						if (_selectedEndTime != null)
-						{
-							while (_selectedStage != _stages[i])
-							{
-								i++;
-							}
-							_startTime.set(2014, 2, 1, (int)_selectedStartTime/100, (int)_selectedStartTime%100);
-							_endTime.set(2014, 2, 1, (int)_selectedEndTime/100, (int)_selectedEndTime%100);
-							
-							FestivalHandler.Instance().addAct(new Act("", _stageList.get(i), (Artist)_selectedArtist, _startTime,
-											_endTime));
-							System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
-							actAdded = true;
-							_curAct++;
-						}
-					}
+					addAct(_selectedArtist, _selectedStage, _selectedStartTime, _selectedEndTime);
+					done = true;
+				} 
+				else
+				{
+					System.out.println("End time is before or the same as start time!!!");
+					System.out.println("start time is: " + _selectedStartTime + " - end time is: " + _selectedEndTime);
+					done = true;
 				}
 			}
-			if (!actAdded)
-			{
-				System.out.println("Dialog window quit! No Act added!");
-			}
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(this,
-					"No artists have been registered");
-		}
+		});
+
+		_dialogFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		_dialogFrame.setLayout(new GridLayout(0,2));
+		_dialogFrame.getContentPane().add(new JLabel("Artist"));
+		_dialogFrame.getContentPane().add(_artistsBox);
+		_dialogFrame.getContentPane().add(new JLabel("Stage"));
+		_dialogFrame.getContentPane().add(_stagesBox);
+		_dialogFrame.getContentPane().add(new JLabel("Start time"));
+		_dialogFrame.getContentPane().add(_startTimeBox);
+		_dialogFrame.getContentPane().add(new JLabel("End time"));
+		_dialogFrame.getContentPane().add(_endTimeBox);
+		_dialogFrame.getContentPane().add(new JLabel(" "));
+		_dialogFrame.getContentPane().add(_acceptButton);
+		_dialogFrame.pack();
+		_dialogFrame.setVisible(true);
 	}
 	
-	private JPanel createDialogBox()
+	private void addAct(int artist, int stage, int startTime, int endTime)
 	{
-		JPanel panel = new JPanel();
+		System.out.println("start time index is: " + startTime + " - end time index is: " + endTime);
+		System.out.println("start time is: " + _timeList.get(startTime) + " - end time is: " + _timeList.get(endTime));
+		GregorianCalendar _startTime = new GregorianCalendar();
+		GregorianCalendar _endTime = new GregorianCalendar();
+		_startTime.set(2014, 2, 1, _timeList.get(startTime)/100, _timeList.get(startTime)%100);
+		_endTime.set(2014, 2, 1, _timeList.get(endTime)/100, _timeList.get(endTime)%100);
 		
-		return panel;
+		FestivalHandler.Instance().addAct(new Act("", _stageList.get(stage), _artistList.get(artist), _startTime,
+				_endTime));
+		System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
+		_curAct++;
 	}
-
+	
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
@@ -284,6 +340,13 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 //		System.out.println("act.timeEnd: " + timeEnd); // DEBUGGING PURPOSES
 //		System.out.println(act.getName() + act.getEndTime().get(Calendar.MINUTE)); // DEBUGGING PURPOSES
 		Stage stage = act.getStage();
+		for (int i = 0; i < _stageList.size(); i++)
+		{
+			if (stage.equals(_stageList.get(i)))
+			{
+				stage = _stageList.get(i);
+			}
+		}
 		int stageIndex = _stageList.indexOf(stage);
 		int ppMinute = 48; // pixels per minute
 		if(timeEnd < 12) //when the end time is after midnight its between 0 and 4 (or higher)
@@ -335,22 +398,25 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	
 	public void mouseMoved(MouseEvent e)
 	{
-		for (int i = 0; i < ROWS; i++)
+		if (done)
 		{
-			for (int j = 0; j < COLS; j++) // TODO CHANGE VALUE OF 16 TO USE GLOBAL VALUE
+			for (int i = 0; i < ROWS; i++)
 			{
-				if (rectangle[i][j].contains(e.getPoint()))
+				for (int j = 0; j < COLS; j++) // TODO CHANGE VALUE OF 16 TO USE GLOBAL VALUE
 				{
-					rectColor[i][j] = Color.lightGray;
-					plusSign[i][j] = true;
-
-					repaint();
-				} else
-				{
-					rectColor[i][j] = defaultBoxColor;
-					plusSign[i][j] = false;
-
-					repaint();
+					if (rectangle[i][j].contains(e.getPoint()))
+					{
+						rectColor[i][j] = Color.lightGray;
+						plusSign[i][j] = true;
+	
+						repaint();
+					} else
+					{
+						rectColor[i][j] = defaultBoxColor;
+						plusSign[i][j] = false;
+	
+						repaint();
+					}
 				}
 			}
 		}
@@ -359,7 +425,10 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
-		// TODO Auto-generated method stub
+		if (arg0.getSource() == _acceptButton)
+		{
+			
+		}
 
 	}
 

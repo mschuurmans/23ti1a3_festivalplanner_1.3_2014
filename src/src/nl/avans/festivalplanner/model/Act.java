@@ -3,6 +3,7 @@
  */
 package nl.avans.festivalplanner.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -13,7 +14,7 @@ import java.util.GregorianCalendar;
  * @author Jordy Sipkema & Rudy Tjin-Kon-Koen
  * @version 11/02/2014
  */
-public class Act {
+public class Act implements Serializable {
 	public Act(String _name, Stage _stage, Artist _artist,
 			GregorianCalendar _startTime, GregorianCalendar _endTime) {
 		super();

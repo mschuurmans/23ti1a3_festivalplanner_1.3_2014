@@ -66,4 +66,13 @@ public class Stage implements Serializable
 	{
 		return getName();
 	}
+	
+	public boolean equals(Stage other) {
+	    if (!(other instanceof Stage)) {
+	        return false;
+	    }
+
+	    // Custom equality check here.
+	    return this._name.equals(other.getName());
+	}
 }
