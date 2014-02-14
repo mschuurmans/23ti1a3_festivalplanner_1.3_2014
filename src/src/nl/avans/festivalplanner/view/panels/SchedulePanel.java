@@ -258,8 +258,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		return JFrame.DISPOSE_ON_CLOSE;
 	}
 	
-<<<<<<< HEAD
-=======
+
 	private void updateData()
 	{
 		_stageList = FestivalHandler.Instance().getStages();
@@ -281,7 +280,6 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		}	
 	}
 
->>>>>>> e94cc2f... changes to SchedulePanel looks, and changed the way Acts are drawn to prefent NPE when stage is deleted but act is present
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
@@ -395,13 +393,6 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 //			}
 //		}
 		int stageIndex = _stageList.indexOf(stage);
-<<<<<<< HEAD
-=======
-		if(stageIndex < 0)
-			return null;
-		
-//		System.out.println("StageIndex: " + stageIndex);
->>>>>>> e94cc2f... changes to SchedulePanel looks, and changed the way Acts are drawn to prefent NPE when stage is deleted but act is present
 		int ppMinute = 48; // pixels per minute
 		if(timeEnd < 12) //when the end time is after midnight its between 0 and 4 (or higher)
 		{
