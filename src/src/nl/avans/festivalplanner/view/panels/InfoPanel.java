@@ -34,14 +34,6 @@ import nl.avans.festivalplanner.view.Panel;
  * @author Jordy Sipkema
  * @version 13-02-2014
  */
-/**
- * @author jordysipkema
- *
- */
-/**
- * @author jordysipkema
- * 
- */
 public class InfoPanel extends Panel
 {
 	private static final long serialVersionUID = 2879106751679669257L;
