@@ -211,7 +211,6 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		});
 
 		_dialogFrame.setDefaultCloseOperation(closeFrame());
-	    _dialogFrame.setLocationRelativeTo(null);
 		_dialogFrame.setLayout(new GridLayout(0,2));
 		_dialogFrame.getContentPane().add(new JLabel("Artist"));
 		_dialogFrame.getContentPane().add(_artistsBox);
@@ -224,6 +223,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		_dialogFrame.getContentPane().add(new JLabel(" "));
 		_dialogFrame.getContentPane().add(_acceptButton);
 		_dialogFrame.pack();
+	    _dialogFrame.setLocationRelativeTo(null);
 		_dialogFrame.setVisible(true);
 	}
 	
