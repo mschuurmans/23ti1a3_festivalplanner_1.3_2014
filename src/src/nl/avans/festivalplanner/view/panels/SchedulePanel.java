@@ -237,7 +237,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		_startTime.set(2014, 2, 1, _timeList.get(startTime)/100, _timeList.get(startTime)%100);
 		_endTime.set(2014, 2, 1, _timeList.get(endTime)/100, _timeList.get(endTime)%100);
 		
-		FestivalHandler.Instance().addAct(new Act("", _stageList.get(stage), _artistList.get(artist), _startTime,
+		FestivalHandler.Instance().addAct(new Act(_artistList.get(artist).getName(), _stageList.get(stage), _artistList.get(artist), _startTime,
 				_endTime));
 		System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
 		_curAct++;
