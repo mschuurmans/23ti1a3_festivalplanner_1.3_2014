@@ -1,6 +1,7 @@
 package nl.avans.festivalplanner.view.panels;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -38,7 +39,14 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	private final int startX = GUIHelper.XOFFSET;
 	private final int startY = GUIHelper.YOFFSET;
 
-	Color defaultBoxColor = new Color(0x09_00_00_00, true); // color black with alpha  09 and alpha=true
+	static final Color timeLineColor = Color.lightGray;
+	static final Color defaultBoxColor = new Color(0x09_00_00_00, true); // color black with alpha  09 and alpha=true
+	static final Color selectedBoxColor = new Color(0x9898C6); //old value Color.lightGray
+	static final Color plusSignColor = new Color(0xffffff); //old value Color.gray
+	static final Color actShapeColor = new Color(0x09_6365CC, false); //old value Color.gray
+	static final Color actShapeTextColor = Color.white;
+	static final Color defaultTextColor = Color.gray;
+	
 	private ArrayList<Integer> _timeList = new ArrayList<Integer>();
 	private int _curAct = 0;
 
@@ -250,6 +258,30 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		return JFrame.DISPOSE_ON_CLOSE;
 	}
 	
+<<<<<<< HEAD
+=======
+	private void updateData()
+	{
+		_stageList = FestivalHandler.Instance().getStages();
+		_artistList = FestivalHandler.Instance().getArtists();
+		_actList = FestivalHandler.Instance().getActs();
+		_actShapeList = new ArrayList<Shape>();
+		ROWS = _stageList.size();
+		if(ROWS != 0)
+		{
+			COLS = 16;
+			stageHeight = new int[ROWS];
+			
+			if(rectColor == null)
+			{
+				rectangle = new Shape[ROWS][COLS];
+				rectColor = new Color[ROWS][COLS];
+				plusSign = new boolean[ROWS][COLS];
+			}
+		}	
+	}
+
+>>>>>>> e94cc2f... changes to SchedulePanel looks, and changed the way Acts are drawn to prefent NPE when stage is deleted but act is present
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
@@ -259,6 +291,8 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 
 		// draws the timesString in the top
 		String timeString = getTimeString(12, 17, 60);
+		g2.setColor(defaultTextColor);
+		g2.setFont(new Font("default", Font.BOLD, 11));
 		g2.drawString(timeString, startX + titleWidth + 20, startY);
 
 		int curX = startX;
@@ -282,9 +316,10 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 				System.out.println("lineHeight too small!");
 
 			// draws the String in front of the line and the line itself (without blocks)
+			g2.setColor(defaultTextColor);
 			g2.drawString(s.getName(), curX, curY);
 
-			g2.setColor(Color.lightGray);
+			g2.setColor(timeLineColor);
 			g2.drawLine(curX + titleWidth + 20 - 5, curY - 5 - 1, ApplicationView.WIDTH - 30, curY - 5 - 1);
 			stageHeight[x] = curY - 5 + 0; // fills an array with the height of each timeline for later reference
 			g2.drawLine(curX + titleWidth + 20 - 5, stageHeight[x], ApplicationView.WIDTH - 30, curY - 5 + 0);
@@ -309,7 +344,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 
 				if (plusSign[x][y] == true)
 				{
-					g2.setColor(Color.gray);
+					g2.setColor(plusSignColor);
 					int plusLength = 20;
 					int plusX = rectX + boxWidth / 2 - plusLength / 2;
 					int plusY = rectY + lineHeight / 2 - 8;
@@ -330,15 +365,18 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		for (Act act : _actList)
 		{
 			Shape shape = createActShape(act);
-			_actShapeList.add(shape);
-			g2.setColor(Color.gray);
-			g2.fill(shape);
-			g2.setColor(Color.lightGray);
-			String actName = act.getName();
-			actName = Utils.cropString(actName, (int)shape.getBounds().getWidth() - 6); //cropString on the string and maxwidth
-			int stringWidth = Utils.getWidth(actName);
-			g2.drawString(actName,(int)( (shape.getBounds().x) + (shape.getBounds().getWidth() /2) - (stringWidth /2) -3 ), shape.getBounds().y + 4 + 20);
-			g2.setColor(Color.black);
+			if(shape != null)
+			{
+				_actShapeList.add(shape);
+				g2.setColor(actShapeColor);
+				g2.fill(shape);
+				g2.setColor(actShapeTextColor);
+				String actName = act.getName();
+				actName = Utils.cropString(actName, (int)shape.getBounds().getWidth() - 6); //cropString on the string and maxwidth
+				int stringWidth = Utils.getWidth(actName);
+				g2.drawString(actName,(int)( (shape.getBounds().x) + (shape.getBounds().getWidth() /2) - (stringWidth /2) -3 ), shape.getBounds().y + 4 + 20);
+				g2.setColor(Color.black);
+			}
 		}
 	}
 
@@ -349,14 +387,21 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 //		System.out.println("act.timeEnd: " + timeEnd); // DEBUGGING PURPOSES
 //		System.out.println(act.getName() + act.getEndTime().get(Calendar.MINUTE)); // DEBUGGING PURPOSES
 		Stage stage = act.getStage();
-		for (int i = 0; i < _stageList.size(); i++)
-		{
-			if (stage.equals(_stageList.get(i)))
-			{
-				stage = _stageList.get(i);
-			}
-		}
+//		for (int i = 0; i < _stageList.size(); i++) //wut??? this is bad.
+//		{
+//			if (stage.equals(_stageList.get(i)))
+//			{
+//				stage = _stageList.get(i);
+//			}
+//		}
 		int stageIndex = _stageList.indexOf(stage);
+<<<<<<< HEAD
+=======
+		if(stageIndex < 0)
+			return null;
+		
+//		System.out.println("StageIndex: " + stageIndex);
+>>>>>>> e94cc2f... changes to SchedulePanel looks, and changed the way Acts are drawn to prefent NPE when stage is deleted but act is present
 		int ppMinute = 48; // pixels per minute
 		if(timeEnd < 12) //when the end time is after midnight its between 0 and 4 (or higher)
 		{
@@ -415,7 +460,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 				{
 					if (rectangle[i][j].contains(e.getPoint()))
 					{
-						rectColor[i][j] = Color.lightGray;
+						rectColor[i][j] = selectedBoxColor;
 						plusSign[i][j] = true;
 	
 						repaint();
