@@ -210,7 +210,8 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 			}
 		});
 
-		_dialogFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		_dialogFrame.setDefaultCloseOperation(closeFrame());
+	    _dialogFrame.setLocationRelativeTo(null);
 		_dialogFrame.setLayout(new GridLayout(0,2));
 		_dialogFrame.getContentPane().add(new JLabel("Artist"));
 		_dialogFrame.getContentPane().add(_artistsBox);
@@ -239,6 +240,12 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 				_endTime));
 		System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
 		_curAct++;
+	}
+	
+	private int closeFrame()
+	{
+		done = true;
+		return JFrame.DISPOSE_ON_CLOSE;
 	}
 	
 	public void paintComponent(Graphics g)
