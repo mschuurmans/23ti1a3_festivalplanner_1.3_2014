@@ -51,28 +51,29 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	Boolean done = true;
 
 
-//	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStages(); // TODO UNCOMMENT
-	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStagesTest(); // debugging purposes // TODO COMMENT
-	List<Artist> _artistList = FestivalHandler.Instance().getArtists(); // TODO COMMENT
-	ArrayList<Act> _actList = FestivalHandler.Instance().getActsTest();
-	ArrayList<Shape> _actShapeList = new ArrayList<Shape>();
+	ArrayList<Stage> _stageList = new ArrayList<Stage>();
+//	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStagesTest(); // debugging purposes // TODO COMMENT
+	List<Artist> _artistList;
+	ArrayList<Act> _actList;
+	ArrayList<Shape> _actShapeList;
 
-	private final int ROWS = _stageList.size(); // rows in schedule to show depends on stages in festival
-	private final int COLS = 16;
+	private int ROWS = 0; // rows in schedule to show depends on stages in festival
+	private int COLS = 0;
 
-	int stageHeight[] = new int[ROWS];
+	int stageHeight[];
 	int lineHeight;
 
-	Shape rectangle[][] = new Shape[ROWS][COLS]; // button array of 12 * 16
-	Color rectColor[][] = new Color[ROWS][COLS];
+	Shape rectangle[][]; // button array of 12 * 16
+	Color rectColor[][];
 
-	boolean plusSign[][] = new boolean[ROWS][COLS]; // tracks weather a plus sign should be displayed or not
+	boolean plusSign[][]; // tracks weather a plus sign should be displayed or not
 
 	public SchedulePanel()
 	{
 		super();
 		_guiHelper = new GUIHelper();
 		this.addMouseMotionListener(this);
+		updateData();
 
 		int width = ApplicationView.WIDTH;
 		int height = ApplicationView.HEIGHT;
@@ -248,8 +249,27 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		return JFrame.DISPOSE_ON_CLOSE;
 	}
 	
+	private void updateData()
+	{
+		_stageList = FestivalHandler.Instance().getStages();
+		_artistList = FestivalHandler.Instance().getArtists();
+		_actList = FestivalHandler.Instance().getActs();
+		_actShapeList = new ArrayList<Shape>();
+		ROWS = _stageList.size();
+		if(ROWS != 0)
+		{
+			COLS = 16;
+			stageHeight = new int[ROWS];
+			rectangle = new Shape[ROWS][COLS]; 
+			rectColor = new Color[ROWS][COLS];
+			plusSign = new boolean[ROWS][COLS];
+		}
+		
+	}
+
 	public void paintComponent(Graphics g)
 	{
+		updateData();
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 
@@ -270,7 +290,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		lineHeight = 50;
 		if (_stageList.size() > 10) // stageList defined in constructor
 		{
-			lineHeight += -(_stageList.size() - 10) * 4.5; // decrease the lineHeight for every stage > 8 that is added.
+			lineHeight += -(_stageList.size() - 10) * 3.5; // decrease the lineHeight for every stage > 8 that is added.
 		}
 
 		int x = 0; // DON'T JUDGE ME!
@@ -355,6 +375,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 			}
 		}
 		int stageIndex = _stageList.indexOf(stage);
+		System.out.println("StageIndex: " + stageIndex);
 		int ppMinute = 48; // pixels per minute
 		if(timeEnd < 12) //when the end time is after midnight its between 0 and 4 (or higher)
 		{

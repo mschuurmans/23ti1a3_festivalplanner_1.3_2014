@@ -3,8 +3,10 @@ package nl.avans.festivalplanner.view.panels;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,8 +17,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import nl.avans.festivalplanner.model.Act;
 import nl.avans.festivalplanner.model.Artist;
@@ -34,53 +38,42 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	private final int startX = GUIHelper.XOFFSET;
 	private final int startY = GUIHelper.YOFFSET;
 
-<<<<<<< HEAD
 	Color defaultBoxColor = new Color(0x09_00_00_00, true); // color black with alpha  09 and alpha=true
-
-//	ArrayList<Stage> stageList = FestivalHandler.Instance().getStages(); // TODO UNCOMMENT
-	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStagesTest(); // debugging purposes // TODO COMMENT
-	List<Artist> _artistList = FestivalHandler.Instance().getArtists(); // TODO COMMENT
-	ArrayList<Act> _actList = FestivalHandler.Instance().getActsTest();
-
-	private final int ROWS = _stageList.size(); // rows in schedule to show depends on stages in festival
-=======
 	private ArrayList<Integer> _timeList = new ArrayList<Integer>();
 	private int _curAct = 0;
 
-	Color defaultColor = new Color(0x09000000, true); // color black with alpha
-														// 09 and alpha=true
+	JButton _acceptButton = new JButton("Accept");
+	JFrame _dialogFrame = new JFrame("Maak nieuwe Act aan");
+	int _selectedArtist;
+	int _selectedStage;
+	int _selectedStartTime;
+	int _selectedEndTime;	
+	Boolean done = true;
 
-	// ArrayList<Stage> stageList = FestivalHandler.Instance().getStages(); //
-	// TODO UNCOMMENT
-	ArrayList<Stage> stageList = FestivalHandler.Instance().getStagesTest(); // debugging
-																				// purposes
-																				// //
-																				// TODO
-																				// COMMENT
-	List<Artist> _artistList = FestivalHandler.Instance().getArtists(); // TODO
-																		// COMMENT
-	ArrayList<Act> actList = FestivalHandler.Instance().getActsTest();
 
-	private final int ROWS = stageList.size(); // rows in schedule to show
-												// depends on stages in festival
->>>>>>> 9127956ee3486704980d37e3550e20840cf8b20e
-	private final int COLS = 16;
+	ArrayList<Stage> _stageList = new ArrayList<Stage>();
+//	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStagesTest(); // debugging purposes // TODO COMMENT
+	List<Artist> _artistList;
+	ArrayList<Act> _actList;
+	ArrayList<Shape> _actShapeList;
 
-	int stageHeight[] = new int[ROWS];
+	private int ROWS = 0; // rows in schedule to show depends on stages in festival
+	private int COLS = 0;
+
+	int stageHeight[];
 	int lineHeight;
 
-	Shape rectangle[][] = new Shape[ROWS][COLS]; // button array of 12 * 16
-	Color rectColor[][] = new Color[ROWS][COLS];
-	
-	Shape _actShapeList[] = new Shape[_actList.size()];
+	Shape rectangle[][]; // button array of 12 * 16
+	Color rectColor[][];
 
-	boolean plusSign[][] = new boolean[ROWS][COLS]; // tracks weather a plus sign should be displayed or not
+	boolean plusSign[][]; // tracks weather a plus sign should be displayed or not
 
 	public SchedulePanel()
 	{
 		super();
 		_guiHelper = new GUIHelper();
 		this.addMouseMotionListener(this);
+		updateData();
 
 		int width = ApplicationView.WIDTH;
 		int height = ApplicationView.HEIGHT;
@@ -89,15 +82,32 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-
-				for (int x = 0; x < ROWS; x++)
+				if (done)
 				{
-					for (int y = 0; y < COLS; y++)
+					for(Shape actShape : _actShapeList)
 					{
-						if (rectangle[x][y].contains(e.getPoint()))
+						if(actShape.contains(e.getPoint()))
 						{
-							System.out.println("ROW: " + x + " COLUMN: " + y); // TODO CHANGE
-							showDialog(x, y);
+							// actShapes are being created with a for each loop that goes trough the _actList
+							// the first shape in the _actShapeList is a visual representation of the first act in the _actList
+							int actShapeNumber = _actShapeList.indexOf(actShape);
+							
+							System.out.println("Act: " + _actList.get(actShapeNumber).getName() + " has been clicked."); //TODO REPLACE
+							// TODO replace body of code
+							
+							return; //necessary to return operation in order to ignore clicks on rectangles when actShapes have been clicked
+						}
+					}
+	
+					for (int x = 0; x < ROWS; x++)
+					{
+						for (int y = 0; y < COLS; y++)
+						{
+							if (rectangle[x][y].contains(e.getPoint()))
+							{
+								System.out.println("ROW: " + x + " COLUMN: " + y); // TODO CHANGE
+								showDialog(x, y);
+							}
 						}
 					}
 				}
@@ -118,84 +128,151 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 
 	private void showDialog(int stage, int time)
 	{
-		JPanel _dialogPanel = createDialogBox();
 		_artistList = FestivalHandler.Instance().getArtists();
-		stageList = FestivalHandler.Instance().getStagesTest(); // TODO change to actual list instead of test list
-		GregorianCalendar _startTime = new GregorianCalendar();
-		GregorianCalendar _endTime = new GregorianCalendar();
+		_stageList = FestivalHandler.Instance().getStagesTest(); // TODO change to actual list instead of test list
 		
-		Object[] _artists = _artistList.toArray(new Object[_artistList.size()]);
-		Object[] _stages = stageList.toArray(new Object[stageList.size()]);
+		done = false;
 
+		String[] _artistNames = new String[_artistList.size()];
+		String[] _stageNames = new String[_stageList.size()];
+		for (int i = 0; i < _artistList.size(); i++)
+		{
+			_artistNames[i] = (_artistList.get(i).getName());
+		}
+		
+		for (int i = 0; i < _stageList.size(); i++)
+		{
+			_stageNames[i] = (_stageList.get(i).getName());
+		}
+		
 		Object[] _times = _timeList.toArray(new Object[_timeList.size()]);
-		if (_artists.length != 0)
-		{
-<<<<<<< HEAD
-			Object selectedValue = JOptionPane.showInputDialog(null, "Choose artist", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _artists, _artists[0]);
-		} else
-=======
-			Object _selectedArtist = JOptionPane.showInputDialog(null,
-					"Choose artist", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _artists,
-					_artists[0]);
-			Object _selectedStage = JOptionPane.showInputDialog(null,
-					"Choose stage", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _stages,
-					_stages[stage]);
-			Object _selectedStartTime = JOptionPane.showInputDialog(null,
-					"Choose start time", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _times,
-					_times[time*4]);
-			Object _selectedEndTime = JOptionPane.showInputDialog(null,
-					"Choose end time", "Create new act",
-					JOptionPane.INFORMATION_MESSAGE, null, _times,
-					_times[(time+1)*4]);
+		
+		JComboBox<Object> _artistsBox = new JComboBox(_artistNames);
+		JComboBox _stagesBox = new JComboBox(_stageNames);
+		_stagesBox.setSelectedIndex(stage);
+		JComboBox _startTimeBox = new JComboBox(_times);
+		_startTimeBox.setSelectedIndex(time*4);
+		JComboBox _endTimeBox = new JComboBox(_times);
+		_endTimeBox.setSelectedIndex((time+1)*4);
+		
+		_selectedArtist = _artistsBox.getSelectedIndex();
+		_selectedStage = _stagesBox.getSelectedIndex();
+		_selectedStartTime = _startTimeBox.getSelectedIndex();
+		_selectedEndTime = _endTimeBox.getSelectedIndex();
+		
+		_artistsBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				JComboBox cb = (JComboBox) e.getSource();
+				_selectedArtist = cb.getSelectedIndex();
+			}
+		});
+		
+		_stagesBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				JComboBox cb = (JComboBox) e.getSource();
+				_selectedStage = cb.getSelectedIndex();
+			}
+		});
+		
+		_startTimeBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				JComboBox cb = (JComboBox) e.getSource();
+				_selectedStartTime = cb.getSelectedIndex();
+			}
+		});
+		
+		_endTimeBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				JComboBox cb = (JComboBox) e.getSource();
+				_selectedEndTime = cb.getSelectedIndex();
+			}
+		});
+		
+		_acceptButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				_dialogFrame.setVisible(false);
+				_dialogFrame.getContentPane().removeAll();
+				if (_selectedStartTime < _selectedEndTime)
+				{
+					addAct(_selectedArtist, _selectedStage, _selectedStartTime, _selectedEndTime);
+					done = true;
+				} 
+				else
+				{
+					System.out.println("End time is before or the same as start time!!!");
+					System.out.println("start time is: " + _selectedStartTime + " - end time is: " + _selectedEndTime);
+					done = true;
+				}
+			}
+		});
 
-			FestivalHandler.Instance().addAct(new Act("", (Stage)_selectedStage, (Artist)_selectedArtist, _startTime,
-							_endTime));
-			System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
-			_curAct++;
-		}
-		else
->>>>>>> 9127956ee3486704980d37e3550e20840cf8b20e
-		{
-			JOptionPane.showMessageDialog(this, "No artists have been registered");
-		}
+		_dialogFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		_dialogFrame.setLayout(new GridLayout(0,2));
+		_dialogFrame.getContentPane().add(new JLabel("Artist"));
+		_dialogFrame.getContentPane().add(_artistsBox);
+		_dialogFrame.getContentPane().add(new JLabel("Stage"));
+		_dialogFrame.getContentPane().add(_stagesBox);
+		_dialogFrame.getContentPane().add(new JLabel("Start time"));
+		_dialogFrame.getContentPane().add(_startTimeBox);
+		_dialogFrame.getContentPane().add(new JLabel("End time"));
+		_dialogFrame.getContentPane().add(_endTimeBox);
+		_dialogFrame.getContentPane().add(new JLabel(" "));
+		_dialogFrame.getContentPane().add(_acceptButton);
+		_dialogFrame.pack();
+		_dialogFrame.setVisible(true);
 	}
 	
-	private JPanel createDialogBox()
+	private void addAct(int artist, int stage, int startTime, int endTime)
 	{
-		JPanel panel = new JPanel();
+		System.out.println("start time index is: " + startTime + " - end time index is: " + endTime);
+		System.out.println("start time is: " + _timeList.get(startTime) + " - end time is: " + _timeList.get(endTime));
+		GregorianCalendar _startTime = new GregorianCalendar();
+		GregorianCalendar _endTime = new GregorianCalendar();
+		_startTime.set(2014, 2, 1, _timeList.get(startTime)/100, _timeList.get(startTime)%100);
+		_endTime.set(2014, 2, 1, _timeList.get(endTime)/100, _timeList.get(endTime)%100);
 		
-		return panel;
+		FestivalHandler.Instance().addAct(new Act("", _stageList.get(stage), _artistList.get(artist), _startTime,
+				_endTime));
+		System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
+		_curAct++;
+	}
+	
+<<<<<<< Updated upstream
+=======
+	private void updateData()
+	{
+		_stageList = FestivalHandler.Instance().getStages();
+		_artistList = FestivalHandler.Instance().getArtists();
+		_actList = FestivalHandler.Instance().getActs();
+		_actShapeList = new ArrayList<Shape>();
+		ROWS = _stageList.size();
+		if(ROWS != 0)
+		{
+			COLS = 16;
+			stageHeight = new int[ROWS];
+			rectangle = new Shape[ROWS][COLS]; 
+			rectColor = new Color[ROWS][COLS];
+			plusSign = new boolean[ROWS][COLS];
+		}
+		
 	}
 
+>>>>>>> Stashed changes
 	public void paintComponent(Graphics g)
 	{
+		updateData();
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 
 		int titleWidth = 180; // the width of the column that shows the stage name *timeline starts to the right
 
-		// used to get formatted time for the timeline scale in the top
-		Calendar timeValue = new GregorianCalendar();
-		timeValue.set(Calendar.HOUR_OF_DAY, 12);
-		timeValue.set(Calendar.MINUTE, 0);
-
-		// constructs the string that displays the time line in the top
-		String timeString = "";
-		for (int i = 0; i < 17; i++)
-		{
-			if (i > 0)
-			{
-				timeString += " - ";
-			}
-
-			timeString += Utils.getTimeString(timeValue);
-
-			timeValue.add(Calendar.MINUTE, 60);
-		}
+		// draws the timesString in the top
+		String timeString = getTimeString(12, 17, 60);
 		g2.drawString(timeString, startX + titleWidth + 20, startY);
 
 		int curX = startX;
@@ -205,15 +282,15 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		curY += 40;
 		curX += 20;
 
+		//determining the height of each timeline
 		lineHeight = 50;
-
 		if (_stageList.size() > 10) // stageList defined in constructor
 		{
-			lineHeight += -(_stageList.size() - 10) * 4.5; // decrease the lineHeight for every stage > 8 that is added.
+			lineHeight += -(_stageList.size() - 10) * 3.5; // decrease the lineHeight for every stage > 8 that is added.
 		}
 
 		int x = 0; // DON'T JUDGE ME!
-		for (Stage s : _stageList)
+		for (Stage s : _stageList) //for each stage in the stageList !
 		{
 			if (lineHeight < 10)
 				System.out.println("lineHeight too small!");
@@ -261,19 +338,13 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 			curY += lineHeight;
 			x++;
 		}
-
-		// create ACTS Shapes
-//		for (Act act : _actList)
-//		{
-//			_actShapeList[99]] = createActShape(act); //TODO CHANGE INDEX
-//			//TODO MOVE CODEBLOCK TO NEXT CODEBLOCK AND INSERT INDEXING IN SHAPE VAR, CREATESHAPE AND FILLSHAPE
-//		}
 		
 		// DISPLAY ACTS
 		// code here
 		for (Act act : _actList)
 		{
 			Shape shape = createActShape(act);
+			_actShapeList.add(shape);
 			g2.setColor(Color.gray);
 			g2.fill(shape);
 			g2.setColor(Color.lightGray);
@@ -292,7 +363,15 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 //		System.out.println("act.timeEnd: " + timeEnd); // DEBUGGING PURPOSES
 //		System.out.println(act.getName() + act.getEndTime().get(Calendar.MINUTE)); // DEBUGGING PURPOSES
 		Stage stage = act.getStage();
+		for (int i = 0; i < _stageList.size(); i++)
+		{
+			if (stage.equals(_stageList.get(i)))
+			{
+				stage = _stageList.get(i);
+			}
+		}
 		int stageIndex = _stageList.indexOf(stage);
+		System.out.println("StageIndex: " + stageIndex);
 		int ppMinute = 48; // pixels per minute
 		if(timeEnd < 12) //when the end time is after midnight its between 0 and 4 (or higher)
 		{
@@ -309,24 +388,59 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		return shape;
 	}
 	
+	/**
+	 * getTimeString generates a timeString, used for the schedulePanel
+	 * @param startTime the time from wich to start counting in hours
+	 * @param entries the amount of timeStrings to show. 2 means ¨12:00 - 13:00" with start time 12 and interval 60
+	 * @param interval the amount the second consecutive time gets increased with in minutes
+	 * @return a generated timeString
+	 * @author jack
+	 */
+	private String getTimeString(int startTime, int entries, int interval)
+	{
+		// used to get formatted time for the timeline scale in the top
+		Calendar timeValue = new GregorianCalendar();
+		timeValue.set(Calendar.HOUR_OF_DAY, startTime);
+		timeValue.set(Calendar.MINUTE, 0);
+
+		// constructs the string that displays the time line in the top
+		String timeString = "";
+		for (int i = 0; i < entries; i++)
+		{
+			if (i > 0)
+			{
+				timeString += " - ";
+			}
+
+			timeString += Utils.getTimeString(timeValue);
+
+			timeValue.add(Calendar.MINUTE, interval);
+		}
+		
+		return timeString;
+	}
+	
 	public void mouseMoved(MouseEvent e)
 	{
-		for (int i = 0; i < ROWS; i++)
+		if (done)
 		{
-			for (int j = 0; j < COLS; j++) // TODO CHANGE VALUE OF 16 TO USE GLOBAL VALUE
+			for (int i = 0; i < ROWS; i++)
 			{
-				if (rectangle[i][j].contains(e.getPoint()))
+				for (int j = 0; j < COLS; j++) // TODO CHANGE VALUE OF 16 TO USE GLOBAL VALUE
 				{
-					rectColor[i][j] = Color.lightGray;
-					plusSign[i][j] = true;
-
-					repaint();
-				} else
-				{
-					rectColor[i][j] = defaultBoxColor;
-					plusSign[i][j] = false;
-
-					repaint();
+					if (rectangle[i][j].contains(e.getPoint()))
+					{
+						rectColor[i][j] = Color.lightGray;
+						plusSign[i][j] = true;
+	
+						repaint();
+					} else
+					{
+						rectColor[i][j] = defaultBoxColor;
+						plusSign[i][j] = false;
+	
+						repaint();
+					}
 				}
 			}
 		}
@@ -335,7 +449,10 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
-		// TODO Auto-generated method stub
+		if (arg0.getSource() == _acceptButton)
+		{
+			
+		}
 
 	}
 
