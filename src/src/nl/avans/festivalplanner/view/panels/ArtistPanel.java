@@ -210,9 +210,10 @@ public class ArtistPanel extends Panel
 					System.out.println("Waardes zijn geupdate.");
 				
 				updateView(artist);
-											
-				saveArtists();
-			}
+			}							
+			
+			saveArtists();
+			
 		}
 		else if(event.getSource() == _cancel)
 		{
@@ -225,6 +226,8 @@ public class ArtistPanel extends Panel
 			_defaultListModel.addElement(artist);
 			
 			_list.setSelectedIndex(_defaultListModel.size());
+			
+			saveArtists();
 		}
 		else if(event.getSource() == _removeArtist)
 		{
