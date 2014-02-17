@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import nl.avans.festivalplanner.model.Act;
@@ -140,8 +141,8 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	private void showDialog(int stage, int time)
 	{
 		_artistList = FestivalHandler.Instance().getArtists();
-		_stageList = FestivalHandler.Instance().getStagesTest(); // TODO change to actual list instead of test list
-		
+		_stageList = FestivalHandler.Instance().getStages(); 
+
 		done = false;
 
 		String[] _artistNames = new String[_artistList.size()];
@@ -215,8 +216,8 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 				} 
 				else
 				{
-					System.out.println("End time is before or the same as start time!!!");
-					System.out.println("start time is: " + _selectedStartTime + " - end time is: " + _selectedEndTime);
+					JOptionPane.showMessageDialog(_dialogFrame,
+							"End time is before or the same as start time!!!");
 					done = true;
 				}
 			}
