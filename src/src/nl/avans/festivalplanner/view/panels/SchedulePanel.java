@@ -1,6 +1,7 @@
 package nl.avans.festivalplanner.view.panels;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -22,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import nl.avans.festivalplanner.model.Act;
 import nl.avans.festivalplanner.model.Artist;
@@ -59,28 +61,29 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	Boolean done = true;
 
 
-//	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStages(); // TODO UNCOMMENT
-	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStagesTest(); // debugging purposes // TODO COMMENT
-	List<Artist> _artistList = FestivalHandler.Instance().getArtists(); // TODO COMMENT
-	ArrayList<Act> _actList = FestivalHandler.Instance().getActsTest();
-	ArrayList<Shape> _actShapeList = new ArrayList<Shape>();
+	ArrayList<Stage> _stageList = new ArrayList<Stage>();
+//	ArrayList<Stage> _stageList = FestivalHandler.Instance().getStagesTest(); // debugging purposes // TODO COMMENT
+	List<Artist> _artistList;
+	ArrayList<Act> _actList;
+	ArrayList<Shape> _actShapeList;
 
-	private final int ROWS = _stageList.size(); // rows in schedule to show depends on stages in festival
-	private final int COLS = 16;
+	private int ROWS = 0; // rows in schedule to show depends on stages in festival
+	private int COLS = 0;
 
-	int stageHeight[] = new int[ROWS];
+	int stageHeight[];
 	int lineHeight;
 
-	Shape rectangle[][] = new Shape[ROWS][COLS]; // button array of 12 * 16
-	Color rectColor[][] = new Color[ROWS][COLS];
+	Shape rectangle[][]; // button array of 12 * 16
+	Color rectColor[][];
 
-	boolean plusSign[][] = new boolean[ROWS][COLS]; // tracks weather a plus sign should be displayed or not
+	boolean plusSign[][]; // tracks weather a plus sign should be displayed or not
 
 	public SchedulePanel()
 	{
 		super();
 		_guiHelper = new GUIHelper();
 		this.addMouseMotionListener(this);
+		updateData();
 
 		int width = ApplicationView.WIDTH;
 		int height = ApplicationView.HEIGHT;
@@ -135,14 +138,13 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 
 	private void showDialog(int stage, int time)
 	{
-		_dialogFrame.getContentPane().removeAll();
-		
 		_artistList = FestivalHandler.Instance().getArtists();
 		_stageList = FestivalHandler.Instance().getStagesTest(); // TODO change to actual list instead of test list
+		
 		done = false;
+
 		String[] _artistNames = new String[_artistList.size()];
 		String[] _stageNames = new String[_stageList.size()];
-		
 		for (int i = 0; i < _artistList.size(); i++)
 		{
 			_artistNames[i] = (_artistList.get(i).getName());
@@ -155,25 +157,14 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		
 		Object[] _times = _timeList.toArray(new Object[_timeList.size()]);
 		
-		JComboBox<Object> _artistsBox = new JComboBox<Object>(_artistNames);
-		JComboBox<Object> _stagesBox = new JComboBox<Object>(_stageNames);
+		JComboBox<Object> _artistsBox = new JComboBox(_artistNames);
+		JComboBox _stagesBox = new JComboBox(_stageNames);
 		_stagesBox.setSelectedIndex(stage);
-		JComboBox<Object> _startTimeBox = new JComboBox<Object>(_times);
+		JComboBox _startTimeBox = new JComboBox(_times);
 		_startTimeBox.setSelectedIndex(time*4);
-		JComboBox<Object> _endTimeBox = new JComboBox<Object>(_times);
+		JComboBox _endTimeBox = new JComboBox(_times);
 		_endTimeBox.setSelectedIndex((time+1)*4);
-
-		_dialogFrame.getContentPane().add(new JLabel("Artist"));
-		_dialogFrame.getContentPane().add(_artistsBox);
-		_dialogFrame.getContentPane().add(new JLabel("Stage"));
-		_dialogFrame.getContentPane().add(_stagesBox);
-		_dialogFrame.getContentPane().add(new JLabel("Start time"));
-		_dialogFrame.getContentPane().add(_startTimeBox);
-		_dialogFrame.getContentPane().add(new JLabel("End time"));
-		_dialogFrame.getContentPane().add(_endTimeBox);
-		_dialogFrame.getContentPane().add(new JLabel(" "));
-		_dialogFrame.getContentPane().add(_acceptButton);
-	
+		
 		_selectedArtist = _artistsBox.getSelectedIndex();
 		_selectedStage = _stagesBox.getSelectedIndex();
 		_selectedStartTime = _startTimeBox.getSelectedIndex();
@@ -182,7 +173,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		_artistsBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				JComboBox<Object> cb = (JComboBox) e.getSource();
+				JComboBox cb = (JComboBox) e.getSource();
 				_selectedArtist = cb.getSelectedIndex();
 			}
 		});
@@ -190,7 +181,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		_stagesBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				JComboBox<Object> cb = (JComboBox) e.getSource();
+				JComboBox cb = (JComboBox) e.getSource();
 				_selectedStage = cb.getSelectedIndex();
 			}
 		});
@@ -198,7 +189,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		_startTimeBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				JComboBox<Object> cb = (JComboBox) e.getSource();
+				JComboBox cb = (JComboBox) e.getSource();
 				_selectedStartTime = cb.getSelectedIndex();
 			}
 		});
@@ -206,7 +197,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		_endTimeBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				JComboBox<Object> cb = (JComboBox) e.getSource();
+				JComboBox cb = (JComboBox) e.getSource();
 				_selectedEndTime = cb.getSelectedIndex();
 			}
 		});
@@ -229,11 +220,21 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 				}
 			}
 		});
-
+		_dialogFrame.setContentPane(new JPanel(new FlowLayout()));
 		_dialogFrame.setDefaultCloseOperation(closeFrame());
-	    _dialogFrame.setLocationRelativeTo(null);
 		_dialogFrame.setLayout(new GridLayout(0,2));
+		_dialogFrame.getContentPane().add(new JLabel("Artist"));
+		_dialogFrame.getContentPane().add(_artistsBox);
+		_dialogFrame.getContentPane().add(new JLabel("Stage"));
+		_dialogFrame.getContentPane().add(_stagesBox);
+		_dialogFrame.getContentPane().add(new JLabel("Start time"));
+		_dialogFrame.getContentPane().add(_startTimeBox);
+		_dialogFrame.getContentPane().add(new JLabel("End time"));
+		_dialogFrame.getContentPane().add(_endTimeBox);
+		_dialogFrame.getContentPane().add(new JLabel(" "));
+		_dialogFrame.getContentPane().add(_acceptButton);
 		_dialogFrame.pack();
+	    _dialogFrame.setLocationRelativeTo(null);
 		_dialogFrame.setVisible(true);
 	}
 	
@@ -246,7 +247,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		_startTime.set(2014, 2, 1, _timeList.get(startTime)/100, _timeList.get(startTime)%100);
 		_endTime.set(2014, 2, 1, _timeList.get(endTime)/100, _timeList.get(endTime)%100);
 		
-		FestivalHandler.Instance().addAct(new Act("", _stageList.get(stage), _artistList.get(artist), _startTime,
+		FestivalHandler.Instance().addAct(new Act(_artistList.get(artist).getName(), _stageList.get(stage), _artistList.get(artist), _startTime,
 				_endTime));
 		System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
 		_curAct++;
@@ -258,7 +259,6 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		return JFrame.DISPOSE_ON_CLOSE;
 	}
 	
-
 	private void updateData()
 	{
 		_stageList = FestivalHandler.Instance().getStages();
@@ -282,6 +282,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 
 	public void paintComponent(Graphics g)
 	{
+		updateData();
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 
@@ -304,7 +305,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		lineHeight = 50;
 		if (_stageList.size() > 10) // stageList defined in constructor
 		{
-			lineHeight += -(_stageList.size() - 10) * 4.5; // decrease the lineHeight for every stage > 8 that is added.
+			lineHeight += -(_stageList.size() - 10) * 3.5; // decrease the lineHeight for every stage > 8 that is added.
 		}
 
 		int x = 0; // DON'T JUDGE ME!
@@ -393,13 +394,10 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 //			}
 //		}
 		int stageIndex = _stageList.indexOf(stage);
-<<<<<<< HEAD
-=======
 		if(stageIndex < 0)
 			return null;
 		
 //		System.out.println("StageIndex: " + stageIndex);
->>>>>>> e94cc2f... changes to SchedulePanel looks, and changed the way Acts are drawn to prefent NPE when stage is deleted but act is present
 		int ppMinute = 48; // pixels per minute
 		if(timeEnd < 12) //when the end time is after midnight its between 0 and 4 (or higher)
 		{
