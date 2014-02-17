@@ -60,7 +60,11 @@ public class Enums
 		ChangeMap("Kaart aanpassen", "Change map"),
 		RemoveMap("Kaart verwijderen", "Remove map"),
 		Dutch("Nederlands", "Dutch"),
-		English("Engels", "English");
+		English("Engels", "English"),
+		EditAct("Act aanpassen", "Edit act"),
+		BeginTime("Begin tijd", "Begin time"),
+		EndTime("Eind tijd", "End time"),
+		Delete("Verwijderen", "Delete");
 
 		
 		private String _nl;

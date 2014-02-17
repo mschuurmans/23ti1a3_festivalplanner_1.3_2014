@@ -161,6 +161,11 @@ public class FestivalHandler
 		_festival.setStages(value);
 	}
 
+	public void setActs(ArrayList<Act> value)
+	{
+		_festival.getSchedule().setActs(value);
+	}
+	
 	/*
 	 * debugging purposes
 	 */

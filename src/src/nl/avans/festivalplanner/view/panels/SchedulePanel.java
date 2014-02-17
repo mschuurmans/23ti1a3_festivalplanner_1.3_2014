@@ -30,6 +30,7 @@ import nl.avans.festivalplanner.model.Act;
 import nl.avans.festivalplanner.model.Artist;
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
+import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.view.ApplicationView;
 import nl.avans.festivalplanner.view.GUIHelper;
@@ -105,7 +106,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 							
 							System.out.println("Act: " + _actList.get(actShapeNumber).getName() + " has been clicked."); //TODO REPLACE
 							// TODO replace body of code
-							
+							new EditActWindow(_actList.get(actShapeNumber));
 							return; //necessary to return operation in order to ignore clicks on rectangles when actShapes have been clicked
 						}
 					}
@@ -483,6 +484,75 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 
 	}
 
+	class EditActWindow extends JFrame implements ActionListener
+	{
+		private Act _act;
+		private JComboBox<Object> _artistsBox;
+		private JComboBox<Object> _stagesBox;
+		private JComboBox<Object> _startTimeBox;
+		private JComboBox<Object> _endTimeBox;
+		private JButton _save;
+		private JButton _delete;
+		
+		public EditActWindow(Act act)
+		{
+			super(Text.EditAct.toString());
+			this._act = act;
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			
+			_artistsBox = new JComboBox<Object>(_artistList.toArray());
+			_artistsBox.setSelectedIndex(_artistList.indexOf(act.getArtist()));
+			_stagesBox = new JComboBox<Object>(_stageList.toArray());
+			_stagesBox.setSelectedIndex(_stageList.indexOf(act.getStage()));
+			
+			_startTimeBox = new JComboBox<Object>(_timeList.toArray());
+			//startTimeBox.setSelectedIndex(time*4);
+			
+			_endTimeBox = new JComboBox<Object>(_timeList.toArray());
+			//endTimeBox.setSelectedIndex((time+1)*4);
+			
+			_save = new JButton(Text.Save.toString());
+			_save.addActionListener(this);
+			
+			_delete = new JButton(Text.Delete.toString());
+			_delete.addActionListener(this);
+			
+			JPanel content = new JPanel(new GridLayout(0,2));
+			
+			content.add(new JLabel(Text.Artist.toString()));
+			content.add(_artistsBox);
+			content.add(new JLabel(Text.Stages.toString()));
+			content.add(_stagesBox);
+			content.add(new JLabel(Text.BeginTime.toString()));
+			content.add(_startTimeBox);
+			content.add(new JLabel(Text.EndTime.toString()));
+			content.add(_endTimeBox);
+			content.add(_delete);
+			content.add(_save);
+			
+			setContentPane(content);
+			pack();
+		    setLocationRelativeTo(null);
+			setVisible(true);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			if(e.getSource() == _save)
+			{
+				saveAct(_act, _artistsBox.getSelectedIndex(), _stagesBox.getSelectedIndex(), _startTimeBox.getSelectedIndex(), _endTimeBox.getSelectedIndex());
+				//updateData();
+			}
+			else if(e.getSource() == _delete)
+			{
+				_actList.remove(_act);
+				setVisible(false);
+				dispose(); // clearing the frame out of the memory
+			}
+		}
+	}
+	
 	@Override
 	public Panel getPanel()
 	{
@@ -528,5 +598,26 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	public void mouseReleased(MouseEvent arg0)
 	{
 		// TODO Auto-generated method stub
+	}
+	
+	public void saveAct(Act act,int artist, int stage, int startTime, int endTime)
+	{
+		System.out.println("start time index is: " + startTime + " - end time index is: " + endTime);
+		System.out.println("start time is: " + _timeList.get(startTime) + " - end time is: " + _timeList.get(endTime));
+		GregorianCalendar startTimeGreg = new GregorianCalendar();
+		GregorianCalendar endTimeGreg = new GregorianCalendar();
+		startTimeGreg.set(2014, 2, 1, _timeList.get(startTime)/100, _timeList.get(startTime)%100);
+		endTimeGreg.set(2014, 2, 1, _timeList.get(endTime)/100, _timeList.get(endTime)%100);
+		
+		act.setArtist(_artistList.get(artist));
+		act.setEndTime(endTimeGreg);
+		act.setStartTime(startTimeGreg);
+		act.setStage(_stageList.get(stage));
+		
+		_actList.set(_actList.indexOf(act), act);
+		FestivalHandler.Instance().setActs(_actList);
+		
+		System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
+		_curAct++;
 	}
 }

@@ -28,4 +28,9 @@ public class Schedule implements Serializable
 	{
 		return _acts;
 	}
+	
+	public void setActs(ArrayList<Act> acts)
+	{
+		this._acts = acts;
+	}
 }
