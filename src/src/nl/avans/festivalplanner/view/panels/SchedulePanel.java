@@ -56,6 +56,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 
 	JButton _acceptButton = new JButton("Accept");
 	JFrame _dialogFrame = new JFrame("Maak nieuwe Act aan");
+	JFrame _editActFrame = new JFrame("Act aanpassen");
 	int _selectedArtist;
 	int _selectedStage;
 	int _selectedStartTime;
@@ -105,9 +106,10 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 							int actShapeNumber = _actShapeList.indexOf(actShape);
 							
 							System.out.println("Act: " + _actList.get(actShapeNumber).getName() + " has been clicked."); //TODO REPLACE
+
 							// TODO replace body of code
 							new EditActWindow(_actList.get(actShapeNumber));
-							return; //necessary to return operation in order to ignore clicks on rectangles when actShapes have been clicked
+							return;							// TODO replace body of code PLACE CODE T						return; //necessary to return operation in order to ignore clicks on rectangles when actShapes have been clicked
 						}
 					}
 	
@@ -238,6 +240,63 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		_dialogFrame.pack();
 	    _dialogFrame.setLocationRelativeTo(null);
 		_dialogFrame.setVisible(true);
+	}
+	
+	private void showDialog(Act act)
+	{
+
+		done = false;
+		
+		final int indexOfAct = FestivalHandler.Instance().getActs().indexOf(act);
+		
+		System.out.println("act Index of act clicked: " + indexOfAct);
+		
+		_editActFrame.setContentPane(new JPanel(new FlowLayout()));
+		_editActFrame.setDefaultCloseOperation(closeFrame());
+		_editActFrame.setLayout(new GridLayout(0,2));
+		
+		System.out.println(act.getName());
+		
+		JButton editActButton = new JButton("Edit Act");
+		editActButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				_editActFrame.setVisible(false);
+				_editActFrame.getContentPane().removeAll();
+				
+				//FestivalHandler.Instance().removeAct(indexOfAct);
+				
+				showDialog(0, 0);
+				
+				updateData();
+				done = true;
+			}
+		});
+		
+		JButton removeActButton = new JButton("Remove Act");
+		removeActButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				_editActFrame.setVisible(false);
+				_editActFrame.getContentPane().removeAll();
+				
+				//FestivalHandler.Instance().removeAct(indexOfAct);
+				
+				updateData();
+				done = true;
+			}
+		});
+		
+		_editActFrame.add(editActButton);
+		_editActFrame.add(removeActButton);
+
+		_editActFrame.pack();
+		_editActFrame.setLocationRelativeTo(null);
+		_editActFrame.setVisible(true);
 	}
 	
 	private void addAct(int artist, int stage, int startTime, int endTime)
