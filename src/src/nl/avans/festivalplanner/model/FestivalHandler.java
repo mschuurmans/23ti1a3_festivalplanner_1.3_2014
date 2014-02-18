@@ -257,4 +257,9 @@ public class FestivalHandler
 	public Festival getFestival(){
 		return this._festival;
 	}
+	public void remove(Act act)
+	{
+		ArrayList<Act> acts = this._festival.getSchedule().getActs();
+		this._festival.getSchedule().getActs().remove((acts.indexOf(act)));
+	}	
 }

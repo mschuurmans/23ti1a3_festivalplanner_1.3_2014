@@ -605,7 +605,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 			}
 			else if(e.getSource() == _delete)
 			{
-				_actList.remove(_act);
+				FestivalHandler.Instance().remove(_act);
 				setVisible(false);
 				dispose(); // clearing the frame out of the memory
 			}
