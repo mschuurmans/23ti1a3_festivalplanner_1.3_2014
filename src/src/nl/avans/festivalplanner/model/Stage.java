@@ -3,7 +3,9 @@ package nl.avans.festivalplanner.model;
 import java.awt.Dimension;
 import java.io.Serializable;
 
-public class Stage implements Serializable
+import nl.avans.festivalplanner.model.simulator.Area;
+
+public class Stage extends Area implements Serializable
 {
 	private static final long serialVersionUID = 7479523431094662053L;
 	
@@ -14,6 +16,7 @@ public class Stage implements Serializable
 	
 	public Stage(String name, int capacity, Dimension stageSize, Dimension fieldSize)
 	{
+		super(stageSize, null);
 		this._name = name;
 		this._capacity = capacity;
 		this._sizeStage = stageSize;
@@ -44,6 +47,7 @@ public class Stage implements Serializable
 	{
 		Dimension value = new Dimension((int)width,(int) height);
 		this._sizeStage = value;
+		super.setSize(value);
 	}
 	
 	public Dimension getStageSize()
