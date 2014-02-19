@@ -1,11 +1,13 @@
 package nl.avans.festivalplanner.model.simulator;
 
+import java.awt.Dimension;
+
 public class People extends Element
 {
 	
-	public Poeple()
+	public People(Dimension size, Vector position)
 	{
-		super();
+		super(size, position);
 	}
 	public void draw()
 	{
@@ -20,5 +22,5 @@ public class People extends Element
 	private void newDestination()
 	{
 		
-	}
+	}	
 }

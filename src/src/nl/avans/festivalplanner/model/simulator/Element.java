@@ -38,23 +38,35 @@ public abstract class Element
 	/**
 	 * @return the size
 	 */
-	public abstract Dimension getSize();
+	public Dimension getSize()
+	{
+		return this._size;
+	}
 
 	/**
 	 * @param size
 	 *            the size to set
 	 */
-	public abstract void setSize(Dimension size);
+	public void setSize(Dimension size)
+	{
+		this._size = size;
+	}
 
 	/**
 	 * @return the position
 	 */
-	public abstract Vector getPosition();
+	public Vector getPosition()
+	{
+		return this._position;
+	}
 
 	/**
 	 * @param position
 	 *            the position to set
 	 */
-	public abstract void setPosition(Vector position);
+	public void setPosition(Vector position)
+	{
+		this._position = position;
+	}
 
 }
