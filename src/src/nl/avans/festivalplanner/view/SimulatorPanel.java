@@ -18,4 +18,26 @@ public class SimulatorPanel extends Panel
 		return this;
 	}
 
+	public class Simulator extends JPanel implements ActionListener
+	{
+		public Simulator(Dimension dim)
+		{
+			setPrefferedSize(dim);
+			Timer timer = new Timer(30, this);
+			timer.start();
+		}
+
+		@Override
+		public void actionPerforment(ActionEvent event)
+		{
+			repaint();
+		}
+                
+		@Override
+		pubic void paintComponent(Graphics g)
+		{
+			super.paintComponent(g);
+		}
+	}
+
 }
