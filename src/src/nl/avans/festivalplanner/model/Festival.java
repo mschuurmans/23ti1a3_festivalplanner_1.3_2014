@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import nl.avans.festivalplanner.view.panels.MapPanel;
+
 /**
  * @author Jordy Sipkema & Jack Evers & Rudy Tjin-Kon-Koen
  * @version 13-02-2014
@@ -20,6 +22,7 @@ public class Festival implements Serializable
 	private List<Artist> _artists = new ArrayList<Artist>();
 	private ArrayList<Stage> _stages = new ArrayList<Stage>();
 	private Schedule _schedule = new Schedule();
+	private String _map = "resources/map.jpg";
 	
 	public void setSchedule(Schedule value)
 	{
@@ -97,5 +100,20 @@ public class Festival implements Serializable
 		this._imageSoure = imageSoure;
 	}
 	
+	/**
+	 * @return the image soure of the festival image.
+	 */
+	public String getMap()
+	{
+		return _map;
+	}
+
+	/**
+	 * @param imageSoure the imageSoure to set
+	 */
+	public void setMap(String map)
+	{
+		this._map = map;
+	}
 	
 }

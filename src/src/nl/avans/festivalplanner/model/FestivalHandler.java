@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.view.panels.MapPanel;
 
 public class FestivalHandler 
 {
@@ -262,4 +263,14 @@ public class FestivalHandler
 		ArrayList<Act> acts = this._festival.getSchedule().getActs();
 		this._festival.getSchedule().getActs().remove((acts.indexOf(act)));
 	}	
+	
+	public void setMap(String map)
+	{
+		this._festival.setMap(map);
+	}
+	
+	public String getMap()
+	{
+		return this._festival.getMap();
+	}
 }
