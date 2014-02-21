@@ -25,6 +25,7 @@ import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.view.ApplicationView;
 import nl.avans.festivalplanner.view.Panel;
+import nl.avans.festivalplanner.view.SimulatorView;
 
 /**
  * An implementation of JPanel which is used to display general information
@@ -41,6 +42,8 @@ public class InfoPanel extends Panel
 																		// Save
 	private JButton _cancelButton = new JButton(Text.Cancel.toString()); // ?eng:
 																			// Cancel
+	private JButton _startSimButton = new JButton(Text.StartSimulation.toString());
+	
 	private JButton _changeImageButton = new JButton(
 			Text.ChangeImage.toString());
 	private JButton _removeImageButton = new JButton(
@@ -112,6 +115,9 @@ public class InfoPanel extends Panel
 		else if (e.getSource() == _removeImageButton)
 		{
 			changeFestivalImage("no_image.jpg");
+		}
+		else if (e.getSource() == _startSimButton){
+			new SimulatorView();
 		}
 	}
 
@@ -281,6 +287,9 @@ public class InfoPanel extends Panel
 		_cancelButton.setBounds(879, height - 133, 100, 25);
 		_cancelButton.addActionListener(this);
 
+		_startSimButton.setBounds(769, height-167, 210, 25);
+		_startSimButton.addActionListener(this);
+		
 		_changeImageButton.setBounds(769, 287, 210, 25);
 		_changeImageButton.addActionListener(this);
 		_removeImageButton.setBounds(769, 322, 210, 25);
@@ -297,6 +306,7 @@ public class InfoPanel extends Panel
 		add(_cancelButton);
 		add(_changeImageButton);
 		add(_removeImageButton);
+		add(_startSimButton);
 
 		this.drawFestivalImage();
 	}

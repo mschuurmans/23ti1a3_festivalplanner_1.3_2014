@@ -64,7 +64,8 @@ public class Enums
 		EditAct("Act aanpassen", "Edit act"),
 		BeginTime("Begin tijd", "Begin time"),
 		EndTime("Eind tijd", "End time"),
-		Delete("Verwijderen", "Delete");
+		Delete("Verwijderen", "Delete"),
+		StartSimulation("Start simulatie", "Start simulation");
 
 		
 		private String _nl;

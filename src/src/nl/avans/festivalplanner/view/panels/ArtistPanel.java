@@ -1,4 +1,3 @@
-
 package nl.avans.festivalplanner.view.panels;
 
 import java.awt.Color;
