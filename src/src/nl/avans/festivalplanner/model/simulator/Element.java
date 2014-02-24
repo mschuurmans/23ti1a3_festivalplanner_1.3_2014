@@ -4,13 +4,13 @@
 package nl.avans.festivalplanner.model.simulator;
 
 import java.awt.Dimension;
-import nl.avans.festivalplanner.model.simulator.Vector;
+import java.io.Serializable;
 
 /**
  * @author Jordy Sipkema
  * @version 18-02-2014
  */
-public abstract class Element
+public abstract class Element implements Serializable
 {
 	protected Dimension _size = null;
 	protected Vector _position = null;

@@ -68,9 +68,7 @@ public class FestivalHandler
 			{
 				// File outputFile = new File(file.getAbsolutePath());
 				if (file.exists()) {
-					int dialogResult = JOptionPane.showConfirmDialog(null,
-							Text.FileExistsWantToOverride.toString(),
-							Text.Warning.toString(), 1);
+					int dialogResult = JOptionPane.showConfirmDialog(null,Text.FileExistsWantToOverride.toString(),Text.Warning.toString(), 1);
 					if (dialogResult == JOptionPane.YES_OPTION)
 					{
 						// doorgaan
@@ -81,14 +79,11 @@ public class FestivalHandler
 					}
 				}
 
-				ObjectOutputStream out = new ObjectOutputStream(
-						new FileOutputStream(file));
+				ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
 				out.writeObject(_festival);
 				out.flush();
 				out.close();
-				JOptionPane.showMessageDialog(null,
-						Text.FileSavedSucces.toString(), Text.Info.toString(),
-						1);
+				JOptionPane.showMessageDialog(null,Text.FileSavedSucces.toString(), Text.Info.toString(),1);
 			} catch (Exception e) 
 			{
 				e.printStackTrace();
@@ -132,6 +127,7 @@ public class FestivalHandler
 			catch (Exception e) 
 			{
 				JOptionPane.showMessageDialog(null,Text.FileDoesNotExist.toString(), Text.Info.toString(), 1);
+				System.out.println("Laden is mislukt want: " + e.getMessage());
 				return false;
 			}
 			

@@ -14,6 +14,11 @@ public class Stage extends Area implements Serializable
 	private Dimension _sizeStage;
 	private Dimension _sizeField;
 	
+	public Stage()
+	{
+		super(new Dimension(0,0), null);
+	}
+	
 	public Stage(String name, int capacity, Dimension stageSize, Dimension fieldSize)
 	{
 		super(stageSize, null);
