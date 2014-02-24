@@ -39,6 +39,8 @@ import nl.avans.festivalplanner.view.Panel;
 public class SchedulePanel extends Panel implements MouseMotionListener, MouseListener
 {
 	private GUIHelper _guiHelper;
+	
+	private final boolean debug = true;
 
 	private final int startX = GUIHelper.XOFFSET;
 	private final int startY = GUIHelper.YOFFSET;
@@ -144,7 +146,8 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	{
 		_artistList = FestivalHandler.Instance().getArtists();
 		_stageList = FestivalHandler.Instance().getStages(); 
-
+        _acceptButton = new JButton(Text.Save.toString());
+        
 		done = false;
 
 		String[] _artistNames = new String[_artistList.size()];
@@ -206,6 +209,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 			}
 		});
 		
+		
 		_acceptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
@@ -213,6 +217,9 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 				_dialogFrame.getContentPane().removeAll();
 				if (_selectedStartTime < _selectedEndTime)
 				{
+					if(debug)
+						System.out.println("addAct has been called from acceptButton!!!");
+						
 					addAct(_selectedArtist, _selectedStage, _selectedStartTime, _selectedEndTime);
 					done = true;
 				} 
@@ -301,8 +308,11 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 	
 	private void addAct(int artist, int stage, int startTime, int endTime)
 	{
-		System.out.println("start time index is: " + startTime + " - end time index is: " + endTime);
-		System.out.println("start time is: " + _timeList.get(startTime) + " - end time is: " + _timeList.get(endTime));
+		if(debug)
+		{
+			System.out.println("start time index is: " + startTime + " - end time index is: " + endTime);
+			System.out.println("start time is: " + _timeList.get(startTime) + " - end time is: " + _timeList.get(endTime));
+		}
 		GregorianCalendar _startTime = new GregorianCalendar();
 		GregorianCalendar _endTime = new GregorianCalendar();
 		_startTime.set(2014, 2, 1, _timeList.get(startTime)/100, _timeList.get(startTime)%100);
@@ -310,7 +320,13 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		
 		FestivalHandler.Instance().addAct(new Act(_artistList.get(artist).getName(), _stageList.get(stage), _artistList.get(artist), _startTime,
 				_endTime));
-		System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
+		
+		if(debug)
+		{
+			System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
+			System.out.println("Size of FestivalHandler._actList: " + FestivalHandler.Instance().getActs().size());
+		}
+		
 		_curAct++;
 	}
 	
@@ -673,7 +689,8 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		act.setStartTime(startTimeGreg);
 		act.setStage(_stageList.get(stage));
 		
-		_actList.set(_actList.indexOf(act), act);
+		FestivalHandler.Instance().getActs().set(FestivalHandler.Instance().getActs().indexOf(act), act);
+		
 		FestivalHandler.Instance().setActs(_actList);
 		
 		System.out.println(FestivalHandler.Instance().getFestival().getSchedule().getActs().get(_curAct).toString());
