@@ -58,7 +58,7 @@ public class GUIHelper {
 		
 		JPanel mapPanel = new MapPanel();
 		tabBar.addTab(Text.Map.toString(), mapPanel);
-		
+						
 		return tabBar;
 	}
 	
