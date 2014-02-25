@@ -36,7 +36,7 @@ public class MapPanel extends Panel implements ActionListener, Serializable
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		JButton _mapButton = new JButton(Text.LoadMap.toString());

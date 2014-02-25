@@ -1,6 +1,7 @@
 
 package nl.avans.festivalplanner.utils;
 
+import nl.avans.festivalplanner.settings.SettingsController;
 import nl.avans.festivalplanner.utils.Enums.Languages;
 
 public class Enums 
@@ -8,8 +9,13 @@ public class Enums
 	
 	public static enum Languages
 	{
-		dutch,
-		english
+		dutch("Dutch"),
+		english("English");
+		
+		private String _s;
+		Languages(String s){_s = s;}
+		
+		public String toString(){ return _s; }
 	}
 	
 	public static enum Text
@@ -70,7 +76,6 @@ public class Enums
 		
 		private String _nl;
 		private String _eng;
-		private Languages _lang = Languages.dutch;
 		
 		Text(String nl, String eng)
 		{
@@ -80,7 +85,7 @@ public class Enums
 		
 		public String toString()
 		{
-			if(_lang == Languages.dutch)
+			if(SettingsController.Instance().getLanguage() == Languages.dutch)
 				return this._nl;
 			else
 				return this._eng;

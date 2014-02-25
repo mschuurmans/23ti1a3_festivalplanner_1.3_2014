@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.view.panels.MapPanel;
 
 public class FestivalHandler 
@@ -79,10 +80,7 @@ public class FestivalHandler
 					}
 				}
 
-				ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-				out.writeObject(_festival);
-				out.flush();
-				out.close();
+				Utils.writeObject(file, _festival);
 				JOptionPane.showMessageDialog(null,Text.FileSavedSucces.toString(), Text.Info.toString(),1);
 			} catch (Exception e) 
 			{
@@ -117,12 +115,8 @@ public class FestivalHandler
            
 			try
 			{
-				ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-				Object obj = in.readObject();
-
-				_festival = (Festival) obj;
+				_festival = (Festival)Utils.readObject(file);
 				//JOptionPane.showMessageDialog(null,Text.FileOpenedSucces.toString(), Text.Info.toString(),1);
-				in.close();
 			}
 			catch (Exception e) 
 			{

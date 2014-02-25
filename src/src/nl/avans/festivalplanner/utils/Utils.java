@@ -3,6 +3,13 @@ package nl.avans.festivalplanner.utils;
 import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -66,5 +73,49 @@ public class Utils
 		string += "...";
 		
 		return string;
+	}
+	
+	/**
+	 * writes an object to file
+	 * @param file where to save the object.
+	 * @param object object to be saved.
+	 * 
+	 * @author michiel
+	 * @return
+	 */
+	public static boolean writeObject(File file, Object object)
+	{
+		try 
+		{
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+		
+			out.writeObject(object);
+			out.flush();
+			out.close();
+			
+			System.out.println("File wrote to: " + file.getAbsolutePath());
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	/**
+	 * reads an object from file
+	 * @param file file to load
+	 * @author michiel
+	 * @return
+	 */
+	public static Object readObject(File file)
+	{
+		try
+		{
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+			return in.readObject();
+		}
+		catch(Exception e)
+		{ return null; }
 	}
 }

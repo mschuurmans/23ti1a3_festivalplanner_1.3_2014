@@ -1,7 +1,9 @@
 package nl.avans.festivalplanner.model.simulator;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 
 public class People extends Element
 {
@@ -10,9 +12,16 @@ public class People extends Element
 	{
 		super(size, position);
 	}
+	
 	public void draw(Graphics2D g)
 	{
-
+		Ellipse2D circleBack = new Ellipse2D.Double(_position.getX() - (_size.getWidth() / 2), _position.getY()- (_size.getHeight() / 2), _size.getWidth(), _size.getHeight());
+		
+		g.setColor(new Color(11f, 0f, 0f, 0.74f));
+		g.fill(circleBack);
+		
+		g.setColor(Color.black);
+		g.draw(circleBack);
 	}
 	
 	public void update()

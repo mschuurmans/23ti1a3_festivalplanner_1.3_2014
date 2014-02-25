@@ -151,8 +151,7 @@ public class InfoPanel extends Panel
 	 */
 	private void drawFestivalImage()
 	{
-		this.changeFestivalImage(FestivalHandler.Instance().getFestival()
-				.getImageSoure());
+		this.changeFestivalImage(FestivalHandler.Instance().getFestival().getImageSoure());
 	}
 
 	/**
