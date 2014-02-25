@@ -35,7 +35,7 @@ public class FestivalHandler
 	private Stage _testStage1; //TESTING! TODO REMOVE
 	private Stage _testStage2; //TESTING! TODO REMOVE
 
-	public FestivalHandler() 
+	private FestivalHandler() 
 	{
 		_festival = new Festival();
 	}
