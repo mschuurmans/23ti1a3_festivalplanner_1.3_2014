@@ -6,14 +6,19 @@ package nl.avans.festivalplanner.view.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -27,7 +32,6 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import nl.avans.festivalplanner.model.Artist;
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
 import nl.avans.festivalplanner.utils.Enums.Text;
@@ -46,6 +50,11 @@ public class StagePanel extends Panel
 	private final AbstractListModel<Stage> _abstractModel;
 	private ArrayList<Stage> _stageArrayList;
 	private JSpinner _spinnerStageL, _spinnerStageW, _spinnerFieldL, _spinnerFieldW, _spinnerCapacity;
+	private JButton _changeImage;
+	private JButton _removeImage;
+	private JLabel _imageLabel;
+	private String _imageName;
+
 
 
 	private GUIHelper _guiHelper;
@@ -116,6 +125,43 @@ public class StagePanel extends Panel
 		_sizeDef_2 = new JLabel(Text.SizeDef.toString());
 		_sizeDef_2.setBounds(320, 120, 50, 25);
 
+		_imageName = "no_image.jpg";
+
+		_imageLabel = new JLabel("");
+		_imageLabel.setIcon((Icon)new ImageIcon(getClass().getClassLoader().getResource(_imageName)));
+		_imageLabel.setBounds(groupBoxWidth - 220,20, 200, 240);
+		//	System.out.println("TEST " + _imageLabel.getText());
+
+		_changeImage = new JButton(Text.ChangeImage.toString());
+		_changeImage.setBounds(groupBoxWidth - 220, 275, 210, 25);
+		_changeImage.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showOpenDialog(StagePanel.this);
+
+				if (returnVal == JFileChooser.APPROVE_OPTION)
+				{
+					File file = fc.getSelectedFile();
+					_imageLabel.setIcon((Icon)new ImageIcon(file.getAbsolutePath()));
+					_imageName = file.getName();
+					System.out.println(file.getAbsolutePath());
+					System.out.println(_imageName);
+				}
+
+			}
+		});
+
+		_removeImage = new JButton(Text.RemoveImage.toString());
+		_removeImage.setBounds(groupBoxWidth - 220, 310, 210, 25);
+		_removeImage.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				_imageName = "no_image.jpg";
+				_imageLabel.setIcon((Icon)new ImageIcon(getClass().getClassLoader().getResource(_imageName)));
+			}
+		});
+
 		_abstractModel = new AbstractListModel<Stage>()
 				{
 			public Stage getElementAt(int index)
@@ -146,6 +192,8 @@ public class StagePanel extends Panel
 						_spinnerStageW.setValue(_stageArrayList.get(index).getStageSize().getWidth());
 						_spinnerFieldL.setValue(_stageArrayList.get(index).getFieldSize().getHeight());
 						_spinnerFieldW.setValue(_stageArrayList.get(index).getFieldSize().getWidth());
+						_imageLabel.setIcon((Icon)new ImageIcon(getClass().getClassLoader().getResource(_stageArrayList.get(index).getImageSource())));
+
 					}
 				});
 				JScrollPane scrollPane = new JScrollPane(_stageList);
@@ -157,7 +205,7 @@ public class StagePanel extends Panel
 					public void actionPerformed(ActionEvent e)
 					{
 						String stageName = "New stage " + _stageArrayList.size();
-						Stage stage = new Stage(stageName, 0, new Dimension(10, 10), new Dimension(10, 10));
+						Stage stage = new Stage(stageName, 0, new Dimension(10, 10), new Dimension(10, 10), "no_image.jpg");
 						_stageArrayList.add(stage);
 						updateList();
 					}
@@ -188,6 +236,7 @@ public class StagePanel extends Panel
 							_stageArrayList.get(index).setCapacity((int)_spinnerCapacity.getValue());
 							_stageArrayList.get(index).setStageSize((double)_spinnerStageW.getValue(), (double)_spinnerStageL.getValue());
 							_stageArrayList.get(index).setFieldSize((double)_spinnerFieldL.getValue(), (double)_spinnerFieldW.getValue());
+							_stageArrayList.get(index).setImageSource(_imageName);
 							updateList();
 							FestivalHandler.Instance().setStage(_stageArrayList);
 						}
@@ -206,6 +255,7 @@ public class StagePanel extends Panel
 						_spinnerStageW.setValue(_stageArrayList.get(index).getStageSize().getWidth());
 						_spinnerFieldL.setValue(_stageArrayList.get(index).getFieldSize().getHeight());
 						_spinnerFieldW.setValue(_stageArrayList.get(index).getFieldSize().getWidth());
+						_imageLabel.setText(_stageArrayList.get(index).getImageSource());
 						updateList();
 					}
 				});
@@ -225,6 +275,10 @@ public class StagePanel extends Panel
 				_groupBox.add(_xLbl_2);
 				_groupBox.add(_spinnerFieldW);
 				_groupBox.add(_sizeDef_2);
+				_groupBox.add(_changeImage);
+				_groupBox.add(_removeImage);
+				_groupBox.add(_imageLabel);
+
 
 
 				_groupBox.add(_save);
@@ -234,8 +288,9 @@ public class StagePanel extends Panel
 				add(_addStage);
 				add(_removeStage);
 				add(_groupBox);
-				//add(_stageList);
 				loadArtistsFromHandler();
+
+
 
 	}
 
@@ -264,7 +319,7 @@ public class StagePanel extends Panel
 			p.contentsChanged(null);		
 	}
 
-	
+
 	public void loadArtistsFromHandler()
 	{
 		ArrayList<Stage> stages = FestivalHandler.Instance().getStages();
