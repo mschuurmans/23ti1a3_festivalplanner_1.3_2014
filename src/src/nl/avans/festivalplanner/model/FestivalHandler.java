@@ -121,7 +121,7 @@ public class FestivalHandler
 				Object obj = in.readObject();
 
 				_festival = (Festival) obj;
-				JOptionPane.showMessageDialog(null,Text.FileOpenedSucces.toString(), Text.Info.toString(),1);
+				//JOptionPane.showMessageDialog(null,Text.FileOpenedSucces.toString(), Text.Info.toString(),1);
 				in.close();
 			}
 			catch (Exception e) 

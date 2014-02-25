@@ -4,6 +4,7 @@
 package nl.avans.festivalplanner.model.simulator;
 
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 
 /**
  * @author Jordy Sipkema & Michiel Schuurmans
@@ -18,7 +19,7 @@ public class Area extends Element
 	}
 	
 	@Override
-	public void draw()
+	public void draw(Graphics2D g)
 	{
 		// TODO Auto-generated method stub
 		

@@ -4,6 +4,7 @@
 package nl.avans.festivalplanner.model.simulator;
 
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.io.Serializable;
 
 /**
@@ -28,7 +29,7 @@ public abstract class Element implements Serializable
 	/**
 	 * Draws this element.
 	 */
-	public abstract void draw();
+	public abstract void draw(Graphics2D g);
 
 	/**
 	 * Updates this element.
