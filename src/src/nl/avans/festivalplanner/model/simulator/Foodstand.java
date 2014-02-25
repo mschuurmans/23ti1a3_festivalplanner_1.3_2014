@@ -4,6 +4,7 @@
 package nl.avans.festivalplanner.model.simulator;
 
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 
 /**
  * @author jordysipkema
@@ -26,10 +27,10 @@ public class Foodstand extends Building
 	 * @see nl.avans.festivalplanner.model.simulator.Building#draw()
 	 */
 	@Override
-	public void draw()
+	public void draw(Graphics2D g)
 	{
 		// TODO Auto-generated method stub
-		super.draw();
+		super.draw(g);
 	}
 
 	/* (non-Javadoc)
