@@ -23,14 +23,7 @@ public class Area extends Element
 	@Override
 	public void draw(Graphics2D g)
 	{
-		
-		Rectangle2D rect = new Rectangle2D.Double(_position.getX() - (_size.getWidth() / 2), _position.getY()- (_size.getHeight() / 2), _size.getWidth(), _size.getHeight());
-		
-		g.setColor(new Color(11f, 0f, 0f, 0.74f));
-		g.fill(rect);
-		
-		g.setColor(Color.black);
-		g.draw(rect);
+		drawBack(g);			
 	}
 
 	@Override
@@ -38,6 +31,21 @@ public class Area extends Element
 	{
 		// TODO Auto-generated method stub
 		
+	}
+
+	/**
+	 * draws a background area around the object.
+	 * @Author Michiel Schuurmans
+	 */
+	private void drawBack(Graphics2D g)
+	{
+		Rectangle2D rect = new Rectangle2D.Double(_position.getX() - (_size.getWidth()/2), _position.getY() - (_size.getHeight()/2), _size.getWidth(), _size.getHeight());
+		
+		g.setColor(new Color(11f, 0f, 0f, 0.74f));
+		g.fill(rect);
+
+		g.setColor(Color.black);
+		g.draw(rect);
 	}
 
 }
