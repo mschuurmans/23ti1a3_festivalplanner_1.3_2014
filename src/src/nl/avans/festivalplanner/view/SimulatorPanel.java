@@ -165,17 +165,26 @@ public class SimulatorPanel extends Panel
 
 	public class Simulator extends JPanel implements ActionListener
 	{
-		private Image grassTexture = new ImageIcon("grass.png").getImage();
-		private int width = 900;
-		private int height = 400;
+		private Image _grassTexture;
+		private Dimension _size;
 		
 
 		public Simulator(Dimension dim)
 		{
 			setPreferredSize(dim);
-			JButton button = new JButton("test");
-			button.setBounds(20, 20, 200, 200);
-			add(button);
+			this._size = dim;
+			
+			try
+			{
+				 _grassTexture = new ImageIcon("bin/grass.png").getImage();
+				 
+				 System.out.println(_grassTexture);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
 			Timer timer = new Timer(30, this);
 			timer.start();
 		}
@@ -191,21 +200,33 @@ public class SimulatorPanel extends Panel
 		{
 			super.paintComponent(g);
 			Graphics2D g2 = (Graphics2D) g;
-
-			int currentHeight = 0;
-			int currentWidth = 0;
-			for(int y =0; y<this.height; y++)
+			
+			int imageWidth = 400;
+			int imageHeight = 400;
+			
+			int curY = 0;
+			for(int y = 0; y<=(this._size.getHeight() / imageHeight); y++)
 			{
-				for(int x=0; x<this.width; x++)
+				int curX = 0;
+				for(int x = 0; x<=(this._size.getWidth() / imageWidth); x++)
 				{
-					g2.drawImage(grassTexture, currentWidth, currentHeight, 400, 400, null);
-					currentWidth = x*400;;
+					g2.drawImage(_grassTexture, curX, curY, imageWidth, imageHeight, null);
+					curX += imageWidth;
+				}
+				curY+= imageHeight;
+			}
+			/*
+			for(int y =0; currentHeight<=this._size.getHeight(); y++)
+			{
+				for(int x=0; currentWidth<=this._size.getWidth(); x++)
+				{
+					g2.drawImage(_grassTexture, currentWidth, currentHeight, 400, 400, null);
+					currentWidth = x*400;
 				}
 				currentHeight = y*400;
 			}
+			*/
 			//System.out.println("repaint");
-
-
 		}
 	}
 
