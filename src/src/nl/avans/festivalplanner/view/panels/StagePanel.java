@@ -124,11 +124,13 @@ public class StagePanel extends Panel
 
 		_sizeDef_2 = new JLabel(Text.SizeDef.toString());
 		_sizeDef_2.setBounds(320, 120, 50, 25);
-
-		_imageName = "no_image.jpg";
+		
+				
+		_imageName = getClass().getClassLoader().getResource("no_image.jpg").getPath();
+	 	System.out.println(_imageName);
 
 		_imageLabel = new JLabel("");
-		_imageLabel.setIcon((Icon)new ImageIcon(getClass().getClassLoader().getResource(_imageName)));
+		_imageLabel.setIcon((Icon)new ImageIcon(_imageName));
 		_imageLabel.setBounds(groupBoxWidth - 220,20, 200, 240);
 		//	System.out.println("TEST " + _imageLabel.getText());
 
@@ -144,7 +146,7 @@ public class StagePanel extends Panel
 				{
 					File file = fc.getSelectedFile();
 					_imageLabel.setIcon((Icon)new ImageIcon(file.getAbsolutePath()));
-					_imageName = file.getName();
+					_imageName = file.getAbsolutePath().toString();
 					System.out.println(file.getAbsolutePath());
 					System.out.println(_imageName);
 				}
@@ -157,8 +159,8 @@ public class StagePanel extends Panel
 		_removeImage.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				_imageName = "no_image.jpg";
-				_imageLabel.setIcon((Icon)new ImageIcon(getClass().getClassLoader().getResource(_imageName)));
+				_imageName = this.getClass().getClassLoader().getResource("no_image.jpg").toString();
+				_imageLabel.setIcon((Icon)new ImageIcon(_imageName));
 			}
 		});
 
@@ -192,7 +194,7 @@ public class StagePanel extends Panel
 						_spinnerStageW.setValue(_stageArrayList.get(index).getStageSize().getWidth());
 						_spinnerFieldL.setValue(_stageArrayList.get(index).getFieldSize().getHeight());
 						_spinnerFieldW.setValue(_stageArrayList.get(index).getFieldSize().getWidth());
-						_imageLabel.setIcon((Icon)new ImageIcon(getClass().getClassLoader().getResource(_stageArrayList.get(index).getImageSource())));
+						_imageLabel.setIcon((Icon)new ImageIcon(_stageArrayList.get(index).getImageSource()));
 
 					}
 				});
