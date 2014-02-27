@@ -179,6 +179,12 @@ public class FestivalHandler
 		stageList.add(new Stage("test4", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
 		stageList.add(new Stage("test5", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
 		stageList.add(new Stage("test6", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		stageList.add(new Stage("test7", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		stageList.add(new Stage("test8", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		stageList.add(new Stage("test9", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		stageList.add(new Stage("test10", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		stageList.add(new Stage("test11", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		stageList.add(new Stage("test12", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
 
 		return stageList;
 	}
