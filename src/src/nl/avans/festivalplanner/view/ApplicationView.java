@@ -40,7 +40,7 @@ public class ApplicationView extends JFrame
 	
 	public ApplicationView()
 	 {
-	    setTitle("Festival Planner TI1.3 A3");
+	    setTitle("Festival Planner TI1.3 23TI1A3");
 	    setResizable(false);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setPreferredSize(new Dimension(WIDTH, HEIGHT));
