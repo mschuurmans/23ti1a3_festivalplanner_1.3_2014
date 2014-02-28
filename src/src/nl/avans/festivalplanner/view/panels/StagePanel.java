@@ -6,13 +6,11 @@ package nl.avans.festivalplanner.view.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -125,9 +123,10 @@ public class StagePanel extends Panel
 		_sizeDef_2 = new JLabel(Text.SizeDef.toString());
 		_sizeDef_2.setBounds(320, 120, 50, 25);
 		
-				
-		_imageName = getClass().getClassLoader().getResource("no_image.jpg").getPath();
+		File f = new File("resources\\no_image.jpg");
+		_imageName = f.getAbsolutePath();
 	 	System.out.println(_imageName);
+
 
 		_imageLabel = new JLabel("");
 		_imageLabel.setIcon((Icon)new ImageIcon(_imageName));
@@ -207,7 +206,7 @@ public class StagePanel extends Panel
 					public void actionPerformed(ActionEvent e)
 					{
 						String stageName = "New stage " + _stageArrayList.size();
-						Stage stage = new Stage(stageName, 0, new Dimension(10, 10), new Dimension(10, 10), "no_image.jpg");
+						Stage stage = new Stage(stageName, 0, new Dimension(10, 10), new Dimension(10, 10), "resources\\no_image.jpg");
 						_stageArrayList.add(stage);
 						updateList();
 					}

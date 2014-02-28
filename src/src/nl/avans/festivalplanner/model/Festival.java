@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import nl.avans.festivalplanner.view.panels.MapPanel;
-
 /**
  * @author Jordy Sipkema & Jack Evers & Rudy Tjin-Kon-Koen
  * @version 13-02-2014

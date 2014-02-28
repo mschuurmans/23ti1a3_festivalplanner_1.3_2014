@@ -2,10 +2,6 @@ package nl.avans.festivalplanner.model;
 
 import java.awt.Dimension;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -18,7 +14,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.Utils;
-import nl.avans.festivalplanner.view.panels.MapPanel;
 
 public class FestivalHandler 
 {

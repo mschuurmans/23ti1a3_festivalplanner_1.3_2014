@@ -19,9 +19,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.Timer;
 
-import nl.avans.festivalplanner.model.FestivalHandler;
-import nl.avans.festivalplanner.model.Stage;
-
 import com.javaswingcomponents.accordion.JSCAccordion;
 import com.javaswingcomponents.accordion.TabOrientation;
 import com.javaswingcomponents.accordion.listener.AccordionEvent;
@@ -31,10 +28,12 @@ import com.javaswingcomponents.accordion.plaf.basic.BasicHorizontalTabRenderer;
 import com.javaswingcomponents.accordion.plaf.darksteel.DarkSteelAccordionUI;
 import com.javaswingcomponents.framework.painters.configurationbound.GradientColorPainter;
 
+import nl.avans.festivalplanner.model.FestivalHandler;
+import nl.avans.festivalplanner.model.Stage;
+
 public class SimulatorPanel extends Panel
 {
 	private static final long serialVersionUID = -3533223589206092760L;
-	
 	private static final boolean debug = true;
 	
 	private Toolbar toolbar;
