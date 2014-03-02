@@ -21,8 +21,8 @@ import javax.swing.SpinnerNumberModel;
 
 import nl.avans.festivalplanner.model.Festival;
 import nl.avans.festivalplanner.model.FestivalHandler;
-import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.view.ApplicationView;
 import nl.avans.festivalplanner.view.Panel;
 import nl.avans.festivalplanner.view.SimulatorView;

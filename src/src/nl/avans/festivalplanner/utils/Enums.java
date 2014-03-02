@@ -2,7 +2,6 @@
 package nl.avans.festivalplanner.utils;
 
 import nl.avans.festivalplanner.settings.SettingsController;
-import nl.avans.festivalplanner.utils.Enums.Languages;
 
 public class Enums 
 {

@@ -3,9 +3,8 @@ package nl.avans.festivalplanner.settings;
 import java.io.File;
 import java.io.Serializable;
 
-import nl.avans.festivalplanner.utils.Enums;
-import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.utils.Enums.Languages;
+import nl.avans.festivalplanner.utils.Utils;
 
 public class SettingsController implements Serializable
 {
