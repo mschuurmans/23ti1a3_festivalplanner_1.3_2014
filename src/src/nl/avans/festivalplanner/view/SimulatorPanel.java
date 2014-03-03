@@ -30,6 +30,7 @@ import com.javaswingcomponents.framework.painters.configurationbound.GradientCol
 
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
+import nl.avans.festivalplanner.utils.Enums.Text;
 
 public class SimulatorPanel extends Panel
 {
@@ -96,7 +97,7 @@ public class SimulatorPanel extends Panel
 			opaquePanel.setBackground(Color.GRAY);
 
 			accordion.addTab("Tab 1", new JButton("Button"));
-			accordion.addTab("Stages", getStageTab());
+			accordion.addTab(Text.Stages.toString(), getStageTab());
 			accordion.addTab("Tab 3", new JScrollPane(new JTree()));
 			accordion.addTab("Tab 4", opaquePanel);
 			accordion.addTab("Tab 5", transparentPanel);
