@@ -16,8 +16,8 @@ import com.javaswingcomponents.accordion.plaf.basic.BasicHorizontalTabRenderer;
 import com.javaswingcomponents.accordion.plaf.darksteel.DarkSteelAccordionUI;
 import com.javaswingcomponents.framework.painters.configurationbound.GradientColorPainter;
 
-import nl.avans.festivalplanner.model.FestivalHandler;
-import nl.avans.festivalplanner.model.Stage;
+import nl.avans.festivalplanner.model.*;
+import nl.avans.festivalplanner.model.simulator.*;
 import nl.avans.festivalplanner.utils.Enums.Text;
 
 public class SimulatorPanel extends Panel
@@ -74,7 +74,8 @@ public class SimulatorPanel extends Panel
 			//setLayout(null);
 			add(accordion);
 
-			System.out.println("Added accordion");
+			if(debug)
+				System.out.println("Added accordion");
 		}
 
 		private void addTabs(JSCAccordion accordion) {
@@ -88,7 +89,7 @@ public class SimulatorPanel extends Panel
 
 			accordion.addTab(Text.Controls.toString(), getControlTab());
 			accordion.addTab(Text.Stages.toString(), getStageTab());
-			accordion.addTab(Text.Stalls.toString(), new JScrollPane(new JTree()));
+			accordion.addTab(Text.Stall.toString(), new JScrollPane(new JTree()));
 			accordion.addTab(Text.Facilities.toString(), opaquePanel);
 			accordion.addTab(Text.Remaining.toString(), transparentPanel);
 		}
@@ -184,9 +185,7 @@ public class SimulatorPanel extends Panel
 			for(Stage stage : stageList)
 			{
 				if(debug)
-				{
 					System.out.println("stageName of stages to display in StagesTab!: " + stage.getName());
-				}
 				
 				//create shapes for acts
 				int x = curX;
@@ -318,6 +317,7 @@ public class SimulatorPanel extends Panel
 			int imageWidth = 400;
 			int imageHeight = 400;
 			
+			// begin drawing background	
 			int curY = 0;
 			for(int y = 0; y<=(this._size.getHeight() / imageHeight); y++)
 			{
@@ -329,19 +329,17 @@ public class SimulatorPanel extends Panel
 				}
 				curY+= imageHeight;
 			}
-			/*
-			for(int y =0; currentHeight<=this._size.getHeight(); y++)
+
+			// end drawing background
+			Element test = new Area(new Dimension(100,100), new Vector(100,100));
+			test.draw(g2);
+			//Draw all the elements to the screen.
+			for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
 			{
-				for(int x=0; currentWidth<=this._size.getWidth(); x++)
-				{
-					g2.drawImage(_grassTexture, currentWidth, currentHeight, 400, 400, null);
-					currentWidth = x*400;
-				}
-				currentHeight = y*400;
+				e.draw(g2);
 			}
-			*/
-			//System.out.println("repaint");
-		}
+			// end drawing allthe elements to the screen.	
+		}	
 	}
 
 }

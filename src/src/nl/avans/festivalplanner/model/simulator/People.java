@@ -38,7 +38,7 @@ public class People extends Element
 	private void drawBackCanvas(Graphics2D g)
 	{
 		Ellipse2D circleBack = new Ellipse2D.Double(_position.getX() - (_size.getWidth() / 2), _position.getY() - (_size.getHeight() / 2), _size.getWidth(), _size.getHeight());
-		g.setColor(new Color(11f, 0f, 0f, 0.74f));
+		g.setColor(new Color(69, 69, 69, 188));
 		g.fill(circleBack);
 
 		g.setColor(Color.black);
