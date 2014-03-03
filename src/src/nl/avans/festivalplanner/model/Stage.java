@@ -3,9 +3,9 @@ package nl.avans.festivalplanner.model;
 import java.awt.Dimension;
 import java.io.Serializable;
 
-import nl.avans.festivalplanner.model.simulator.Area;
+import nl.avans.festivalplanner.model.simulator.Building;
 
-public class Stage extends Area implements Serializable
+public class Stage extends Building implements Serializable
 {
 	private static final long serialVersionUID = 7479523431094662053L;
 

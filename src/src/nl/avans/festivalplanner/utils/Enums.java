@@ -70,7 +70,13 @@ public class Enums
 		BeginTime("Begin tijd", "Begin time"),
 		EndTime("Eind tijd", "End time"),
 		Delete("Verwijderen", "Delete"),
-		StartSimulation("Start simulatie", "Start simulation");
+		StartSimulation("Start simulatie", "Start simulation"),
+		Controls("Besturing", "Controls"),
+		Start("Start", "Start"),
+		Stop("Stop", "Stop"),
+		Stalls("Kraampjes", "Stalls"),
+		Facilities("Faciliteiten", "Facilities"),
+		Remaining("Overige", "Remaining");
 
 		
 		private String _nl;

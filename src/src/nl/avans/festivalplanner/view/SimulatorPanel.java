@@ -1,23 +1,11 @@
 package nl.avans.festivalplanner.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Shape;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.event.*;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.Timer;
+import javax.swing.*;
 
 import com.javaswingcomponents.accordion.JSCAccordion;
 import com.javaswingcomponents.accordion.TabOrientation;
@@ -75,13 +63,15 @@ public class SimulatorPanel extends Panel
 		JSCAccordion accordion = new JSCAccordion();
 		public Toolbar()
 		{
-			//accordion.setBounds(200, 200, 200, 200);
+			//accordion.setSize(200,200);
+			//accordion.setBounds(1200, 0, 200, 200);
 			addTabs(accordion);
 			listenForChanges(accordion);
 			changeTabOrientation(accordion);
 			//changeTheLookAndFeel(accordion);
 			//customizeALookAndFeel(accordion);
 			setLayout(new GridLayout(1,1,30,30));
+			//setLayout(null);
 			add(accordion);
 
 			System.out.println("Added accordion");
@@ -96,13 +86,57 @@ public class SimulatorPanel extends Panel
 			opaquePanel.setOpaque(true);
 			opaquePanel.setBackground(Color.GRAY);
 
-			accordion.addTab("Tab 1", new JButton("Button"));
+			accordion.addTab(Text.Controls.toString(), getControlTab());
 			accordion.addTab(Text.Stages.toString(), getStageTab());
-			accordion.addTab("Tab 3", new JScrollPane(new JTree()));
-			accordion.addTab("Tab 4", opaquePanel);
-			accordion.addTab("Tab 5", transparentPanel);
+			accordion.addTab(Text.Stalls.toString(), new JScrollPane(new JTree()));
+			accordion.addTab(Text.Facilities.toString(), opaquePanel);
+			accordion.addTab(Text.Remaining.toString(), transparentPanel);
 		}
 
+		private JPanel getControlTab()
+		{
+			JPanel result = new JPanel(new FlowLayout());
+			JPanel controlPanel = new JPanel(new GridLayout(0,2));
+
+			final JButton buttonStart = new JButton(Text.Start.toString());
+			final JButton buttonStop = new JButton(Text.Stop.toString());
+			buttonStop.setEnabled(false);
+
+
+			ActionListener listener = (new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					if(e.getSource() == buttonStart)
+					{
+						buttonStop.setEnabled(true);
+						buttonStart.setEnabled(false);
+					}
+					else if(e.getSource() == buttonStop)
+					{
+						buttonStop.setEnabled(false);
+						buttonStart.setEnabled(true);
+					}	
+				}
+			});
+
+
+			buttonStart.addActionListener(listener);
+			buttonStop.addActionListener(listener);
+
+			JLabel visitorLabel = new JLabel(Text.People.toString());
+			
+			JSpinner visitors = new JSpinner();
+			visitors.setModel(new SpinnerNumberModel(1000,0,1000000, 1000));
+
+			controlPanel.add(buttonStart);
+			controlPanel.add(buttonStop);
+			controlPanel.add(visitorLabel);
+			controlPanel.add(visitors);
+			
+			result.add(controlPanel);
+			return result;
+		}
 		private JScrollPane getStageTab()
 		{
 			Panel pane = new Panel(){
