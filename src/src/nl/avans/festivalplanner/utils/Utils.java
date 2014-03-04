@@ -5,15 +5,14 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+import java.awt.*;
+import java.awt.geom.*;
 public class Utils 
 {
 
@@ -67,9 +66,8 @@ public class Utils
 			return string;
 			
 		while(getWidth(string + "...") > maxWidth)
-		{
 			string = string.substring(0, string.length() - 1);
-		}
+
 		string += "...";
 		
 		return string;
@@ -117,5 +115,16 @@ public class Utils
 		}
 		catch(Exception e)
 		{ return null; }
+	}
+
+	public static void drawAreaBackground(Graphics2D g, int x, int y , int width, int height)
+	{
+		Rectangle2D rect = new Rectangle2D.Double(x,y,width,height);
+	
+		g.setColor(new Color(69,69,69,188));
+		g.fill(rect);
+
+		g.setColor(Color.black);
+		g.draw(rect);	
 	}
 }

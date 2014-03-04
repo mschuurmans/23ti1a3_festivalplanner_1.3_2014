@@ -2,10 +2,6 @@ package nl.avans.festivalplanner.model;
 
 import java.awt.Dimension;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -18,7 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.Utils;
-import nl.avans.festivalplanner.view.panels.MapPanel;
+import nl.avans.festivalplanner.model.simulator.*;
 
 public class FestivalHandler 
 {
@@ -36,9 +32,38 @@ public class FestivalHandler
 	private Stage _testStage1; //TESTING! TODO REMOVE
 	private Stage _testStage2; //TESTING! TODO REMOVE
 
+	private List _elementsOnTerrain = new ArrayList<Element>();
+
+
+
 	private FestivalHandler() 
 	{
 		_festival = new Festival();
+	}
+	
+	/**
+	 * Returns a list of all the items on the simulator terrain
+	 * @Author Michiel
+	 */
+	public List<Element> getElementsOnTerrain()
+	{
+		return this._elementsOnTerrain;
+	}
+
+	/**
+	 * @Author Michiel
+	 */
+	public void addElementToTerrain(Element value)
+	{
+		this._elementsOnTerrain.add(value);
+	}
+
+	/**
+	 * @Author Michiel
+	 */
+	public void removeElementFromTerrain(Element value)
+	{
+		this._elementsOnTerrain.remove(value);
 	}
 
 	/**

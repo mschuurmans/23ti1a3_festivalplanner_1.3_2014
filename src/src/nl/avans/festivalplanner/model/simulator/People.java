@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
-
+import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.utils.*;
 public class People extends Element
 {
-	
+	private boolean debug = true;
+
 	public People(Dimension size, Vector position)
 	{
 		super(size, position);
@@ -15,13 +17,8 @@ public class People extends Element
 	
 	public void draw(Graphics2D g)
 	{
-		Ellipse2D circleBack = new Ellipse2D.Double(_position.getX() - (_size.getWidth() / 2), _position.getY()- (_size.getHeight() / 2), _size.getWidth(), _size.getHeight());
-		
-		g.setColor(new Color(11f, 0f, 0f, 0.74f));
-		g.fill(circleBack);
-		
-		g.setColor(Color.black);
-		g.draw(circleBack);
+		if(debug)
+			drawBackCanvas(g);	 
 	}
 	
 	public void update()
@@ -33,4 +30,20 @@ public class People extends Element
 	{
 		
 	}	
+
+	/**
+	 * Draws a small area around the person when debug mode is enabled.
+	 * Usefull for checking if collision is working.
+	 * @Author Michiel Schuurmans
+	 */
+	private void drawBackCanvas(Graphics2D g)
+	{
+		
+		int x = (int)(_position.getX() - (_size.getWidth() /2));
+		int y = (int)(_position.getY() - (_size.getHeight() / 3));
+		int height = (int)_size.getHeight();
+		int width = (int)_size.getWidth();
+		
+		Utils.drawAreaBackground(g,x,y,width,height);
+	}
 }

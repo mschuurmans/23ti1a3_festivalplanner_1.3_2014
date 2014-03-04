@@ -5,7 +5,7 @@
 *.jar
 *.war
 *.ear
-
+*.java~
 *.pydevproject
 .project
 .metadata
