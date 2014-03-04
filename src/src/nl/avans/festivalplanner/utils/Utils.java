@@ -66,9 +66,8 @@ public class Utils
 			return string;
 			
 		while(getWidth(string + "...") > maxWidth)
-		{
 			string = string.substring(0, string.length() - 1);
-		}
+
 		string += "...";
 		
 		return string;

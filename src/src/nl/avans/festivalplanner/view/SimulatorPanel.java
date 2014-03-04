@@ -89,7 +89,7 @@ public class SimulatorPanel extends Panel
 
 			accordion.addTab(Text.Controls.toString(), getControlTab());
 			accordion.addTab(Text.Stages.toString(), getStageTab());
-			accordion.addTab(Text.Stall.toString(), new JScrollPane(new JTree()));
+			accordion.addTab(Text.Stalls.toString(), new JScrollPane(new JTree()));
 			accordion.addTab(Text.Facilities.toString(), opaquePanel);
 			accordion.addTab(Text.Remaining.toString(), transparentPanel);
 		}
@@ -114,10 +114,10 @@ public class SimulatorPanel extends Panel
 						buttonStart.setEnabled(false);
 					}
 					else if(e.getSource() == buttonStop)
-					{
-						buttonStop.setEnabled(false);
-						buttonStart.setEnabled(true);
-					}	
+			{
+				buttonStop.setEnabled(false);
+				buttonStart.setEnabled(true);
+			}	
 				}
 			});
 
@@ -126,7 +126,7 @@ public class SimulatorPanel extends Panel
 			buttonStop.addActionListener(listener);
 
 			JLabel visitorLabel = new JLabel(Text.People.toString());
-			
+
 			JSpinner visitors = new JSpinner();
 			visitors.setModel(new SpinnerNumberModel(1000,0,1000000, 1000));
 

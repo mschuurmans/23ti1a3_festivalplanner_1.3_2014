@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
-
+import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.utils.*;
 public class People extends Element
 {
 	private boolean debug = true;
@@ -37,11 +38,12 @@ public class People extends Element
 	 */
 	private void drawBackCanvas(Graphics2D g)
 	{
-		Ellipse2D circleBack = new Ellipse2D.Double(_position.getX() - (_size.getWidth() / 2), _position.getY() - (_size.getHeight() / 2), _size.getWidth(), _size.getHeight());
-		g.setColor(new Color(69, 69, 69, 188));
-		g.fill(circleBack);
-
-		g.setColor(Color.black);
-		g.draw(circleBack);
+		
+		int x = (int)(_position.getX() - (_size.getWidth() /2));
+		int y = (int)(_position.getY() - (_size.getHeight() / 3));
+		int height = (int)_size.getHeight();
+		int width = (int)_size.getWidth();
+		
+		Utils.drawAreaBackground(g,x,y,width,height);
 	}
 }
