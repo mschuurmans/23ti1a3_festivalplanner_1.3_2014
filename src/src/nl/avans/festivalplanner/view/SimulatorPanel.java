@@ -54,7 +54,6 @@ public class SimulatorPanel extends Panel
 	private Toolbar toolbar;
 	private Simulator simulator;
 	MouseListener mouseListener = new MouseListener();
-	ArrayList<Shape> stageShapeList = new ArrayList<Shape>();
 
 	public SimulatorPanel()
 	{
@@ -90,9 +89,6 @@ public class SimulatorPanel extends Panel
 		JSCAccordion accordion = new JSCAccordion();
 		public Toolbar()
 		{
-		//	addMouseMotionListener(mouseListener);
-			//accordion.setSize(200,200);
-			//accordion.setBounds(1200, 0, 200, 200);
 			addTabs(accordion);
 			listenForChanges(accordion);
 			changeTabOrientation(accordion);
@@ -106,7 +102,8 @@ public class SimulatorPanel extends Panel
 				System.out.println("Added accordion");
 		}
 
-		private void addTabs(JSCAccordion accordion) {
+		private void addTabs(JSCAccordion accordion)
+	       	{
 			JPanel transparentPanel = new JPanel();
 			transparentPanel.setOpaque(false);
 			transparentPanel.setBackground(Color.GRAY);
@@ -117,6 +114,7 @@ public class SimulatorPanel extends Panel
 
 			accordion.addTab(Text.Controls.toString(), getControlTab());
 			accordion.addTab(Text.Stages.toString(), getStageTab());
+
 			accordion.addTab(Text.Stalls.toString(), new JScrollPane(new JTree()));
 			accordion.addTab(Text.Facilities.toString(), opaquePanel);
 			accordion.addTab(Text.Remaining.toString(), transparentPanel);
@@ -166,6 +164,7 @@ public class SimulatorPanel extends Panel
 			result.add(controlPanel);
 			return result;
 		}
+		
 		private JScrollPane getStageTab()
 		{
 			Panel pane = new Panel(){
@@ -178,10 +177,37 @@ public class SimulatorPanel extends Panel
 					
 					Rectangle2D rectangle = new Rectangle2D.Double(1, 1, 50, 50);
 					
-					for(Shape s : stageShapeList)
+					int shapeWidth = 100;
+					int shapeHeight = 100;
+					
+					int horOffset = 10 + (shapeWidth / 2); // horizontal offset + 50 because element is drawn in the center of the object not in left corner.
+					int curX = 0 + horOffset;
+					int curY = 0 + horOffset;
+
+
+					int counter = 0;
+
+					for(Stage s : FestivalHandler.Instance().getStages())
 					{
-						g2.fill(s);
+						int x = curX;
+						int y = curY;
+
+						//g2.fill(new Rectangle2D.Double(curX, curY, shapeWidth, shapeHeight));
+						s.setSize(new Dimension(shapeWidth, shapeHeight));
+						s.setPosition(new Vector(curX, curY));
+						s.draw(g2);
+
+						curX += (int)(shapeWidth / 1.5) +horOffset;
+						
+						if((counter != 0) && (counter % 2 == 1))
+						{
+							curY += (int)(shapeHeight / 2) + horOffset;
+							curX = 0 + horOffset;
+						}	
+
+						counter++;
 					}
+
 				}
 
 				@Override
@@ -200,42 +226,8 @@ public class SimulatorPanel extends Panel
 			};
 			
 			pane.addMouseMotionListener(mouseListener);
-			ArrayList<Stage> stageList = FestivalHandler.Instance().getStagesTest();
-						
-			int horOffset = 10; // horizontal distance offset
-			
-			int curX = 0 + horOffset;
-			int curY = 0 + horOffset;
-			
-			int shapeWidth = 100;
-			int shapeHeight = 100;
-			
-			int counter = 0;
-			
-			for(Stage stage : stageList)
-			{
-				if(debug)
-				{
-					System.out.println("stageName of stages to display in StagesTab!: " + stage.getName());
-				}
-				
-				//create shapes for acts
-				int x = curX;
-				int y = curY;
-				stageShapeList.add(new Rectangle2D.Double(curX, curY, shapeWidth, shapeHeight));
-				
-				//increases curX
-				curX += shapeWidth + horOffset;
-				//increases curY and resets curX: when the value of counter is a multiple of 2
-				if((counter != 0) && (counter % 2 == 1))
-				{
-					curY += shapeHeight + horOffset;
-					curX = 0 + horOffset;
-				}
-				
-				counter++;
-			}
-					
+
+			// TODO Fix the scrollpane to actually do something.		
 			JScrollPane scrollPane = new JScrollPane(pane);
 			return scrollPane;
 		}
@@ -345,6 +337,10 @@ public class SimulatorPanel extends Panel
 			repaint();
 		}
 
+		/** 
+		 * drawes all the elements to the simulator screen
+		 * @Author Michiel & Kasper
+		 */
 		@Override
 		public void paintComponent(Graphics g)
 		{
@@ -392,17 +388,17 @@ public class SimulatorPanel extends Panel
 		{
 			boolean debugMethod = false;
 			
-			if(debugMethod)
+			if(debugMethod)			
 				System.out.println("Dragged: X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
-			for(Shape s : stageShapeList)
+			
+			for(Stage s : FestivalHandler.Instance().getStages())
 			{
 				Point point = e.getPoint();
-				point.translate(-pXOffset, -pYOffset);
 				
 				if(s.contains(point))
 				{
 					if(debugMethod)
-						System.out.println("ShapeDragged!!!!");
+						System.out.println("Stage in toolbar was dragged!");
 				}
 			}
 
@@ -433,10 +429,9 @@ public class SimulatorPanel extends Panel
 			if(debugMethod)
 				System.out.println("X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
 	
-			for(Shape s : stageShapeList)
+			for(Stage s : FestivalHandler.Instance().getStages())
 			{
 				Point point = e.getPoint();
-				point.translate(-pXOffset, -pYOffset);
 				
 				if(s.contains(point))
 				{
