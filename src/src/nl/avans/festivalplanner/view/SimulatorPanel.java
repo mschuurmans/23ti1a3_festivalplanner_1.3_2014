@@ -6,9 +6,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -37,13 +40,17 @@ public class SimulatorPanel extends Panel
 	
 	private static final boolean debug = true;
 	
+	private int pXOffset = 750;
+	private int pYOffset = 110;
+	
 	private Toolbar toolbar;
 	private Simulator simulator;
-	
+	MouseListener mouseListener = new MouseListener();
 	ArrayList<Shape> stageShapeList = new ArrayList<Shape>();
 
 	public SimulatorPanel()
 	{
+		this.addMouseMotionListener(mouseListener);
 		toolbar = new Toolbar();
 		simulator = new Simulator(new Dimension(900,400)); // TODO change size here.
 	}
@@ -75,6 +82,7 @@ public class SimulatorPanel extends Panel
 		JSCAccordion accordion = new JSCAccordion();
 		public Toolbar()
 		{
+			addMouseMotionListener(mouseListener);
 			//accordion.setBounds(200, 200, 200, 200);
 			addTabs(accordion);
 			listenForChanges(accordion);
@@ -159,7 +167,9 @@ public class SimulatorPanel extends Panel
 				int y = curY;
 				stageShapeList.add(new Rectangle2D.Double(curX, curY, shapeWidth, shapeHeight));
 				
+				//increases curX
 				curX += shapeWidth + horOffset;
+				//increases curY and resets curX: when the value of counter is a multiple of 2
 				if((counter != 0) && (counter % 2 == 1))
 				{
 					curY += shapeHeight + horOffset;
@@ -253,7 +263,7 @@ public class SimulatorPanel extends Panel
 		{
 			setPreferredSize(dim);
 			this._size = dim;
-			
+			addMouseMotionListener(mouseListener);
 			try
 			{
 				 _grassTexture = new ImageIcon("bin/grass.png").getImage();
@@ -310,4 +320,44 @@ public class SimulatorPanel extends Panel
 		}
 	}
 
+	
+	
+	public class MouseListener implements MouseMotionListener
+	{
+		@Override
+		public void mouseDragged(MouseEvent e)
+		{
+			for(Shape s : stageShapeList)
+			{
+				Point point = e.getPoint();
+				point.translate(-pXOffset, -pYOffset);
+				
+				if(s.contains(point))
+				{
+					if(debug)
+						System.out.println("ShapeDragged!!!!");
+				}
+			}
+			
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e)
+		{
+			for(Shape s : stageShapeList)
+			{
+				Point point = e.getPoint();
+				point.translate(-pXOffset, -pYOffset);
+				
+				if(s.contains(point))
+				{
+					if(debug)
+						System.out.println("ShapeHovered!!!!!");
+				}
+			}
+		}
+		
+	}
+
 }
+
