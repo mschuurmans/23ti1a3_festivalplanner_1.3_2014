@@ -20,12 +20,12 @@ public class Area extends Element
 	{
 		super(_size, _position);
 	}
-	
+
 	@Override
 	public void draw(Graphics2D g)
 	{
 		int x = (int)(_position.getX() - (_size.getWidth() /2));
-		int y = (int)(_position.getY() - (_size.getHeight() / 3));
+		int y = (int)(_position.getY() - (_size.getHeight() / 2));
 		int height = (int)_size.getHeight();
 		int width = (int)_size.getWidth();
 		

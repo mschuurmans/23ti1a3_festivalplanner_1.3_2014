@@ -90,7 +90,7 @@ public class SimulatorPanel extends Panel
 		JSCAccordion accordion = new JSCAccordion();
 		public Toolbar()
 		{
-			addMouseMotionListener(mouseListener);
+		//	addMouseMotionListener(mouseListener);
 			//accordion.setSize(200,200);
 			//accordion.setBounds(1200, 0, 200, 200);
 			addTabs(accordion);
@@ -169,6 +169,7 @@ public class SimulatorPanel extends Panel
 		private JScrollPane getStageTab()
 		{
 			Panel pane = new Panel(){
+
 				@Override
 				protected void paintComponent(Graphics g)
 				{
@@ -198,6 +199,7 @@ public class SimulatorPanel extends Panel
 				}
 			};
 			
+			pane.addMouseMotionListener(mouseListener);
 			ArrayList<Stage> stageList = FestivalHandler.Instance().getStagesTest();
 						
 			int horOffset = 10; // horizontal distance offset
@@ -330,6 +332,9 @@ public class SimulatorPanel extends Panel
 				e.printStackTrace();
 			}
 			
+			Element test = new Area(new Dimension(100,100), new Vector(100,100));
+			FestivalHandler.Instance().addElementToTerrain(test);
+
 			Timer timer = new Timer(30, this);
 			timer.start();
 		}
@@ -361,19 +366,9 @@ public class SimulatorPanel extends Panel
 				}
 				curY+= imageHeight;
 			}
-			/*
-			for(int y =0; currentHeight<=this._size.getHeight(); y++)
-			{
-				for(int x=0; currentWidth<=this._size.getWidth(); x++)
-				{
-					g2.drawImage(_grassTexture, currentWidth, currentHeight, 400, 400, null);
-					currentWidth = x*400;
-				}
-				currentHeight = y*400;
-*/
+			
+			
 			// end drawing background
-			Element test = new Area(new Dimension(100,100), new Vector(100,100));
-			test.draw(g2);
 			//Draw all the elements to the screen.
 			for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
 			{
@@ -387,9 +382,18 @@ public class SimulatorPanel extends Panel
 	
 	public class MouseListener implements MouseMotionListener
 	{
+		/**
+		 * Override the mouseDragged event to check either the elements on the simulatorTerrain 
+		 * but also in the toolbar(shapeList)
+		 * @Author Michiel & Jack
+		 */
 		@Override
 		public void mouseDragged(MouseEvent e)
 		{
+			boolean debugMethod = false;
+			
+			if(debugMethod)
+				System.out.println("Dragged: X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
 			for(Shape s : stageShapeList)
 			{
 				Point point = e.getPoint();
@@ -397,16 +401,38 @@ public class SimulatorPanel extends Panel
 				
 				if(s.contains(point))
 				{
-					if(debug)
+					if(debugMethod)
 						System.out.println("ShapeDragged!!!!");
+				}
+			}
+
+			for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
+			{
+				if(element.contains(e.getPoint()))
+				{
+					if(debugMethod)
+						System.out.println("Element was dragged!");
+
+					element.drag(e.getPoint());
 				}
 			}
 			
 		}
 
+		
+		/**
+		 * Override the MouMoved event to check either the elements on the simulatorTerrain 
+		 * but also in the toolbar(shapeList)
+		 * @Author Michiel & Jack
+		 */
 		@Override
 		public void mouseMoved(MouseEvent e)
 		{
+			boolean debugMethod = false;
+
+			if(debugMethod)
+				System.out.println("X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
+	
 			for(Shape s : stageShapeList)
 			{
 				Point point = e.getPoint();
@@ -414,8 +440,18 @@ public class SimulatorPanel extends Panel
 				
 				if(s.contains(point))
 				{
-					if(debug)
+					if(debugMethod)
 						System.out.println("ShapeHovered!!!!!");
+				}
+			}
+
+			// for all the elements on the terrain check if it is hovered by the mouse.
+			for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
+			{
+				if(element.contains(e.getPoint()))
+				{
+					if(debugMethod)
+						System.out.println("Element was hovered!");
 				}
 			}
 		}
