@@ -1,14 +1,38 @@
 package nl.avans.festivalplanner.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
-import java.awt.event.*;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTree;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.Timer;
+
+import nl.avans.festivalplanner.model.FestivalHandler;
+import nl.avans.festivalplanner.model.Stage;
+import nl.avans.festivalplanner.model.simulator.Area;
+import nl.avans.festivalplanner.model.simulator.Element;
+import nl.avans.festivalplanner.model.simulator.Vector;
+import nl.avans.festivalplanner.utils.Enums.Text;
 
 import com.javaswingcomponents.accordion.JSCAccordion;
 import com.javaswingcomponents.accordion.TabOrientation;
@@ -18,10 +42,6 @@ import com.javaswingcomponents.accordion.plaf.AccordionUI;
 import com.javaswingcomponents.accordion.plaf.basic.BasicHorizontalTabRenderer;
 import com.javaswingcomponents.accordion.plaf.darksteel.DarkSteelAccordionUI;
 import com.javaswingcomponents.framework.painters.configurationbound.GradientColorPainter;
-
-import nl.avans.festivalplanner.model.*;
-import nl.avans.festivalplanner.model.simulator.*;
-import nl.avans.festivalplanner.utils.Enums.Text;
 
 public class SimulatorPanel extends Panel
 {
@@ -350,7 +370,7 @@ public class SimulatorPanel extends Panel
 					currentWidth = x*400;
 				}
 				currentHeight = y*400;
-
+*/
 			// end drawing background
 			Element test = new Area(new Dimension(100,100), new Vector(100,100));
 			test.draw(g2);
