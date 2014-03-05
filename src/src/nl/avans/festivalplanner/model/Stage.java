@@ -1,8 +1,8 @@
 package nl.avans.festivalplanner.model;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.io.Serializable;
-
+import nl.avans.festivalplanner.utils.*;
 import nl.avans.festivalplanner.model.simulator.Building;
 
 public class Stage extends Building implements Serializable
@@ -30,6 +30,23 @@ public class Stage extends Building implements Serializable
 		this._imageSource = imageSource;
 	}
 	
+	public void draw(Graphics2D g)
+	{
+		super.draw(g); // drawing the backarea
+
+		if(!_imageSource.trim().equals(""))
+		{
+			Image img = AssetManager.Instance().getImage(_imageSource);
+
+			int x = (int)(_position.getX() - (_size.getWidth() / 2));
+			int y = (int)(_position.getY() - (_size.getHeight() / 2));
+			int height = (int)_size.getHeight();
+			int width = (int)_size.getWidth();
+
+			g.drawImage(img, x,y,width,height, null);
+		}
+	}
+
 	public void setImageSource(String value)
 	{
 		this._imageSource = value;

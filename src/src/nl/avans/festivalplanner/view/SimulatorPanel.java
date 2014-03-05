@@ -33,6 +33,7 @@ import nl.avans.festivalplanner.model.simulator.Area;
 import nl.avans.festivalplanner.model.simulator.Element;
 import nl.avans.festivalplanner.model.simulator.Vector;
 import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.utils.*;
 
 import com.javaswingcomponents.accordion.JSCAccordion;
 import com.javaswingcomponents.accordion.TabOrientation;
@@ -54,9 +55,12 @@ public class SimulatorPanel extends Panel
 	private Toolbar toolbar;
 	private Simulator simulator;
 	MouseListener mouseListener = new MouseListener();
+	MouseListenerToolbar mouseListenerToolbar = new MouseListenerToolbar();
 
 	public SimulatorPanel()
 	{
+		AssetManager.Instance().loadAssets(); //loading all the images into the memory.
+
 		this.addMouseMotionListener(mouseListener);
 		toolbar = new Toolbar();
 		simulator = new Simulator(new Dimension(900,400)); // TODO change size here.
@@ -225,7 +229,7 @@ public class SimulatorPanel extends Panel
 				}
 			};
 			
-			pane.addMouseMotionListener(mouseListener);
+			pane.addMouseMotionListener(mouseListenerToolbar);
 
 			// TODO Fix the scrollpane to actually do something.		
 			JScrollPane scrollPane = new JScrollPane(pane);
@@ -380,12 +384,64 @@ public class SimulatorPanel extends Panel
 	{
 		/**
 		 * Override the mouseDragged event to check either the elements on the simulatorTerrain 
-		 * but also in the toolbar(shapeList)
 		 * @Author Michiel & Jack
 		 */
 		@Override
 		public void mouseDragged(MouseEvent e)
 		{
+			boolean debugMethod = false;
+			
+			if(debugMethod)			
+				System.out.println("Dragged: X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());	
+			boolean hasDragged = false;
+			for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
+			{
+				if(element.contains(e.getPoint()))
+				{
+					if(debugMethod)
+						System.out.println("Element was dragged!");
+
+					if(!hasDragged) // stops the multiple item drag bug.
+						element.drag(e.getPoint());
+
+					hasDragged = true;
+				}
+			}
+			
+		}
+
+		
+		/**
+		 * Override the MouMoved event to check either the elements on the simulatorTerrain 
+		 * @Author Michiel & Jack
+		 */
+		@Override
+		public void mouseMoved(MouseEvent e)
+		{
+			boolean debugMethod = false;
+
+			if(debugMethod)
+				System.out.println("X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
+
+			// for all the elements on the terrain check if it is hovered by the mouse.
+			for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
+			{
+				if(element.contains(e.getPoint()))
+				{
+					if(debugMethod)
+						System.out.println("Element was hovered!");
+				}
+			}
+		}
+		
+	}
+
+	public class MouseListenerToolbar implements MouseMotionListener
+	{
+		@Override
+		public void mouseDragged(MouseEvent e)
+		{
+
 			boolean debugMethod = false;
 			
 			if(debugMethod)			
@@ -401,29 +457,12 @@ public class SimulatorPanel extends Panel
 						System.out.println("Stage in toolbar was dragged!");
 				}
 			}
-
-			for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
-			{
-				if(element.contains(e.getPoint()))
-				{
-					if(debugMethod)
-						System.out.println("Element was dragged!");
-
-					element.drag(e.getPoint());
-				}
-			}
-			
 		}
 
-		
-		/**
-		 * Override the MouMoved event to check either the elements on the simulatorTerrain 
-		 * but also in the toolbar(shapeList)
-		 * @Author Michiel & Jack
-		 */
 		@Override
 		public void mouseMoved(MouseEvent e)
 		{
+					
 			boolean debugMethod = false;
 
 			if(debugMethod)
@@ -439,18 +478,7 @@ public class SimulatorPanel extends Panel
 						System.out.println("ShapeHovered!!!!!");
 				}
 			}
-
-			// for all the elements on the terrain check if it is hovered by the mouse.
-			for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
-			{
-				if(element.contains(e.getPoint()))
-				{
-					if(debugMethod)
-						System.out.println("Element was hovered!");
-				}
-			}
 		}
-		
 	}
 
 }
