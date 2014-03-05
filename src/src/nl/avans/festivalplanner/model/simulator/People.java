@@ -41,7 +41,7 @@ public class People extends Element
 		//TODO: this arraylist needs to be filled
 		//allElements;
 		
-		goTo(_destination);
+		//goTo(_destination);
 		
 		_x1 = _position.getX() - (_size.width/2);
 		_x2 = _position.getX() + (_size.width/2);
@@ -52,7 +52,7 @@ public class People extends Element
 	
 	public void update()
 	{
-		
+		goTo();
 	}
 	
 	private void newDestination()
@@ -79,22 +79,22 @@ public class People extends Element
 		Utils.drawAreaBackground(g,_x1,_y1,width,height);
 	}
 	
-	private void goTo(Area dest)
+	private void goTo()
 	{
-		if(_x1 > dest.getPosition().getX()+dest.getSize().width/2)
+		if(_x1 > _destination.getPosition().getX() + _destination.getSize().width/2)
 		{
 			move(-1, 0);
 		} 
-		else if (_x2 < dest.getPosition().getX()-dest.getSize().width/2)
+		else if (_x2 < _destination.getPosition().getX()- _destination.getSize().width/2)
 		{
 			move(1, 0);
 		}
 		
-		if(_y1 > dest.getPosition().getY()+dest.getSize().height/2)
+		if(_y1 > _destination.getPosition().getY() + _destination.getSize().height/2)
 		{
 			move(0, -1);
 		} 
-		else if (_y2 < dest.getPosition().getY()-dest.getSize().height/2)
+		else if (_y2 < _destination.getPosition().getY() - _destination.getSize().height/2)
 		{
 			move(0, 1);
 		}

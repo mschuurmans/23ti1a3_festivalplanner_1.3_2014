@@ -338,6 +338,12 @@ public class SimulatorPanel extends Panel
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
+			// Update all the elements on the terrain.
+			for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
+			{
+				e.update();
+			}
+
 			repaint();
 		}
 
