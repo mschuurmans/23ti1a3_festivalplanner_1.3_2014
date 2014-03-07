@@ -444,23 +444,43 @@ public class SimulatorPanel extends Panel
 
 	public class MouseListenerToolbar implements MouseMotionListener
 	{
+		Element elementToAdd;
+		
 		@Override
 		public void mouseDragged(MouseEvent e)
 		{
 
-			boolean debugMethod = false;
+			boolean debugMethod = true;
 			
 			if(debugMethod)			
 				System.out.println("Dragged: X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
 			
+			boolean hasDragged = false;
 			for(Stage s : FestivalHandler.Instance().getStages())
 			{
 				Point point = e.getPoint();
-				
+
 				if(s.contains(point))
 				{
-					if(debugMethod)
-						System.out.println("Stage in toolbar was dragged!");
+					if(!FestivalHandler.Instance().getElementsOnTerrain().contains(s))
+					{
+						if(debugMethod)
+							System.out.println("Stage in toolbar was dragged!");
+
+						if(!hasDragged) // stops the multiple item drag bug.
+						{
+							int xOffset = 530; //730
+							int yOffset = 200;
+
+							Point newPoint = e.getPoint();
+							newPoint.translate(xOffset, yOffset);
+
+							s.drag(newPoint);
+							elementToAdd = s;
+						}
+
+						hasDragged = true;
+					}
 				}
 			}
 		}
@@ -468,16 +488,20 @@ public class SimulatorPanel extends Panel
 		@Override
 		public void mouseMoved(MouseEvent e)
 		{
-					
+
 			boolean debugMethod = false;
 
 			if(debugMethod)
 				System.out.println("X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
-	
+
+
+			if(!FestivalHandler.Instance().getElementsOnTerrain().contains(elementToAdd) && elementToAdd != null)
+				FestivalHandler.Instance().addElementToTerrain(elementToAdd);
+
 			for(Stage s : FestivalHandler.Instance().getStages())
 			{
 				Point point = e.getPoint();
-				
+
 				if(s.contains(point))
 				{
 					if(debugMethod)
