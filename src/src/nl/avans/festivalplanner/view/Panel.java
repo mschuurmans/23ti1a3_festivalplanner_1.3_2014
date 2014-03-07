@@ -4,6 +4,7 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public abstract class Panel extends JPanel implements ActionListener
 {
@@ -32,4 +33,10 @@ public abstract class Panel extends JPanel implements ActionListener
 	 * @return Panel this
 	 */
 	public abstract Panel getPanel();
+
+	public void startTimer(int fps)
+	{
+		new Timer(fps, this).start();
+		System.out.println("Timer started with an fps of: " + fps);
+	}
 }

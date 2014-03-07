@@ -173,6 +173,7 @@ public class SimulatorPanel extends Panel
 		{
 			Panel pane = new Panel(){
 
+
 				@Override
 				protected void paintComponent(Graphics g)
 				{
@@ -193,23 +194,26 @@ public class SimulatorPanel extends Panel
 
 					for(Stage s : FestivalHandler.Instance().getStages())
 					{
-						int x = curX;
-						int y = curY;
-
-						//g2.fill(new Rectangle2D.Double(curX, curY, shapeWidth, shapeHeight));
-						s.setSize(new Dimension(shapeWidth, shapeHeight));
-						s.setPosition(new Vector(curX, curY));
-						s.draw(g2);
-
-						curX += (int)(shapeWidth / 1.5) +horOffset;
-						
-						if((counter != 0) && (counter % 2 == 1))
+						if(!FestivalHandler.Instance().getElementsOnTerrain().contains(s))
 						{
-							curY += (int)(shapeHeight / 2) + horOffset;
-							curX = 0 + horOffset;
-						}	
+							int x = curX;
+							int y = curY;
 
-						counter++;
+							//g2.fill(new Rectangle2D.Double(curX, curY, shapeWidth, shapeHeight));
+							s.setSize(new Dimension(shapeWidth, shapeHeight));
+							s.setPosition(new Vector(curX, curY));
+							s.draw(g2);
+
+							curX += (int)(shapeWidth / 1.5) +horOffset;
+							
+							if((counter != 0) && (counter % 2 == 1))
+							{
+								curY += (int)(shapeHeight / 2) + horOffset;
+								curX = 0 + horOffset;
+							}	
+
+							counter++;
+						}
 					}
 
 				}
@@ -217,8 +221,7 @@ public class SimulatorPanel extends Panel
 				@Override
 				public void actionPerformed(ActionEvent e)
 				{
-					// TODO Auto-generated method stub
-					
+					repaint();
 				}
 
 				@Override
@@ -230,6 +233,7 @@ public class SimulatorPanel extends Panel
 			};
 			
 			pane.addMouseMotionListener(mouseListenerToolbar);
+			pane.startTimer(20);
 
 			// TODO Fix the scrollpane to actually do something.		
 			JScrollPane scrollPane = new JScrollPane(pane);
@@ -326,10 +330,7 @@ public class SimulatorPanel extends Panel
 			catch(Exception e)
 			{
 				e.printStackTrace();
-			}
-			
-			Element test = new Area(new Dimension(100,100), new Vector(100,100));
-			FestivalHandler.Instance().addElementToTerrain(test);
+			}			
 
 			Timer timer = new Timer(30, this);
 			timer.start();
@@ -372,8 +373,7 @@ public class SimulatorPanel extends Panel
 				}
 				curY+= imageHeight;
 			}
-			
-			
+				
 			// end drawing background
 			//Draw all the elements to the screen.
 			for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
@@ -462,25 +462,22 @@ public class SimulatorPanel extends Panel
 
 				if(s.contains(point))
 				{
-					if(!FestivalHandler.Instance().getElementsOnTerrain().contains(s))
+					if(debugMethod)
+						System.out.println("Stage in toolbar was dragged!");
+
+					if(!hasDragged) // stops the multiple item drag bug.
 					{
-						if(debugMethod)
-							System.out.println("Stage in toolbar was dragged!");
+						int xOffset = 530; //730
+						int yOffset = 200;
 
-						if(!hasDragged) // stops the multiple item drag bug.
-						{
-							int xOffset = 530; //730
-							int yOffset = 200;
+						Point newPoint = e.getPoint();
+						newPoint.translate(xOffset, yOffset);
 
-							Point newPoint = e.getPoint();
-							newPoint.translate(xOffset, yOffset);
-
-							s.drag(newPoint);
-							elementToAdd = s;
-						}
-
-						hasDragged = true;
+						s.drag(newPoint);
+						elementToAdd = s;
 					}
+
+					hasDragged = true;
 				}
 			}
 		}
@@ -489,7 +486,7 @@ public class SimulatorPanel extends Panel
 		public void mouseMoved(MouseEvent e)
 		{
 
-			boolean debugMethod = false;
+			boolean debugMethod = true;
 
 			if(debugMethod)
 				System.out.println("X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
