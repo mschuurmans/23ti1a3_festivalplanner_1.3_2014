@@ -12,6 +12,7 @@ import java.util.Random;
 
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.*;
+import nl.avans.festivalplanner.model.FestivalHandler;
 public class People extends Element
 {
 	private boolean debug = true;
@@ -19,7 +20,7 @@ public class People extends Element
 	private int _x1, _x2, _y1, _y2;
 	private int _destX, _destY;
 	private Area _destination;
-	private ArrayList<Element> allElements = new ArrayList<Element>();
+	
 
 	public People(Dimension size, Vector position)
 	{
@@ -39,7 +40,7 @@ public class People extends Element
 		}
 		
 		//TODO: this arraylist needs to be filled
-		//allElements;
+		//FestivalHandler.Instance().getElementsOnTerrain();
 		
 		//goTo(_destination);
 		
@@ -105,36 +106,36 @@ public class People extends Element
 		boolean collision = false;
 		if (xMove < 0 || xMove == 0)
 		{
-			for (int i = 0; i < allElements.size(); i++)
+			for (int i = 0; i < FestivalHandler.Instance().getElementsOnTerrain().size(); i++)
 			{
-				if(_x1 + xMove == allElements.get(i)._position.getX()-allElements.get(i)._size.width/2 &&
-						_position != allElements.get(i)._position)
+				if(_x1 + xMove == FestivalHandler.Instance().getElementsOnTerrain().get(i)._position.getX()-FestivalHandler.Instance().getElementsOnTerrain().get(i)._size.width/2 &&
+						_position != FestivalHandler.Instance().getElementsOnTerrain().get(i)._position)
 					collision = true;
 			}
 		} 
 		else
 		{
-			for (int i = 0; i < allElements.size(); i++)
+			for (int i = 0; i < FestivalHandler.Instance().getElementsOnTerrain().size(); i++)
 			{
-				if(_x2 + xMove == allElements.get(i)._position.getX()+allElements.get(i)._size.width/2)
+				if(_x2 + xMove == FestivalHandler.Instance().getElementsOnTerrain().get(i)._position.getX()+FestivalHandler.Instance().getElementsOnTerrain().get(i)._size.width/2)
 					collision = true;
 			}
 		}		
 		
 		if (yMove < 0 || yMove == 0)
 		{
-			for (int i = 0; i < allElements.size(); i++)
+			for (int i = 0; i < FestivalHandler.Instance().getElementsOnTerrain().size(); i++)
 			{
-				if(_y1 + yMove == allElements.get(i)._position.getY()-allElements.get(i)._size.height/2 &&
-						_position != allElements.get(i)._position)
+				if(_y1 + yMove == FestivalHandler.Instance().getElementsOnTerrain().get(i)._position.getY()-FestivalHandler.Instance().getElementsOnTerrain().get(i)._size.height/2 &&
+						_position != FestivalHandler.Instance().getElementsOnTerrain().get(i)._position)
 					collision = true;
 			}
 		} 
 		else
 		{
-			for (int i = 0; i < allElements.size(); i++)
+			for (int i = 0; i < FestivalHandler.Instance().getElementsOnTerrain().size(); i++)
 			{
-				if(_y2 + yMove == allElements.get(i)._position.getY()+allElements.get(i)._size.height/2)
+				if(_y2 + yMove == FestivalHandler.Instance().getElementsOnTerrain().get(i)._position.getY()+FestivalHandler.Instance().getElementsOnTerrain().get(i)._size.height/2)
 					collision = true;
 			}
 		}
