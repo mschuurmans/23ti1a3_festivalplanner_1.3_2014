@@ -5,6 +5,9 @@ package nl.avans.festivalplanner.model.simulator;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Image;
+
+import nl.avans.festivalplanner.utils.AssetManager;
 
 /**
  * @author Jordy Sipkema
@@ -32,7 +35,18 @@ public class Building extends Area
 	public void draw(Graphics2D g)
 	{
 		super.draw(g);
-		
+
+		if(!_image.trim().equals(""))
+		{
+			Image img = AssetManager.Instance().getImage(_image);
+
+			int x = (int)(_position.getX() - (_size.getWidth() / 2));
+			int y = (int)(_position.getY() - (_size.getHeight() / 2));
+			int height = (int)_size.getHeight();
+			int width = (int)_size.getWidth();
+
+			g.drawImage(img, x,y,width,height, null);
+		}
 	}
 
 	/* (non-Javadoc)
