@@ -558,7 +558,10 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		}
 
 	}
-
+	/**
+	 * Shows the edit act window on create
+	 * @Author Michiel Schuurmans
+	 */
 	class EditActWindow extends JFrame implements ActionListener
 	{
 		private Act _act;
