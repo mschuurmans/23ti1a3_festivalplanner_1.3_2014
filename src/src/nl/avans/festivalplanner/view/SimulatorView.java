@@ -1,6 +1,8 @@
 package nl.avans.festivalplanner.view;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;

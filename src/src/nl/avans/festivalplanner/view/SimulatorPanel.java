@@ -1,21 +1,22 @@
 package nl.avans.festivalplanner.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.Shape;
+import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,11 +30,10 @@ import javax.swing.Timer;
 
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
-import nl.avans.festivalplanner.model.simulator.Area;
 import nl.avans.festivalplanner.model.simulator.Element;
 import nl.avans.festivalplanner.model.simulator.Vector;
+import nl.avans.festivalplanner.utils.AssetManager;
 import nl.avans.festivalplanner.utils.Enums.Text;
-import nl.avans.festivalplanner.utils.*;
 
 import com.javaswingcomponents.accordion.JSCAccordion;
 import com.javaswingcomponents.accordion.TabOrientation;
@@ -52,6 +52,8 @@ public class SimulatorPanel extends Panel
 	private int pXOffset = 750;
 	private int pYOffset = 110;
 	
+	private Element elementDraggedFromToolbar;
+	
 	private Toolbar toolbar;
 	private Simulator simulator;
 	MouseListener mouseListener = new MouseListener();
@@ -59,8 +61,10 @@ public class SimulatorPanel extends Panel
 
 	public SimulatorPanel()
 	{
+		
 		AssetManager.Instance().loadAssets(); //loading all the images into the memory.
 
+		this.addMouseListener(mouseListener);
 		this.addMouseMotionListener(mouseListener);
 		toolbar = new Toolbar();
 		simulator = new Simulator(new Dimension(900,400)); // TODO change size here.
@@ -232,6 +236,7 @@ public class SimulatorPanel extends Panel
 				}
 			};
 			
+			pane.addMouseListener(mouseListenerToolbar);
 			pane.addMouseMotionListener(mouseListenerToolbar);
 			pane.startTimer(20);
 
@@ -315,6 +320,10 @@ public class SimulatorPanel extends Panel
 		private Image _grassTexture;
 		private Dimension _size;
 		
+		public Dimension getSize()
+		{
+			return this._size;		
+		}
 
 		public Simulator(Dimension dim)
 		{
@@ -386,7 +395,7 @@ public class SimulatorPanel extends Panel
 
 	
 	
-	public class MouseListener implements MouseMotionListener
+	public class MouseListener extends MouseAdapter implements MouseMotionListener
 	{
 		/**
 		 * Override the mouseDragged event to check either the elements on the simulatorTerrain 
@@ -440,20 +449,23 @@ public class SimulatorPanel extends Panel
 			}
 		}
 		
+		@Override
+		public void mouseReleased(MouseEvent e)
+		{}
+		
 	}
 
-	public class MouseListenerToolbar implements MouseMotionListener
+	public class MouseListenerToolbar extends MouseAdapter implements MouseMotionListener
 	{
-		Element elementToAdd;
 		
 		@Override
 		public void mouseDragged(MouseEvent e)
 		{
-
+			
 			boolean debugMethod = true;
 			
-			if(debugMethod)			
-				System.out.println("Dragged: X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
+			//if(debugMethod)			
+				//System.out.println("Dragged: X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
 			
 			boolean hasDragged = false;
 			for(Stage s : FestivalHandler.Instance().getStages())
@@ -467,14 +479,10 @@ public class SimulatorPanel extends Panel
 
 					if(!hasDragged) // stops the multiple item drag bug.
 					{
-						int xOffset = 530; //730
-						int yOffset = 200;
-
-						Point newPoint = e.getPoint();
-						newPoint.translate(xOffset, yOffset);
-
-						s.drag(newPoint);
-						elementToAdd = s;
+							if(debugMethod)
+								System.out.println("HAI" + s.getName());
+							
+							elementDraggedFromToolbar = s;
 					}
 
 					hasDragged = true;
@@ -485,15 +493,7 @@ public class SimulatorPanel extends Panel
 		@Override
 		public void mouseMoved(MouseEvent e)
 		{
-
-			boolean debugMethod = true;
-
-			if(debugMethod)
-				System.out.println("X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
-
-
-			if(!FestivalHandler.Instance().getElementsOnTerrain().contains(elementToAdd) && elementToAdd != null)
-				FestivalHandler.Instance().addElementToTerrain(elementToAdd);
+			boolean debugMethod = false;
 
 			for(Stage s : FestivalHandler.Instance().getStages())
 			{
@@ -506,6 +506,30 @@ public class SimulatorPanel extends Panel
 				}
 			}
 		}
+		
+		@Override
+		public void mouseReleased(MouseEvent e)
+		{
+			boolean debugMethod = false;
+			
+			int xOffset = 740; //change to match the width of the simulatorPanel
+			int yOffset = 100;
+
+			if(debugMethod && elementDraggedFromToolbar != null)
+				System.out.println("MouseReleased! and Element :" + ((Stage)elementDraggedFromToolbar).getName() + "xAndY" + e.getX() + " " + e.getY());
+
+			if(!FestivalHandler.Instance().getElementsOnTerrain().contains(elementDraggedFromToolbar) && elementDraggedFromToolbar != null && e.getPoint().getX() < 0)
+			{				
+				elementDraggedFromToolbar.setPosition(new Vector(xOffset + e.getX(), yOffset + e.getY()));
+				FestivalHandler.Instance().addElementToTerrain(elementDraggedFromToolbar);
+				elementDraggedFromToolbar = null;
+			}
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e)
+		{}
+	
 	}
 
 }
