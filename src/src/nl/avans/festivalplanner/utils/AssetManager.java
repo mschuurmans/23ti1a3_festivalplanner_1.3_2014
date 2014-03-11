@@ -46,7 +46,6 @@ public class AssetManager
 					catch(Exception e){}
 				}
 			}
-
 		}
 	}
 	
