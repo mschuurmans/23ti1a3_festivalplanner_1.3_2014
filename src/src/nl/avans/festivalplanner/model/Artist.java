@@ -6,13 +6,25 @@ public class Artist implements Serializable
 {
 	private static final long serialVersionUID = -6600526177584346069L;
 
+        public static final int MAX_POP = 5;
+
 	private int _id;
 	private String _name;
 	private String _genre;
 	private String _comment;
 	private String _imageSource = "";
-	
-	
+        private int _popularity;
+
+        public void setPopularity(int value)
+        {
+            this._popularity = value;
+        }
+
+        public int getPopularity()
+        {
+                return this._popularity;
+        }       
+
 	public void setImageSource(String value)
 	{
 		this._imageSource = value;

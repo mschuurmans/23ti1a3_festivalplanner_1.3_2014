@@ -40,45 +40,63 @@ public class People extends Element
 	{
 		g.drawImage(AssetManager.Instance().getImage(_image), _position.getX(), _position.getY(), 16, 16, null);
 		//System.out.println("tekenen");
-		System.out.println(_position.toString());
+		System.out.println("Pos: " + _position.toString());
+		System.out.println("Dir: " + _destination.toString());
 	}
 
 	public void update()
 	{
-		if(destinationReached())
+		int posX = 0;
+		int posY = 0;
+		if(destinationYReached() && destinationXReached())
 		{
 			newDestination();
 		}
-		else 
+
+		if(!destinationXReached())
 		{
-			int posX = 0;
-			int posY = 0;
-			if(_position.getX() < _destination.getX())
-				posX = _position.getX() + (int)(_speed * Math.cos(_destination.getX()));
+			int moveX = (int)(_speed * Math.cos(_destination.getX())) + 1;
+			if(moveX<= 0)
+				moveX =1;
+
+			if(_position.getX() == _destination.getX())
+				posX = _position.getX();
+			else if(_position.getX() < _destination.getX())
+				posX = _position.getX() + moveX;
 
 			else if(_position.getX() > _destination.getX())
-				posX = _position.getX() - (int)(_speed * Math.cos(_destination.getX()));
-
-			if(_position.getY() < _destination.getY())
-				posY = _position.getY() + (int)(_speed * Math.sin(_destination.getY()));
+				posX = _position.getX() - moveX;
+			
+		}
+		else { posX = _destination.getX(); }
+		
+		if(!destinationYReached())
+		{
+			int moveY = (int)(_speed * Math.cos(_destination.getY())) + 1;
+			if(moveY<=0)
+				moveY=1;
+			
+			System.out.println(moveY);
+			
+			if(_position.getY() == _destination.getY())
+				posY = _position.getY();
+			else if(_position.getY() < _destination.getY())
+				posY = _position.getY() + moveY;
 
 			else if(_position.getY() > _destination.getY())
-				posY = _position.getY() - (int)(_speed * Math.sin(_destination.getY()));
-
-			if(posY<0)
-				posY=0;
-			if(posX<0)
-				posX=0;
-			
-			_position =new Vector(posX,posY);
+				posY = _position.getY() - moveY;
 		}
-		//System.out.println(_speed * Math.cos(_destination.getX());
+		else{ posY = _destination.getY(); }
+
+		_position =new Vector(posX,posY);	
 
 	}
 
 	private void newDestination()
 	{
-		_destination = new Vector((int)(Math.random()*500+50), (int)(Math.random()*500+50));
+		int posX = (int)(Math.random()*500)+25;
+		int posY = (int)(Math.random()*500)+25;
+		_destination = new Vector(posX, posY);
 	}	
 
 	/**
@@ -102,17 +120,29 @@ public class People extends Element
 		return tx;
 	}
 
-	private boolean destinationReached()
+	private boolean destinationXReached()
 	{
 		if(_destination == null)
 			return true;
 		else if(_position == _destination)
 			return true;
-		else if(_position.getX() > _destination.getX()-25 && _position.getX()<_destination.getX()+25
-				&& _position.getY() > _destination.getY()-25 && _position.getY()<_destination.getY()+25)
+		else if((_position.getX() >= (_destination.getX()-25)) && (_position.getX()<=(_destination.getX()+25)))
 			return true;
-		
+
 		else return false;
+	}
+
+	private boolean destinationYReached()
+	{
+		if(_destination == null)
+			return true;
+		else if(_position == _destination)
+			return true;
+		else if((_position.getY() >= (_destination.getY()-25)) && (_position.getY()<=(_destination.getY()+25)))
+			return true;
+
+		else return false;
+
 	}
 
 

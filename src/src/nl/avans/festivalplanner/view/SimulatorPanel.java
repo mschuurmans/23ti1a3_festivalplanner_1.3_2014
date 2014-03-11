@@ -45,6 +45,7 @@ import com.javaswingcomponents.accordion.listener.AccordionListener;
 import com.javaswingcomponents.accordion.plaf.AccordionUI;
 import com.javaswingcomponents.accordion.plaf.basic.BasicHorizontalTabRenderer;
 import com.javaswingcomponents.accordion.plaf.darksteel.DarkSteelAccordionUI;
+import com.javaswingcomponents.accordion.plaf.darksteel.DarkSteelHorizontalTabRenderer;
 import com.javaswingcomponents.framework.painters.configurationbound.GradientColorPainter;
 
 public class SimulatorPanel extends Panel
@@ -293,8 +294,8 @@ public class SimulatorPanel extends Panel
 			ui.setHorizontalBackgroundPadding(10);
 
 			//example of changing the AccordionTabRenderer
-			BasicHorizontalTabRenderer tabRenderer = new BasicHorizontalTabRenderer(accordion);
-			tabRenderer.setFontColor(Color.RED);
+			DarkSteelHorizontalTabRenderer tabRenderer = new DarkSteelHorizontalTabRenderer(accordion);
+			//tabRenderer.setFontColor(Color.RED);
 			accordion.setHorizontalAccordionTabRenderer(tabRenderer);
 
 			//example of changing the background painter.
@@ -302,13 +303,6 @@ public class SimulatorPanel extends Panel
 			backgroundPainter = (GradientColorPainter) accordion.getBackgroundPainter();
 			backgroundPainter.setStartColor(Color.BLACK);
 			backgroundPainter.setEndColor(Color.WHITE);
-
-			//the outcome of this customization is not the most visually appealing result
-			//but it just serves to illustrate how to customize the accordion's look and feel.
-			//The UI is darkSteel.
-			//The backgroundPainter is a gradient running from Black to White
-			//The accordionTabRenderer belongs to the BasicAccordionUI
-			//And finally the text of the tab is red!
 		}
 
 		@Override
@@ -333,6 +327,7 @@ public class SimulatorPanel extends Panel
 			setPreferredSize(dim);
 			this._size = dim;
 			addMouseMotionListener(mouseListener);
+                        addMouseListener(mouseListener);
 			try
 			{
 				_grassTexture = new ImageIcon("bin/grass.png").getImage();
@@ -349,9 +344,9 @@ public class SimulatorPanel extends Panel
 
 			for(int i=0; i<10; i++)
 			{
-				int startX = (int)(Math.random()*(this.getHeight()-50)+20);
-				int startY =  (int)(Math.random()*(this.getWidth()-50)+20);
-				int speed = (int)(Math.random()*20+3);
+				int startX = (int)(Math.random()*(this.getWidth())) + 20;
+				int startY =  (int)(Math.random()*(this.getHeight())) +20;
+				int speed = (int)(Math.random()*6+3);
 				People visitor = new People(new Vector(startX,startY), speed);
 				FestivalHandler.Instance().addElementToTerrain(visitor);
 			}
@@ -386,10 +381,10 @@ public class SimulatorPanel extends Panel
 
 			// begin drawing background	
 			int curY = 0;
-			for(int y = 0; y<=(this._size.getHeight() / imageHeight); y++)
+			for(int y = 0; y<=(getHeight() / imageHeight); y++)
 			{
 				int curX = 0;
-				for(int x = 0; x<=(this._size.getWidth() / imageWidth); x++)
+				for(int x = 0; x<=(getSize().getWidth() / imageWidth); x++)
 				{
 					g2.drawImage(_grassTexture, curX, curY, imageWidth, imageHeight, null);
 					curX += imageWidth;
@@ -465,10 +460,23 @@ public class SimulatorPanel extends Panel
 			}
 		}
 
+		
 		@Override
-		public void mouseReleased(MouseEvent e)
-		{}
+		public void mouseClicked(MouseEvent e)
+		{
+			boolean debugMethod = true;
+                        if(debugMethod)
+                            System.out.println("CLICKED");
 
+                        for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
+			{
+		                if(element.contains(e.getPoint()))
+                                {
+                                        if(debugMethod)
+                                                System.out.println("Element has been clicked!");
+                                }
+			}
+		}
 	}
 
 	public class MouseListenerToolbar extends MouseAdapter implements MouseMotionListener
@@ -478,7 +486,7 @@ public class SimulatorPanel extends Panel
 		public void mouseDragged(MouseEvent e)
 		{
 
-			boolean debugMethod = true;
+			boolean debugMethod = false;
 
 			//if(debugMethod)			
 			//System.out.println("Dragged: X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
@@ -540,21 +548,9 @@ public class SimulatorPanel extends Panel
 				FestivalHandler.Instance().addElementToTerrain(elementDraggedFromToolbar);
 				elementDraggedFromToolbar = null;
 			}
-		}
+		}	
 
-		@Override
-		public void mouseClicked(MouseEvent e)
-		{
-			System.out.println("TEST");
-
-			int i = 0;
-
-			setCursor(new Cursor(i));
-
-			i++;
-		}
-
+			
 	}
-
 }
 
