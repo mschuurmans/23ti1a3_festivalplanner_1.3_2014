@@ -20,6 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -54,6 +56,10 @@ public class ArtistPanel extends Panel
 	private JTextField _genreTextField;
 	private JTextArea _commentTextArea;
 	
+        private JLabel _popLabel;
+        private JSpinner _popSpinner;
+        private SpinnerNumberModel _popSpinnerModel = new SpinnerNumberModel(1,0,Artist.MAX_POP, 1);
+
 	private JList _list;
 	
 	private GUIHelper _guiHelper;
@@ -121,6 +127,12 @@ public class ArtistPanel extends Panel
 		
 		_commentTextArea = new JTextArea();
 		_commentTextArea.setBounds(15, 145, 255, 250);
+
+                _popLabel = new JLabel(Text.Popularity.toString());
+                _popLabel.setBounds(15,405, 50, 25);
+
+                _popSpinner = new JSpinner(_popSpinnerModel);
+                _popSpinner.setBounds(70, 405, 200, 25);
 		
 		_imageLabel = new JLabel("");
 		_imageLabel.setBounds(groupBoxWidth - 220,-10, 250, 300);
@@ -134,6 +146,7 @@ public class ArtistPanel extends Panel
 		_removeImage = new JButton(Text.RemoveImage.toString());
 		_removeImage.setBounds(groupBoxWidth - 220, 310, 210, 25);
 		_removeImage.addActionListener(this);
+
 		
 		add(scrollPane);
 		add(_addArtist);
@@ -153,7 +166,8 @@ public class ArtistPanel extends Panel
 		groupBox.add(_commentTextArea);
 		groupBox.add(_changeImage);
 		groupBox.add(_removeImage);
-		
+	        groupBox.add(_popLabel);
+                groupBox.add(_popSpinner);
 		_list.addListSelectionListener(new ListSelectionListener()
 		{
 			@Override
@@ -178,7 +192,7 @@ public class ArtistPanel extends Panel
 		_nameTextField.setText(artist.getName());
 		_genreTextField.setText(artist.getGenre());
 		_commentTextArea.setText(artist.getComment());
-		
+	        _popSpinner.getModel().setValue(artist.getPopularity());	
 		//changeArtistImage(artist.getImageSource());
 		
 		if(debug)
@@ -203,6 +217,7 @@ public class ArtistPanel extends Panel
 				artist.setGenre(_genreTextField.getText());
 				artist.setComment(_commentTextArea.getText());
 				artist.setImageSource(_selectedArtist.getImageSource());
+                                artist.setPopularity((int)_popSpinner.getModel().getValue());
 				_defaultListModel.setElementAt(artist, _list.getSelectedIndex());
 				
 				if(debug)

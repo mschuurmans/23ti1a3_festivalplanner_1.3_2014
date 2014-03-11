@@ -43,6 +43,7 @@ public class Enums
 		SizeDef("L x B [m]", "L x W [m]"),
 		Capacity("Capaciteit", "Capacity"),
 		People("Bezoekers", "Visitors"),
+                Popularity("Populariteit", "Popularity"),
 		NoImageAvailable("Geen Afbeelding \nbeschikbaar", "No image \navailable"),
 		FestivalName("Festival naam", "Festival name"),
 		Date("Datum", "Date"),
