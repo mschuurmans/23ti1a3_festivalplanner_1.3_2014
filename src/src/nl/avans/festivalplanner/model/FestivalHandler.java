@@ -20,6 +20,8 @@ public class FestivalHandler
 {
 	private static FestivalHandler _instance = null;
 	private boolean debug = true;
+	private ArrayList<People> _visitors = new ArrayList<People>();
+	
 	public static FestivalHandler Instance() 
 	{
 		if (_instance == null)
@@ -294,4 +296,6 @@ public class FestivalHandler
 	{
 		return this._festival.getMap();
 	}
+	
+	
 }
