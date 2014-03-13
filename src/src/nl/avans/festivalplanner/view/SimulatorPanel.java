@@ -2,6 +2,7 @@ package nl.avans.festivalplanner.view;
 import java.util.*;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -16,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.ImageIcon;
@@ -31,6 +33,7 @@ import javax.swing.Timer;
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
 import nl.avans.festivalplanner.model.simulator.Element;
+import nl.avans.festivalplanner.model.simulator.People;
 import nl.avans.festivalplanner.model.simulator.Vector;
 import nl.avans.festivalplanner.utils.AssetManager;
 import nl.avans.festivalplanner.utils.Enums.Text;
@@ -49,12 +52,12 @@ public class SimulatorPanel extends Panel
 {
 	private static final long serialVersionUID = -3533223589206092760L;
 	private static final boolean debug = true;
-	
+
 	private int pXOffset = 750;
 	private int pYOffset = 110;
-	
+
 	private Element elementDraggedFromToolbar;
-	
+
 	private Toolbar toolbar;
 	private Simulator simulator;
 	MouseListener mouseListener = new MouseListener();
@@ -62,7 +65,7 @@ public class SimulatorPanel extends Panel
 
 	public SimulatorPanel()
 	{
-		
+
 		AssetManager.Instance().loadAssets(); //loading all the images into the memory.
 
 		this.addMouseListener(mouseListener);
@@ -112,7 +115,7 @@ public class SimulatorPanel extends Panel
 		}
 
 		private void addTabs(JSCAccordion accordion)
-	       	{
+		{
 			JPanel transparentPanel = new JPanel();
 			transparentPanel.setOpaque(false);
 			transparentPanel.setBackground(Color.GRAY);
@@ -149,10 +152,10 @@ public class SimulatorPanel extends Panel
 						buttonStart.setEnabled(false);
 					}
 					else if(e.getSource() == buttonStop)
-			{
-				buttonStop.setEnabled(false);
-				buttonStart.setEnabled(true);
-			}	
+					{
+						buttonStop.setEnabled(false);
+						buttonStart.setEnabled(true);
+					}	
 				}
 			});
 
@@ -169,7 +172,7 @@ public class SimulatorPanel extends Panel
 			controlPanel.add(buttonStop);
 			controlPanel.add(visitorLabel);
 			controlPanel.add(visitors);
-			
+
 			result.add(controlPanel);
 			return result;
 		}
@@ -256,8 +259,7 @@ public class SimulatorPanel extends Panel
                                                         curX = 0 + horOffset;
                                                 }	
 
-                                                counter++;
-					
+                                                counter++;				
 					}
                                 }
 
@@ -285,12 +287,12 @@ public class SimulatorPanel extends Panel
 				{
 					super.paintComponent(g);
 					Graphics2D g2 = (Graphics2D) g;
-					
+
 					Rectangle2D rectangle = new Rectangle2D.Double(1, 1, 50, 50);
-					
+
 					int shapeWidth = 100;
 					int shapeHeight = 100;
-					
+
 					int horOffset = 10 + (shapeWidth / 2); // horizontal offset + 50 because element is drawn in the center of the object not in left corner.
 					int curX = 0 + horOffset;
 					int curY = 0 + horOffset;
@@ -311,7 +313,7 @@ public class SimulatorPanel extends Panel
 							s.draw(g2);
 
 							curX += (int)(shapeWidth / 1.5) +horOffset;
-							
+
 							if((counter != 0) && (counter % 2 == 1))
 							{
 								curY += (int)(shapeHeight / 2) + horOffset;
@@ -337,7 +339,7 @@ public class SimulatorPanel extends Panel
 					return null;
 				}
 			};
-			
+
 			pane.addMouseListener(mouseListenerToolbar);
 			pane.addMouseMotionListener(mouseListenerToolbar);
 			pane.startTimer(20);
@@ -414,7 +416,7 @@ public class SimulatorPanel extends Panel
 	{
 		private Image _grassTexture;
 		private Dimension _size;
-		
+
 		public Dimension getSize()
 		{
 			return this._size;		
@@ -428,9 +430,9 @@ public class SimulatorPanel extends Panel
                         addMouseListener(mouseListener);
 			try
 			{
-				 _grassTexture = new ImageIcon("bin/grass.png").getImage();
-				 
-				 System.out.println(_grassTexture);
+				_grassTexture = new ImageIcon("bin/grass.png").getImage();
+
+				System.out.println(_grassTexture);
 			}
 			catch(Exception e)
 			{
@@ -439,6 +441,18 @@ public class SimulatorPanel extends Panel
 
 			Timer timer = new Timer(30, this);
 			timer.start();
+
+			for(int i=0; i<10; i++)
+			{
+				int startX = (int)(Math.random()*(this.getWidth())) + 20;
+				int startY =  (int)(Math.random()*(this.getHeight())) +20;
+				int speed = (int)(Math.random()*6+3);
+				People visitor = new People(new Vector(startX,startY), speed);
+				FestivalHandler.Instance().addElementToTerrain(visitor);
+			}
+
+
+
 		}
 
 		@Override
@@ -449,7 +463,6 @@ public class SimulatorPanel extends Panel
 			{
 				e.update();
 			}
-
 			repaint();
 		}
 
@@ -462,10 +475,10 @@ public class SimulatorPanel extends Panel
 		{
 			super.paintComponent(g);
 			Graphics2D g2 = (Graphics2D) g;
-			
+
 			int imageWidth = 400;
 			int imageHeight = 400;
-			
+
 			// begin drawing background	
 			int curY = 0;
 			for(int y = 0; y<=(getHeight() / imageHeight); y++)
@@ -478,7 +491,7 @@ public class SimulatorPanel extends Panel
 				}
 				curY+= imageHeight;
 			}
-				
+
 			// end drawing background
 			//Draw all the elements to the screen.
 			for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
@@ -489,8 +502,8 @@ public class SimulatorPanel extends Panel
 		}	
 	}
 
-	
-	
+
+
 	public class MouseListener extends MouseAdapter implements MouseMotionListener
 	{
 		/**
@@ -501,7 +514,7 @@ public class SimulatorPanel extends Panel
 		public void mouseDragged(MouseEvent e)
 		{
 			boolean debugMethod = false;
-			
+
 			if(debugMethod)			
 				System.out.println("Dragged: X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());	
 			boolean hasDragged = false;
@@ -518,10 +531,10 @@ public class SimulatorPanel extends Panel
 					hasDragged = true;
 				}
 			}
-			
+
 		}
 
-		
+
 		/**
 		 * Override the MouMoved event to check either the elements on the simulatorTerrain 
 		 * @Author Michiel & Jack
@@ -544,7 +557,7 @@ public class SimulatorPanel extends Panel
 				}
 			}
 		}
-		
+
 		
 		@Override
 		public void mouseClicked(MouseEvent e)
@@ -566,16 +579,16 @@ public class SimulatorPanel extends Panel
 
 	public class MouseListenerToolbar extends MouseAdapter implements MouseMotionListener
 	{
-		
+
 		@Override
 		public void mouseDragged(MouseEvent e)
 		{
-			
+
 			boolean debugMethod = false;
-			
+
 			//if(debugMethod)			
-				//System.out.println("Dragged: X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
-			
+			//System.out.println("Dragged: X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
+
 			boolean hasDragged = false;
 			for(Stage s : FestivalHandler.Instance().getStages())
 			{
@@ -588,10 +601,10 @@ public class SimulatorPanel extends Panel
 
 					if(!hasDragged) // stops the multiple item drag bug.
 					{
-							if(debugMethod)
-								System.out.println("HAI" + s.getName());
-							
-							elementDraggedFromToolbar = s;
+						if(debugMethod)
+							System.out.println("HAI" + s.getName());
+
+						elementDraggedFromToolbar = s;
 					}
 
 					hasDragged = true;
@@ -615,12 +628,12 @@ public class SimulatorPanel extends Panel
 				}
 			}
 		}
-		
+
 		@Override
 		public void mouseReleased(MouseEvent e)
 		{
 			boolean debugMethod = false;
-			
+
 			int xOffset = 740; //change to match the width of the simulatorPanel
 			int yOffset = 100;
 
@@ -634,6 +647,8 @@ public class SimulatorPanel extends Panel
 				elementDraggedFromToolbar = null;
 			}
 		}	
+
+			
 	}
 }
 

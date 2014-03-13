@@ -3,68 +3,100 @@ package nl.avans.festivalplanner.model.simulator;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.*;
 import nl.avans.festivalplanner.model.FestivalHandler;
+
 public class People extends Element
 {
-	private boolean debug = true;
-	private int _timeUntillNewDest;
-	private int _x1, _x2, _y1, _y2;
-	private int _destX, _destY;
-	private Area _destination;
-	
+	Vector _destination = null;
+	float _speed;
+	String _image;
 
-	public People(Dimension size, Vector position)
+	public People(Vector position, float speed)
 	{
-		super(size, position); 
-		newDestination();
+		super(new Dimension(16,16), position);
+		this._speed = speed;
+		_image = "resources\\people.png";
+
 	}
-	
+
 	public void draw(Graphics2D g)
 	{
-		if(debug)
-		{
-			drawBackCanvas(g);
-		}
-		if (_timeUntillNewDest <= 0)
+		g.drawImage(AssetManager.Instance().getImage(_image), _position.getX(), _position.getY(), 16, 16, null);
+		//System.out.println("tekenen");
+//		System.out.println("Pos: " + _position.toString());
+//		System.out.println("Dir: " + _destination.toString());
+	}
+
+	public void update()
+	{
+		int posX = 0;
+		int posY = 0;
+		if(destinationYReached() && destinationXReached())
 		{
 			newDestination();
 		}
+
+		if(!destinationXReached())
+		{
+			int moveX = (int)(_speed * Math.cos(_destination.getX())) + 1;
+			if(moveX<= 0)
+				moveX =1;
+
+			if(_position.getX() == _destination.getX())
+				posX = _position.getX();
+			else if(_position.getX() < _destination.getX())
+				posX = _position.getX() + moveX;
+
+			else if(_position.getX() > _destination.getX())
+				posX = _position.getX() - moveX;
+			
+		}
+		else { posX = _destination.getX(); }
 		
-		//TODO: this arraylist needs to be filled
-		//FestivalHandler.Instance().getElementsOnTerrain();
-		
-		//goTo(_destination);
-		
-		_x1 = _position.getX() - (_size.width/2);
-		_x2 = _position.getX() + (_size.width/2);
-		_y1 = _position.getY() - (_size.height/2);
-		_y2 = _position.getY() + (_size.height/2);
-		g.draw(new Rectangle2D.Double(_x1, _x2, _y1, _y2));
+		if(!destinationYReached())
+		{
+			int moveY = (int)(_speed * Math.cos(_destination.getY())) + 1;
+			if(moveY<=0)
+				moveY=1;
+			
+//			System.out.println(moveY);
+			
+			if(_position.getY() == _destination.getY())
+				posY = _position.getY();
+			else if(_position.getY() < _destination.getY())
+				posY = _position.getY() + moveY;
+
+			else if(_position.getY() > _destination.getY())
+				posY = _position.getY() - moveY;
+		}
+		else{ posY = _destination.getY(); }
+
+		_position =new Vector(posX,posY);	
+
 	}
-	
-	public void update()
-	{
-		goTo();
-	}
-	
+
 	private void newDestination()
 	{
-		//TODO: this arraylist needs to be filled
-		ArrayList<Area> allAreas = new ArrayList<Area>();
-		
-		Random rand = new Random();
-		int dest = rand.nextInt(allAreas.size())+1;
-		_destination = allAreas.get(dest);
-		_timeUntillNewDest = rand.nextInt(6000) + 600;
+		int posX = (int)(Math.random()*500)+25;
+		int posY = (int)(Math.random()*500)+25;
+		_destination = new Vector(posX, posY);
 	}	
 
 	/**
@@ -72,82 +104,48 @@ public class People extends Element
 	 * Usefull for checking if collision is working.
 	 * @Author Michiel Schuurmans
 	 */
-	private void drawBackCanvas(Graphics2D g)
+	//	private void drawBackCanvas(Graphics2D g)
+	//	{
+	//		int height = (int)_size.getHeight();
+	//		int width = (int)_size.getWidth();
+	//		
+	//		Utils.drawAreaBackground(g,_x1,_y1,width,height);
+	//	}
+
+	private AffineTransform getTransform() 
 	{
-		int height = (int)_size.getHeight();
-		int width = (int)_size.getWidth();
-		
-		Utils.drawAreaBackground(g,_x1,_y1,width,height);
+		AffineTransform tx = new AffineTransform();
+		tx.translate(_position.getX()-8, _position.getY()-8);
+		//tx.rotate(_direction, 32, 32);
+		return tx;
 	}
-	
-	private void goTo()
+
+	private boolean destinationXReached()
 	{
-		if(_x1 > _destination.getPosition().getX() + _destination.getSize().width/2)
-		{
-			move(-1, 0);
-		} 
-		else if (_x2 < _destination.getPosition().getX()- _destination.getSize().width/2)
-		{
-			move(1, 0);
-		}
-		
-		if(_y1 > _destination.getPosition().getY() + _destination.getSize().height/2)
-		{
-			move(0, -1);
-		} 
-		else if (_y2 < _destination.getPosition().getY() - _destination.getSize().height/2)
-		{
-			move(0, 1);
-		}
+		if(_destination == null)
+			return true;
+		else if(_position == _destination)
+			return true;
+		else if((_position.getX() >= (_destination.getX()-25)) && (_position.getX()<=(_destination.getX()+25)))
+			return true;
+
+		else return false;
 	}
-	
-	private void move(int xMove, int yMove)
+
+	private boolean destinationYReached()
 	{
-		boolean collision = false;
-		if (xMove < 0 || xMove == 0)
-		{
-			for (int i = 0; i < FestivalHandler.Instance().getElementsOnTerrain().size(); i++)
-			{
-				if(_x1 + xMove == FestivalHandler.Instance().getElementsOnTerrain().get(i)._position.getX()-FestivalHandler.Instance().getElementsOnTerrain().get(i)._size.width/2 &&
-						_position != FestivalHandler.Instance().getElementsOnTerrain().get(i)._position)
-					collision = true;
-			}
-		} 
-		else
-		{
-			for (int i = 0; i < FestivalHandler.Instance().getElementsOnTerrain().size(); i++)
-			{
-				if(_x2 + xMove == FestivalHandler.Instance().getElementsOnTerrain().get(i)._position.getX()+FestivalHandler.Instance().getElementsOnTerrain().get(i)._size.width/2)
-					collision = true;
-			}
-		}		
-		
-		if (yMove < 0 || yMove == 0)
-		{
-			for (int i = 0; i < FestivalHandler.Instance().getElementsOnTerrain().size(); i++)
-			{
-				if(_y1 + yMove == FestivalHandler.Instance().getElementsOnTerrain().get(i)._position.getY()-FestivalHandler.Instance().getElementsOnTerrain().get(i)._size.height/2 &&
-						_position != FestivalHandler.Instance().getElementsOnTerrain().get(i)._position)
-					collision = true;
-			}
-		} 
-		else
-		{
-			for (int i = 0; i < FestivalHandler.Instance().getElementsOnTerrain().size(); i++)
-			{
-				if(_y2 + yMove == FestivalHandler.Instance().getElementsOnTerrain().get(i)._position.getY()+FestivalHandler.Instance().getElementsOnTerrain().get(i)._size.height/2)
-					collision = true;
-			}
-		}
-		
-		if (!collision)
-		{
-			_timeUntillNewDest--;
-			setPosition(new Vector(_position.getX()+xMove, _position.getY()+yMove));
-		}
-		else
-		{
-			// TODO: catch collision
-		}
+		if(_destination == null)
+			return true;
+		else if(_position == _destination)
+			return true;
+		else if((_position.getY() >= (_destination.getY()-25)) && (_position.getY()<=(_destination.getY()+25)))
+			return true;
+
+		else return false;
+
 	}
+
+
+
+
 }
