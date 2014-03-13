@@ -1,5 +1,7 @@
 package nl.avans.festivalplanner.model.simulator;
 
+import java.awt.Point;
+
 /**
  * A 2-dimensional vector that is represented by integer x,y coordinates.
  *
@@ -189,6 +191,11 @@ public class Vector
 	public String toString()
 	{
 		return String.format("Vector[%d , %d]", this.getX(), this.getY());
+	}
+	
+	public Point getPoint()
+	{
+		return new Point(_x, _y);
 	}
 
 }

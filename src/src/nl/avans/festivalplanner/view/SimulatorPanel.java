@@ -444,10 +444,11 @@ public class SimulatorPanel extends Panel
 
 			for(int i=0; i<10; i++)
 			{
-				int startX = (int)(Math.random()*(this.getWidth())) + 20;
-				int startY =  (int)(Math.random()*(this.getHeight())) +20;
+				int startX = (int)(Math.random()*500) + 20;
+				int startY =  (int)(Math.random()*500) +20;
 				int speed = (int)(Math.random()*6+3);
-				People visitor = new People(new Vector(startX,startY), speed);
+				float direction = 0;
+				People visitor = new People(new Vector(startX,startY), speed, direction);
 				FestivalHandler.Instance().addElementToTerrain(visitor);
 			}
 
