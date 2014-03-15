@@ -98,7 +98,7 @@ public class People extends Element
 			int moveY = (int)(_speed * Math.cos(_destination.getY())) + 1;
 			if(moveY<=0)
 				moveY=1;
-//			System.out.println(moveY);
+			//			System.out.println(moveY);
 			if(_position.getY() == _destination.getY())
 				posY = _position.getY();
 			else if(_position.getY() < _destination.getY())
@@ -128,10 +128,12 @@ public class People extends Element
 		ArrayList<Element> elements = new ArrayList<Element>();
 		for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
 		{
+			//Un-comment als Area is geimplementeerd.
+			//if(!(e instanceof People) && (e instanceof Area) && !(e instanceof Building)) 
 			if(!(e instanceof People))
 				elements.add(e);
 		}
-		
+
 		if(elements.isEmpty()) //if no stages, get random position in field.
 		{
 			int posX = (int)(Math.random()*500)+25;
@@ -142,11 +144,12 @@ public class People extends Element
 		{  
 			int size = elements.size();
 
-			int i = (((int)Math.random() * size)); // get a random index.
+			int i = (((int)(Math.random() * size))); // get a random index.
 			Element goTo = elements.get(i);
-			int posX = goTo.getPosition().getX();
-			int posY = goTo.getPosition().getY();
-			_destination = new Vector(posX, posY);
+			//int posX = goTo.getPosition().getX();
+			//int posY = goTo.getPosition().getY();
+			//_destination = new Vector(posX, posY);
+			_destination = goTo.getRandomPosition();
 		}
 		return _destination;
 	}	
@@ -194,7 +197,33 @@ public class People extends Element
 		{
 			if(other instanceof People)
 				if(other.contains(_position.getPoint()))
-					if(!other.equals(this)) 
+					if(!other.equals(this) ) 
+						return true;
+		}
+		return false;
+	}
+
+	private boolean hasCollisionBuilding()
+	{
+		for(Element other : FestivalHandler.Instance().getElementsOnTerrain())
+		{
+			if(other instanceof Building)
+			{
+				if(other.contains(_position.getPoint()))
+					if(!other.equals(this))
+						return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasCollisionArea()
+	{
+		for(Element other : FestivalHandler.Instance().getElementsOnTerrain())
+		{
+			if(other instanceof Area && !(other instanceof Building))
+				if(other.contains(_position.getPoint()))
+					if(!other.equals(this) ) 
 						return true;
 		}
 		return false;

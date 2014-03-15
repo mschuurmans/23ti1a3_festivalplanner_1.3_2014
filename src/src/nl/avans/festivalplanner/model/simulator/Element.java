@@ -61,6 +61,19 @@ public abstract class Element implements Serializable
 	{
 		return this._position;
 	}
+	
+	/**
+	 * @return random place in position
+	 * @author Kasper
+	 */
+	
+	public Vector getRandomPosition()
+	{
+		int x = _position.getX()+(int)((Math.random()-0.5)*_size.width);
+		int y = _position.getY()+(int)((Math.random()-0.5)*_size.height);
+		Vector vect = new Vector(x,y);
+		return vect;
+	}
 
 	/**
 	 * @param position
