@@ -38,6 +38,7 @@ import nl.avans.festivalplanner.model.simulator.Vector;
 import nl.avans.festivalplanner.utils.AssetManager;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.model.simulator.*;
+import nl.avans.festivalplanner.view.dialog.*;
 import com.javaswingcomponents.accordion.JSCAccordion;
 import com.javaswingcomponents.accordion.TabOrientation;
 import com.javaswingcomponents.accordion.listener.AccordionEvent;
@@ -451,9 +452,6 @@ public class SimulatorPanel extends Panel
 				People visitor = new People(new Vector(startX,startY), speed, direction);
 				FestivalHandler.Instance().addElementToTerrain(visitor);
 			}
-
-
-
 		}
 
 		@Override
@@ -461,9 +459,8 @@ public class SimulatorPanel extends Panel
 		{
 			// Update all the elements on the terrain.
 			for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
-			{
 				e.update();
-			}
+			
 			repaint();
 		}
 
@@ -518,10 +515,11 @@ public class SimulatorPanel extends Panel
 
 			if(debugMethod)			
 				System.out.println("Dragged: X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());	
+
 			boolean hasDragged = false;
 			for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
 			{
-				if(element.contains(e.getPoint()))
+				if(element instanceof Area && element.contains(e.getPoint()))
 				{
 					if(debugMethod)
 						System.out.println("Element was dragged!");
@@ -569,10 +567,12 @@ public class SimulatorPanel extends Panel
 
                         for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
 			{
-		                if(element.contains(e.getPoint()))
+		                if(element instanceof Area & element.contains(e.getPoint()))
                                 {
                                         if(debugMethod)
                                                 System.out.println("Element has been clicked!");
+
+					new IntersectionOptions(element);
                                 }
 			}
 		}
@@ -586,9 +586,6 @@ public class SimulatorPanel extends Panel
 		{
 
 			boolean debugMethod = false;
-
-			//if(debugMethod)			
-			//System.out.println("Dragged: X: " + e.getPoint().getX() + " Y: " + e.getPoint().getY());
 
 			boolean hasDragged = false;
 			for(Stage s : FestivalHandler.Instance().getStages())
@@ -647,9 +644,7 @@ public class SimulatorPanel extends Panel
 				FestivalHandler.Instance().addElementToTerrain(elementDraggedFromToolbar);
 				elementDraggedFromToolbar = null;
 			}
-		}	
-
-			
+		}		
 	}
 }
 
