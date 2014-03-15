@@ -112,7 +112,8 @@ public class People extends Element
 
 		if(hasCollision())
 		{
-			_position = oldPosition;
+			_position.setX(oldPosition.getX()-(int)(10*Math.random()));
+			_position.setY(oldPosition.getY()-(int)(10*Math.random()));
 			_direction += 0.2f;
 		}
 

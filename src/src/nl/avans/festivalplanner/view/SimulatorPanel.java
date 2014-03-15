@@ -342,7 +342,7 @@ public class SimulatorPanel extends Panel
 			Timer timer = new Timer(30, this);
 			timer.start();
 
-			for(int i=0; i<10; i++)
+			for(int i=0; i<100; i++)
 			{
 				int startX = (int)(Math.random()*500) + 20;
 				int startY =  (int)(Math.random()*500) +20;
