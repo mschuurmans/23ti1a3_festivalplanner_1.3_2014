@@ -1,5 +1,5 @@
 package nl.avans.festivalplanner.view;
-
+import java.util.*;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -37,7 +37,7 @@ import nl.avans.festivalplanner.model.simulator.People;
 import nl.avans.festivalplanner.model.simulator.Vector;
 import nl.avans.festivalplanner.utils.AssetManager;
 import nl.avans.festivalplanner.utils.Enums.Text;
-
+import nl.avans.festivalplanner.model.simulator.*;
 import com.javaswingcomponents.accordion.JSCAccordion;
 import com.javaswingcomponents.accordion.TabOrientation;
 import com.javaswingcomponents.accordion.listener.AccordionEvent;
@@ -127,8 +127,8 @@ public class SimulatorPanel extends Panel
 			accordion.addTab(Text.Controls.toString(), getControlTab());
 			accordion.addTab(Text.Stages.toString(), getStageTab());
 
-			accordion.addTab(Text.Stalls.toString(), new JScrollPane(new JTree()));
-			accordion.addTab(Text.Facilities.toString(), opaquePanel);
+			accordion.addTab(Text.Stalls.toString(), getStandTab());
+			accordion.addTab(Text.Facilities.toString(), getFacilityTab());
 			accordion.addTab(Text.Remaining.toString(), transparentPanel);
 		}
 
@@ -176,7 +176,107 @@ public class SimulatorPanel extends Panel
 			result.add(controlPanel);
 			return result;
 		}
+	        private JScrollPane getFacilityTab()
+                {
+                        final List<Element> facilities = new ArrayList<Element>();
+                        facilities.add(new Toilet(new Dimension(100,100), new Vector(0,0)));
 
+                        JPanel pane = new JPanel()
+                        {
+                                public void paintComponent(Graphics g)
+                                {
+                                        super.paintComponent(g);
+
+                                        Graphics2D g2 = (Graphics2D)g;
+					int shapeWidth = 100;
+					int shapeHeight = 100;
+					
+					int horOffset = 10 + (shapeWidth / 2); // horizontal offset + 50 because element is drawn in the center of the object not in left corner.
+					int curX = 0 + horOffset;
+					int curY = 0 + horOffset;
+
+					int counter = 0;
+
+					for(Element e : facilities)
+					{
+                                                int x = curX;
+                                                int y = curY;
+
+                                                e.setSize(new Dimension(shapeWidth, shapeHeight));
+                                                e.setPosition(new Vector(curX, curY));
+                                                e.draw(g2);
+                                                curX += (int)(shapeWidth / 1.5) +horOffset;
+                                                
+                                                if((counter != 0) && (counter % 2 == 1))
+                                                {
+                                                        curY += (int)(shapeHeight / 2) + horOffset;
+                                                        curX = 0 + horOffset;
+                                                }	
+
+                                                counter++;
+					
+					}
+                                }
+                        };
+
+                        return new JScrollPane(pane);
+                }
+
+                private JScrollPane getStandTab()
+                {
+                        final List<Element> stands = new ArrayList<Element>();
+                        stands.add(new Foodstand(new Dimension(100,100), new Vector(0,0)));
+
+                        Panel pane = new Panel()
+                        {
+                                @Override
+                                protected void paintComponent(Graphics g)
+                                {
+                                        super.paintComponent(g);
+                                        Graphics2D g2 = (Graphics2D)g;
+					int shapeWidth = 100;
+					int shapeHeight = 100;
+					
+					int horOffset = 10 + (shapeWidth / 2); // horizontal offset + 50 because element is drawn in the center of the object not in left corner.
+					int curX = 0 + horOffset;
+					int curY = 0 + horOffset;
+
+					int counter = 0;
+
+					for(Element e : stands)
+					{
+                                                int x = curX;
+                                                int y = curY;
+
+                                                e.setSize(new Dimension(shapeWidth, shapeHeight));
+                                                e.setPosition(new Vector(curX, curY));
+                                                e.draw(g2);
+                                                curX += (int)(shapeWidth / 1.5) +horOffset;
+                                                
+                                                if((counter != 0) && (counter % 2 == 1))
+                                                {
+                                                        curY += (int)(shapeHeight / 2) + horOffset;
+                                                        curX = 0 + horOffset;
+                                                }	
+
+                                                counter++;				
+					}
+                                }
+
+                                public void actionPerformed(ActionEvent e)
+                                {
+                                
+                                }
+
+                                public Panel getPanel()
+                                {
+                                        return this;
+                                }
+                        }; 
+
+                        return new JScrollPane(pane);        
+                }
+                
 		private JScrollPane getStageTab()
 		{
 			Panel pane = new Panel(){
@@ -400,8 +500,6 @@ public class SimulatorPanel extends Panel
 				e.draw(g2);
 			}
 			// end drawing allthe elements to the screen.	
-
-
 		}	
 	}
 

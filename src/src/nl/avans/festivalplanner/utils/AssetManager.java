@@ -47,16 +47,15 @@ public class AssetManager
 					catch(Exception e){}
 				}
 			}
-
 		}
 		
-		File file = new File("resources\\people.png");
+		File file = new File("bin/people.png");
 		if(file.exists())
 		{
 			Image img;
 			try {
 				img = ImageIO.read(file);
-				_assets.put("resources\\people.png", img);
+				_assets.put("bin/people.png", img);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -1,4 +1,3 @@
-
 package nl.avans.festivalplanner.utils;
 
 import nl.avans.festivalplanner.settings.SettingsController;

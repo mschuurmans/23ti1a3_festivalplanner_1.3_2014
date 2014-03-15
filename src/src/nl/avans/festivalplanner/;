@@ -44,6 +44,7 @@ public class People extends Element
 	public void draw(Graphics2D g)
 	{
 		g.drawImage(AssetManager.Instance().getImage(_image), getTransform(), null);
+		System.out.println("drawing" + _position.toString());
 	}
 
 	public void update()
@@ -113,8 +114,7 @@ public class People extends Element
 
 		if(hasCollision())
 		{
-			_position.setX(oldPosition.getX()-(int)(10*Math.random()));
-			_position.setY(oldPosition.getY()-(int)(10*Math.random()));
+			_position = oldPosition;
 			_direction += 0.2f;
 		}
 
@@ -140,10 +140,9 @@ public class People extends Element
 		}
 		else
 		{  
-			int size = elements.size();
-
-			int i = (((int)Math.random() * size)); // get a random index.
-			Element goTo = elements.get(i);
+			//visitor will never get a new position, because of collision with stage...
+			Collections.shuffle(elements);
+			Element goTo = elements.get(0);
 			int posX = goTo.getPosition().getX();
 			int posY = goTo.getPosition().getY();
 			_destination = new Vector(posX, posY);

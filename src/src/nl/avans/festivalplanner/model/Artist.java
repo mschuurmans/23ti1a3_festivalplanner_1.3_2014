@@ -63,6 +63,7 @@ public class Artist implements Serializable
 	{
 		return this._genre;
 	}
+
 	public void setComment(String value)
 	{
 		this._comment = value;
