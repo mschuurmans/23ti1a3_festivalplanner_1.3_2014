@@ -193,7 +193,7 @@ public class StagePanel extends Panel
 						_spinnerStageW.setValue(_stageArrayList.get(index).getStageSize().getWidth());
 						_spinnerFieldL.setValue(_stageArrayList.get(index).getFieldSize().getHeight());
 						_spinnerFieldW.setValue(_stageArrayList.get(index).getFieldSize().getWidth());
-						_imageLabel.setIcon((Icon)new ImageIcon(_stageArrayList.get(index).getImageSource()));
+						_imageLabel.setIcon((Icon)new ImageIcon(_stageArrayList.get(index).getImage()));
 
 					}
 				});
@@ -237,7 +237,7 @@ public class StagePanel extends Panel
 							_stageArrayList.get(index).setCapacity((int)_spinnerCapacity.getValue());
 							_stageArrayList.get(index).setStageSize((double)_spinnerStageW.getValue(), (double)_spinnerStageL.getValue());
 							_stageArrayList.get(index).setFieldSize((double)_spinnerFieldL.getValue(), (double)_spinnerFieldW.getValue());
-							_stageArrayList.get(index).setImageSource(_imageName);
+							_stageArrayList.get(index).setImage(_imageName);
 							updateList();
 							FestivalHandler.Instance().setStage(_stageArrayList);
 						}
@@ -256,7 +256,7 @@ public class StagePanel extends Panel
 						_spinnerStageW.setValue(_stageArrayList.get(index).getStageSize().getWidth());
 						_spinnerFieldL.setValue(_stageArrayList.get(index).getFieldSize().getHeight());
 						_spinnerFieldW.setValue(_stageArrayList.get(index).getFieldSize().getWidth());
-						_imageLabel.setText(_stageArrayList.get(index).getImageSource());
+						_imageLabel.setText(_stageArrayList.get(index).getImage());
 						updateList();
 					}
 				});

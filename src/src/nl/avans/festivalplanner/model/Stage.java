@@ -13,48 +13,25 @@ public class Stage extends Building implements Serializable
 	private int _capacity;
 	private Dimension _sizeStage;
 	private Dimension _sizeField;
-	private String _imageSource;
 
 	public Stage()
 	{
-		super(new Dimension(0,0), null);
+		super(new Dimension(0, 0), null);
 	}
 
-	public Stage(String name, int capacity, Dimension stageSize, Dimension fieldSize, String imageSource)
+	public Stage(String name, int capacity, Dimension stageSize,
+			Dimension fieldSize, String imageSource)
 	{
 		super(stageSize, null);
 		this._name = name;
 		this._capacity = capacity;
 		this._sizeStage = stageSize;
 		this._sizeField = fieldSize;
-		this._imageSource = imageSource;
-	}
-	
-	public void draw(Graphics2D g)
-	{
-		super.draw(g); // drawing the backarea
-
-		if(!_imageSource.trim().equals(""))
-		{
-			Image img = AssetManager.Instance().getImage(_imageSource);
-
-			int x = (int)(_position.getX() - (_size.getWidth() / 2));
-			int y = (int)(_position.getY() - (_size.getHeight() / 2));
-			int height = (int)_size.getHeight();
-			int width = (int)_size.getWidth();
-
-			g.drawImage(img, x,y,width,height, null);
-		}
-	}
-
-	public void setImageSource(String value)
-	{
-		this._imageSource = value;
-	}
-
-	public String getImageSource()
-	{
-		return this._imageSource;
+		super.setImage(imageSource);
+		// this._imageSource = imageSource;
+		// >> Dit hoeft niet, want de
+		// image-source is al opgeslagen in de Super-klasse Building!
+		
 	}
 
 	public void setName(String value)
@@ -79,7 +56,7 @@ public class Stage extends Building implements Serializable
 
 	public void setStageSize(double width, double height)
 	{
-		Dimension value = new Dimension((int)width,(int) height);
+		Dimension value = new Dimension((int) width, (int) height);
 		this._sizeStage = value;
 		super.setSize(value);
 	}
@@ -91,7 +68,7 @@ public class Stage extends Building implements Serializable
 
 	public void setFieldSize(double width, double height)
 	{
-		Dimension value = new Dimension((int)width, (int)height);
+		Dimension value = new Dimension((int) width, (int) height);
 		this._sizeField = value;
 	}
 
@@ -105,8 +82,10 @@ public class Stage extends Building implements Serializable
 		return getName();
 	}
 
-	public boolean equals(Stage other) {
-		if (!(other instanceof Stage)) {
+	public boolean equals(Stage other)
+	{
+		if (!(other instanceof Stage))
+		{
 			return false;
 		}
 

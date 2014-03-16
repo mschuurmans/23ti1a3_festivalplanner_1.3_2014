@@ -18,7 +18,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
-import java.awt.*;
 import nl.avans.festivalplanner.model.Festival;
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.utils.Enums.Text;
@@ -26,10 +25,6 @@ import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.view.ApplicationView;
 import nl.avans.festivalplanner.view.Panel;
 import nl.avans.festivalplanner.view.SimulatorView;
-import nl.avans.festivalplanner.view.*;
-import nl.avans.festivalplanner.view.dialog.*;
-import nl.avans.festivalplanner.model.simulator.*;
-import nl.avans.festivalplanner.model.*;
 
 /**
  * An implementation of JPanel which is used to display general information

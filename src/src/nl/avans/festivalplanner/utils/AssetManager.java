@@ -33,16 +33,16 @@ public class AssetManager
 		
 		for(Stage stage : FestivalHandler.Instance().getStages())
 		{
-			if(!stage.getImageSource().trim().equals(""))
+			if(!stage.getImage().trim().equals(""))
 			{
-				File file = new File(stage.getImageSource());	
-
+				File file = new File(stage.getImage());
+				
 				if(file.exists())
 				{
 					try
 					{
 						Image img = ImageIO.read(file);
-						_assets.put(stage.getImageSource().trim(), img);
+						_assets.put(stage.getImage().trim(), img);
 					}
 					catch(Exception e){}
 				}
