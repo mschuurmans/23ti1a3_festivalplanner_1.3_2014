@@ -1,4 +1,5 @@
 package nl.avans.festivalplanner.utils;
+
 import java.util.*;
 import java.io.*;
 import java.awt.*;
@@ -10,13 +11,16 @@ import nl.avans.festivalplanner.model.*;
 
 public class AssetManager
 {
+	private String[] customAssets = new String[] { "bin/people.png",
+			"bin/entrance.png" };
+
 	private Map<String, Image> _assets = new HashMap<String, Image>();
 
 	private static AssetManager _instance = null;
 
 	public static AssetManager Instance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 			_instance = new AssetManager();
 
 		return _instance;
@@ -30,40 +34,48 @@ public class AssetManager
 	public void loadAssets()
 	{
 		_assets = new HashMap<String, Image>();
-		
-		for(Stage stage : FestivalHandler.Instance().getStages())
+
+		for (Stage stage : FestivalHandler.Instance().getStages())
 		{
-			if(!stage.getImage().trim().equals(""))
+			if (!stage.getImage().trim().equals(""))
 			{
 				File file = new File(stage.getImage());
-				
-				if(file.exists())
+
+				if (file.exists())
 				{
 					try
 					{
 						Image img = ImageIO.read(file);
 						_assets.put(stage.getImage().trim(), img);
 					}
-					catch(Exception e){}
+					catch (Exception e)
+					{
+					}
 				}
 			}
 		}
-		
-		File file = new File("bin/people.png");
-		if(file.exists())
+
+		for (int i = 0; i < customAssets.length; i++)
 		{
-			Image img;
-			try {
-				img = ImageIO.read(file);
-				_assets.put("bin/people.png", img);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			File file = new File(customAssets[i]);
+			if (file.exists())
+			{
+				Image img;
+				try
+				{
+					img = ImageIO.read(file);
+					_assets.put(customAssets[i], img);
+				}
+				catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
-			
 		}
 	}
-	
+
 	public Image getImage(String key)
 	{
 		return _assets.get(key.trim());
