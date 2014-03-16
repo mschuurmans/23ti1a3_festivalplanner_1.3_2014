@@ -34,7 +34,7 @@ public class People extends Element
 	public People(Vector position, float speed, float direction)
 	{
 		super(new Dimension(16,16), position);
-		this._speed = speed;
+		this._speed = 1;
 		this._direction = direction;
 		this._destination = newDestination();
 		_image = "bin/people.png";
@@ -77,9 +77,9 @@ public class People extends Element
 		//if not X destination reached, get closer
 		if(!destinationXReached())
 		{
-			int moveX = (int)(_speed * Math.cos(_destination.getX())) + 1;
+			int moveX = (int)((_speed * Math.cos(_destination.getX())) + 1);
 			if(moveX<= 0)
-				moveX =1;
+				moveX = 1;
 
 			if(_position.getX() == _destination.getX())
 				posX = _position.getX();
@@ -95,7 +95,7 @@ public class People extends Element
 		//if not Y destination reached, get closer
 		if(!destinationYReached())
 		{
-			int moveY = (int)(_speed * Math.cos(_destination.getY())) + 1;
+			int moveY = (int)((_speed * Math.cos(_destination.getY())) + 1);
 			if(moveY<=0)
 				moveY=1;
 			//			System.out.println(moveY);
@@ -113,8 +113,8 @@ public class People extends Element
 
 		if(hasCollision())
 		{
-			_position.setX(oldPosition.getX()-(int)(10*Math.random()));
-			_position.setY(oldPosition.getY()-(int)(10*Math.random()));
+			_position.setX(oldPosition.getX()+(int)(10*(Math.random()-0.5)));
+			_position.setY(oldPosition.getY()+(int)(10*(Math.random()-0.5)));
 			_direction += 0.2f;
 		}
 
