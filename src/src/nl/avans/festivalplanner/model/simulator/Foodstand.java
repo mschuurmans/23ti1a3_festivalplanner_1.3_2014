@@ -12,6 +12,7 @@ import java.awt.Graphics2D;
  */
 public class Foodstand extends Building
 {
+	private static final long serialVersionUID = -2603020111756257062L;
 
 	/**
 	 * @param _size
@@ -20,7 +21,7 @@ public class Foodstand extends Building
 	public Foodstand(Dimension _size, Vector _position)
 	{
 		super(_size, _position);
-		// TODO Auto-generated constructor stub
+		//TODO: set Foodstand-building image (super-call to setImage)
 	}
 
 	/* (non-Javadoc)
@@ -29,7 +30,7 @@ public class Foodstand extends Building
 	@Override
 	public void draw(Graphics2D g)
 	{
-		// TODO Auto-generated method stub
+		//This method only calls "super.draw()", the building-class will draw the image for it.
 		super.draw(g);
 	}
 
@@ -39,7 +40,7 @@ public class Foodstand extends Building
 	@Override
 	public void update()
 	{
-		
+		super.update();
 	}
 	
 	

@@ -2,8 +2,6 @@ package nl.avans.festivalplanner.model.simulator;
 
 import java.util.*;
 
-import nl.avans.festivalplanner.model.*;
-
 /**
  * Entity used to save intersection data
  * @Author Michiel Schuurmans

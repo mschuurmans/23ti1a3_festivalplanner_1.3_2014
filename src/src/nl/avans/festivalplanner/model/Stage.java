@@ -2,7 +2,6 @@ package nl.avans.festivalplanner.model;
 
 import java.awt.*;
 import java.io.Serializable;
-import nl.avans.festivalplanner.utils.*;
 import nl.avans.festivalplanner.model.simulator.Building;
 
 public class Stage extends Building implements Serializable

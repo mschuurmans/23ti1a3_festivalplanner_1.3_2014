@@ -14,6 +14,8 @@ import java.awt.geom.*;
  */
 public abstract class Element implements Serializable
 {
+	private static final long serialVersionUID = 4916647167455714614L;
+	
 	protected Dimension _size = null;
 	protected Vector _position = null;
 	

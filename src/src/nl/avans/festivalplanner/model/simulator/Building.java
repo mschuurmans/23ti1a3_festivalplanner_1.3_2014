@@ -15,6 +15,8 @@ import nl.avans.festivalplanner.utils.AssetManager;
  */
 public class Building extends Area
 {
+	private static final long serialVersionUID = 6945847681614919930L;
+	
 	private String _image = "";
 	
 	/**

@@ -3,10 +3,8 @@
  */
 package nl.avans.festivalplanner.model.simulator;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import nl.avans.festivalplanner.utils.*;
 
 /**
@@ -15,7 +13,8 @@ import nl.avans.festivalplanner.utils.*;
  */
 public class Area extends Element
 {
-	
+	private static final long serialVersionUID = -5443225580617847513L;
+
 	public Area(Dimension _size, Vector _position)
 	{
 		super(_size, _position);

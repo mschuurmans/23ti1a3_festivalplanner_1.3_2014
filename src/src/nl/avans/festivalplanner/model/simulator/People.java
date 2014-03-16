@@ -1,32 +1,16 @@
 package nl.avans.festivalplanner.model.simulator;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-
-import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.*;
-import nl.avans.festivalplanner.model.Festival;
 import nl.avans.festivalplanner.model.FestivalHandler;
 
 public class People extends Element
 {
+	private static final long serialVersionUID = -6083060574056023471L;
 	Vector _destination;
 	float _speed, _direction;
 	String _image;
