@@ -21,7 +21,7 @@ public class Foodstand extends Building
 	public Foodstand(Dimension _size, Vector _position)
 	{
 		super(_size, _position);
-		//TODO: set Foodstand-building image (super-call to setImage)
+//		super.setImage("bin/entrance.png");
 	}
 
 	/* (non-Javadoc)

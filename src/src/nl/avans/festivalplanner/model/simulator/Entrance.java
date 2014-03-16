@@ -10,6 +10,7 @@ public class Entrance extends Building
 	public Entrance(Dimension size, Vector position)
 	{
 		super(size, position);
+		super.setImage("bin/entrance.png");
 	}
 	
 	public void draw(Graphics2D g)

@@ -11,6 +11,7 @@ public class Toilet extends Building
 	{
 		super(size, position);
 		//TODO: set Toilet-building image (super-call to setImage)
+//		super.setImage("bin/entrance.png");
 	}
 	
 	public void draw(Graphics2D g)
