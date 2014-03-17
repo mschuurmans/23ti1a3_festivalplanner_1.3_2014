@@ -18,8 +18,10 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
+
 import nl.avans.festivalplanner.model.Festival;
 import nl.avans.festivalplanner.model.FestivalHandler;
+import nl.avans.festivalplanner.utils.AssetManager;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.Utils;
 import nl.avans.festivalplanner.view.ApplicationView;
@@ -41,8 +43,9 @@ public class InfoPanel extends Panel
 																		// Save
 	private JButton _cancelButton = new JButton(Text.Cancel.toString()); // ?eng:
 																			// Cancel
-	private JButton _startSimButton = new JButton(Text.StartSimulation.toString());
-	
+	private JButton _startSimButton = new JButton(
+			Text.StartSimulation.toString());
+
 	private JButton _changeImageButton = new JButton(
 			Text.ChangeImage.toString());
 	private JButton _removeImageButton = new JButton(
@@ -115,10 +118,12 @@ public class InfoPanel extends Panel
 		{
 			changeFestivalImage("no_image.jpg");
 		}
-		else if (e.getSource() == _startSimButton){
-			//new IntersectionOptions(new Area(new Dimension(200,200), new Vector(20,20))); 
+		else if (e.getSource() == _startSimButton)
+		{
+			// new IntersectionOptions(new Area(new Dimension(200,200), new
+			// Vector(20,20)));
 			new SimulatorView();
-					
+
 		}
 	}
 
@@ -152,7 +157,8 @@ public class InfoPanel extends Panel
 	 */
 	private void drawFestivalImage()
 	{
-		this.changeFestivalImage(FestivalHandler.Instance().getFestival().getImageSoure());
+		this.changeFestivalImage(FestivalHandler.Instance().getFestival()
+				.getImageSoure());
 	}
 
 	/**
@@ -212,7 +218,14 @@ public class InfoPanel extends Panel
 		}
 		else
 		{
-			changeFestivalImage("no_image.jpg");
+			Image scaledImage = AssetManager
+					.Instance()
+					.getImage("bin/no_image.jpg")
+					.getScaledInstance((int) _imageLabel.getSize().getWidth(),
+							(int) _imageLabel.getSize().getHeight(),
+							Image.SCALE_SMOOTH);
+
+			_imageLabel.setIcon(new ImageIcon(scaledImage));
 		}
 	}
 
@@ -287,9 +300,9 @@ public class InfoPanel extends Panel
 		_cancelButton.setBounds(879, height - 133, 100, 25);
 		_cancelButton.addActionListener(this);
 
-		_startSimButton.setBounds(769, height-167, 210, 25);
+		_startSimButton.setBounds(769, height - 167, 210, 25);
 		_startSimButton.addActionListener(this);
-		
+
 		_changeImageButton.setBounds(769, 287, 210, 25);
 		_changeImageButton.addActionListener(this);
 		_removeImageButton.setBounds(769, 322, 210, 25);

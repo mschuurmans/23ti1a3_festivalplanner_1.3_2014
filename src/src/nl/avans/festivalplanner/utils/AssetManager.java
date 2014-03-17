@@ -12,7 +12,7 @@ import nl.avans.festivalplanner.model.*;
 public class AssetManager
 {
 	private String[] customAssets = new String[] { "bin/people.png",
-			"bin/entrance.png" };
+			"bin/entrance.png", "bin/no_image.jpg" };
 
 	private Map<String, Image> _assets = new HashMap<String, Image>();
 
