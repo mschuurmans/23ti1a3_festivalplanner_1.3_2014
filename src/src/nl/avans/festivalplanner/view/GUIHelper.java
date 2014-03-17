@@ -156,4 +156,9 @@ public class GUIHelper {
 		box.setBorder(BorderFactory.createTitledBorder(title));
 		return box;
 	}
+	
+	public void update()
+	{
+		dialog = new SettingsDialog(null);
+	}
 }

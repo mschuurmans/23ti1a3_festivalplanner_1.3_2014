@@ -65,6 +65,7 @@ public class ApplicationView extends JFrame implements WindowListener
 	}
 	
 	public void update(){
+		guiHelper.update();
 		getContentPane().removeAll();
 		getContentPane().add(guiHelper.getMenuBar(), BorderLayout.PAGE_START);
 		getContentPane().add(guiHelper.getTabBar(), BorderLayout.CENTER);
