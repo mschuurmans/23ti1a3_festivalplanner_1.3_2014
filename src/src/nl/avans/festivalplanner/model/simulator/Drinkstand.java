@@ -10,7 +10,7 @@ import java.awt.Graphics2D;
  * @author jordysipkema
  *
  */
-public class Foodstand extends Building
+public class Drinkstand extends Building
 {
 	private static final long serialVersionUID = -2603020111756257062L;
 
@@ -18,10 +18,10 @@ public class Foodstand extends Building
 	 * @param _size
 	 * @param _position
 	 */
-	public Foodstand(Dimension _size, Vector _position)
+	public Drinkstand(Dimension _size, Vector _position)
 	{
 		super(_size, _position);
-		super.setImage("bin/FRIET.png");
+		super.setImage("bin/COLA.png");
 	}
 
 	/* (non-Javadoc)

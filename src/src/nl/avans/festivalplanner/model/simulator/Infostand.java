@@ -1,29 +1,18 @@
-/**
- * 
- */
 package nl.avans.festivalplanner.model.simulator;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
-/**
- * @author jordysipkema
- *
- */
-public class Foodstand extends Building
+public class Infostand extends Building
 {
-	private static final long serialVersionUID = -2603020111756257062L;
+	private static final long serialVersionUID = 530687727527996766L;
 
-	/**
-	 * @param _size
-	 * @param _position
-	 */
-	public Foodstand(Dimension _size, Vector _position)
+	public Infostand(Dimension _size, Vector _position)
 	{
 		super(_size, _position);
-		super.setImage("bin/FRIET.png");
+		super.setImage("bin/INFO.png");
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see nl.avans.festivalplanner.model.simulator.Building#draw()
 	 */
@@ -42,7 +31,5 @@ public class Foodstand extends Building
 	{
 		super.update();
 	}
-	
-	
 
 }

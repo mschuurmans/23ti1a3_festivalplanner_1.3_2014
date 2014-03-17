@@ -10,8 +10,7 @@ public class Toilet extends Building
 	public Toilet(Dimension size, Vector position)
 	{
 		super(size, position);
-		//TODO: set Toilet-building image (super-call to setImage)
-//		super.setImage("bin/entrance.png");
+		super.setImage("bin/TOILET.png");
 	}
 	
 	public void draw(Graphics2D g)
