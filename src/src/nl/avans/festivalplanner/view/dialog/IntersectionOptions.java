@@ -132,9 +132,9 @@ public class IntersectionOptions extends JFrame implements ItemListener
 			}
 		}
 		
-		// destionation en through niet nul
-		
-		RouteManager.instance().addNode(destination, through);
-		
+		if(destination != null && through != null)
+		{
+			RouteManager.instance().addNode(destination, through);
+		}
 	}
 }
