@@ -63,9 +63,10 @@ public class SimulatorPanel extends Panel
 
 	public SimulatorPanel()
 	{
+
 		AssetManager.Instance().loadAssets(); //loading all the images into the memory.
 
-		this.addMouseListener(mouseListener); //Adding mouselistener
+		this.addMouseListener(mouseListener);
 		this.addMouseMotionListener(mouseListener);
 		toolbar = new Toolbar();
 		simulator = new Simulator(new Dimension(900,400)); // TODO change size here.
@@ -96,6 +97,7 @@ public class SimulatorPanel extends Panel
 	public class Toolbar extends JPanel implements ActionListener
 	{
 		JSCAccordion accordion = new JSCAccordion();
+		private JSpinner visitors;
 		public Toolbar()
 		{
 			addTabs(accordion);
@@ -160,9 +162,9 @@ public class SimulatorPanel extends Panel
 			buttonStart.addActionListener(listener);
 			buttonStop.addActionListener(listener);
 
-			JLabel visitorLabel = new JLabel(Text.Visitors.toString());
+			JLabel visitorLabel = new JLabel(Text.People.toString());
 
-			JSpinner visitors = new JSpinner();
+			visitors = new JSpinner();
 			visitors.setModel(new SpinnerNumberModel(1000,0,1000000, 1000));
 
 			controlPanel.add(buttonStart);
@@ -173,45 +175,45 @@ public class SimulatorPanel extends Panel
 			result.add(controlPanel);
 			return result;
 		}
-	        private JScrollPane getFacilityTab()
-	        {
+		private JScrollPane getFacilityTab()
+		{
 	        	final List<Element> facilities = FestivalHandler.Instance().getFacilities();
 	        	FestivalHandler.Instance().addFacilities(new Toilet(new Dimension(100,100), new Vector(0,0)));
 	        	FestivalHandler.Instance().addFacilities(new Entrance(new Dimension(100,100), new Vector(0,0)));
 
-	        	JPanel pane = new JPanel()
-	        	{
-	        		public void paintComponent(Graphics g)
-	        		{
-	        			super.paintComponent(g);
+			JPanel pane = new JPanel()
+			{
+				public void paintComponent(Graphics g)
+				{
+					super.paintComponent(g);
 
-	        			Graphics2D g2 = (Graphics2D)g;
-	        			int shapeWidth = 100;
-	        			int shapeHeight = 100;
+					Graphics2D g2 = (Graphics2D)g;
+					int shapeWidth = 100;
+					int shapeHeight = 100;
 
-	        			int horOffset = 10 + (shapeWidth / 2); // horizontal offset + 50 because element is drawn in the center of the object not in left corner.
-	        			int curX = 0 + horOffset;
-	        			int curY = 0 + horOffset;
+					int horOffset = 10 + (shapeWidth / 2); // horizontal offset + 50 because element is drawn in the center of the object not in left corner.
+					int curX = 0 + horOffset;
+					int curY = 0 + horOffset;
 
-	        			int counter = 0;
+					int counter = 0;
 
-	        			for(Element e : facilities)
-	        			{
-	        				int x = curX;
-	        				int y = curY;
+					for(Element e : facilities)
+					{
+						int x = curX;
+						int y = curY;
 
-	        				e.setSize(new Dimension(shapeWidth, shapeHeight));
-	        				e.setPosition(new Vector(curX, curY));
-	        				e.draw(g2);
-	        				curX += (int)(shapeWidth / 1.5) +horOffset;
+						e.setSize(new Dimension(shapeWidth, shapeHeight));
+						e.setPosition(new Vector(curX, curY));
+						e.draw(g2);
+						curX += (int)(shapeWidth / 1.5) +horOffset;
 
-	        				if((counter != 0) && (counter % 2 == 1))
-	        				{
-	        					curY += (int)(shapeHeight / 2) + horOffset;
-	        					curX = 0 + horOffset;
-	        				}	
+						if((counter != 0) && (counter % 2 == 1))
+						{
+							curY += (int)(shapeHeight / 2) + horOffset;
+							curX = 0 + horOffset;
+						}	
 
-	        				counter++;
+						counter++;
 
 	        			}
 	        		}
@@ -223,63 +225,63 @@ public class SimulatorPanel extends Panel
 	        	return new JScrollPane(pane);
 	        }
 
-                private JScrollPane getStandTab()
-                {
+		private JScrollPane getStandTab()
+		{
                 	final List<Element> stands = FestivalHandler.Instance().getStands();
                 	FestivalHandler.Instance().addStands(new Foodstand(new Dimension(100,100), new Vector(0,0)));
 
-                	Panel pane = new Panel()
-                	{
-                		@Override
-                		protected void paintComponent(Graphics g)
-                		{
-                			super.paintComponent(g);
-                			Graphics2D g2 = (Graphics2D)g;
-                			int shapeWidth = 100;
-                			int shapeHeight = 100;
+			Panel pane = new Panel()
+			{
+				@Override
+				protected void paintComponent(Graphics g)
+				{
+					super.paintComponent(g);
+					Graphics2D g2 = (Graphics2D)g;
+					int shapeWidth = 100;
+					int shapeHeight = 100;
 
-                			int horOffset = 10 + (shapeWidth / 2); // horizontal offset + 50 because element is drawn in the center of the object not in left corner.
-                			int curX = 0 + horOffset;
-                			int curY = 0 + horOffset;
+					int horOffset = 10 + (shapeWidth / 2); // horizontal offset + 50 because element is drawn in the center of the object not in left corner.
+					int curX = 0 + horOffset;
+					int curY = 0 + horOffset;
 
-                			int counter = 0;
+					int counter = 0;
 
-                			for(Element e : stands)
-                			{
-                				int x = curX;
-                				int y = curY;
+					for(Element e : stands)
+					{
+						int x = curX;
+						int y = curY;
 
-                				e.setSize(new Dimension(shapeWidth, shapeHeight));
-                				e.setPosition(new Vector(curX, curY));
-                				e.draw(g2);
-                				curX += (int)(shapeWidth / 1.5) +horOffset;
+						e.setSize(new Dimension(shapeWidth, shapeHeight));
+						e.setPosition(new Vector(curX, curY));
+						e.draw(g2);
+						curX += (int)(shapeWidth / 1.5) +horOffset;
 
-                				if((counter != 0) && (counter % 2 == 1))
-                				{
-                					curY += (int)(shapeHeight / 2) + horOffset;
-                					curX = 0 + horOffset;
-                				}	
+						if((counter != 0) && (counter % 2 == 1))
+						{
+							curY += (int)(shapeHeight / 2) + horOffset;
+							curX = 0 + horOffset;
+						}	
 
-                				counter++;				
-                			}
-                		}
+						counter++;				
+					}
+				}
 
-                		public void actionPerformed(ActionEvent e)
-                		{
+				public void actionPerformed(ActionEvent e)
+				{
 
-                		}
+				}
 
-                		public Panel getPanel()
-                		{
-                			return this;
-                		}
-                	}; 
+				public Panel getPanel()
+				{
+					return this;
+				}
+			}; 
                 	
         			pane.addMouseListener(mouseListenerToolbar);
         			pane.addMouseMotionListener(mouseListenerToolbar);
 
-                	return new JScrollPane(pane);        
-                }
+			return new JScrollPane(pane);        
+		}
 
 		private JScrollPane getStageTab()
 		{
@@ -369,6 +371,7 @@ public class SimulatorPanel extends Panel
 						//add your logic here to react to a tab being removed.
 						break;	
 					case TAB_SELECTED: 
+						//add your logic here to react to a tab being selected.
 						selectedAccordionTab = accordionEvent.getTabIndex();
 						System.out.println("SimulatorPanel.l373: selectedAccordionTab: " + selectedAccordionTab);
 						break;
@@ -432,7 +435,7 @@ public class SimulatorPanel extends Panel
 			setPreferredSize(dim);
 			this._size = dim;
 			addMouseMotionListener(mouseListener);
-                        addMouseListener(mouseListener);
+			addMouseListener(mouseListener);
 			try
 			{
 				_grassTexture = new ImageIcon("bin/grass.png").getImage();
@@ -444,18 +447,33 @@ public class SimulatorPanel extends Panel
 				e.printStackTrace();
 			}			
 
+
 			Timer timer = new Timer(30, this);
 			timer.start();
-
-			for(int i=0; i<100; i++)
+			
+			if(!peopleOnField())
 			{
-				int startX = (int)(Math.random()*500) + 20;
-				int startY =  (int)(Math.random()*500) +20;
-				int speed = (int)(Math.random()*6+3);
-				float direction = 0;
-				People visitor = new People(new Vector(startX,startY), speed, direction);
-				FestivalHandler.Instance().addElementToTerrain(visitor);
+				int value = (int) toolbar.visitors.getValue()/50;
+				for(int i=0; i<100; i++)
+				{
+					int startX = (int)(Math.random()*500) + 20;
+					int startY =  (int)(Math.random()*500) +20;
+					int speed = (int)(Math.random()*6+3);
+					float direction = 0;
+					People visitor = new People(new Vector(startX,startY), speed, direction);
+					FestivalHandler.Instance().addElementToTerrain(visitor);
+				}
 			}
+		}
+
+		private boolean peopleOnField()
+		{
+			for(Element p : FestivalHandler.Instance().getElementsOnTerrain())
+			{
+				if(p instanceof People)
+					return true;
+			}
+			return false;
 		}
 
 		@Override
@@ -464,7 +482,7 @@ public class SimulatorPanel extends Panel
 			// Update all the elements on the terrain.
 			for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
 				e.update();
-			
+
 			repaint();
 		}
 
@@ -503,8 +521,6 @@ public class SimulatorPanel extends Panel
 			// end drawing allthe elements to the screen.	
 		}	
 	}
-
-
 
 	public class MouseListener extends MouseAdapter implements MouseMotionListener
 	{
