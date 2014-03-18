@@ -56,7 +56,7 @@ public class SimulatorPanel extends Panel
 
 	private int pXOffset = 750;
 	private int pYOffset = 110;
-
+	
 	private Element elementDraggedFromToolbar;
 
 	private Toolbar toolbar;
@@ -66,10 +66,9 @@ public class SimulatorPanel extends Panel
 
 	public SimulatorPanel()
 	{
-
 		AssetManager.Instance().loadAssets(); //loading all the images into the memory.
 
-		this.addMouseListener(mouseListener);
+		this.addMouseListener(mouseListener); //Adding mouselistener
 		this.addMouseMotionListener(mouseListener);
 		toolbar = new Toolbar();
 		simulator = new Simulator(new Dimension(900,400)); // TODO change size here.
@@ -164,7 +163,7 @@ public class SimulatorPanel extends Panel
 			buttonStart.addActionListener(listener);
 			buttonStop.addActionListener(listener);
 
-			JLabel visitorLabel = new JLabel(Text.People.toString());
+			JLabel visitorLabel = new JLabel(Text.Visitors.toString());
 
 			JSpinner visitors = new JSpinner();
 			visitors.setModel(new SpinnerNumberModel(1000,0,1000000, 1000));
@@ -181,6 +180,7 @@ public class SimulatorPanel extends Panel
                 {
                         final List<Element> facilities = new ArrayList<Element>();
                         facilities.add(new Toilet(new Dimension(100,100), new Vector(0,0)));
+                        facilities.add(new Infostand(new Dimension(100,100), new Vector(0,0)));
 
                         JPanel pane = new JPanel()
                         {
@@ -227,6 +227,7 @@ public class SimulatorPanel extends Panel
                 {
                         final List<Element> stands = new ArrayList<Element>();
                         stands.add(new Foodstand(new Dimension(100,100), new Vector(0,0)));
+                        stands.add(new Drinkstand(new Dimension(100,100), new Vector(0,0)));
 
                         Panel pane = new Panel()
                         {
