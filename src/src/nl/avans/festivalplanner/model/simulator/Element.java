@@ -15,7 +15,7 @@ import nl.avans.festivalplanner.utils.Enums.Text;
  * @author Jordy Sipkema & Michiel Schuurmans
  * @version 18-02-2014
  */
-public abstract class Element implements Serializable
+public abstract class Element implements Serializable, Cloneable
 {
 	private static final long serialVersionUID = 4916647167455714614L;
 
@@ -132,5 +132,10 @@ public abstract class Element implements Serializable
 	{
 		String className = Text.parse(this.getClass().getSimpleName()).toString();
 		return className + " : " + this._position.toString(); 
+	}
+	
+	public Object clone() throws CloneNotSupportedException
+	{
+		return super.clone();
 	}
 }
