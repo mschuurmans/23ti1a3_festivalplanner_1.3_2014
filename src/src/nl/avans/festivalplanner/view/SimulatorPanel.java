@@ -632,6 +632,7 @@ public class SimulatorPanel extends Panel
 		{
 			boolean debugMethod = false;
 
+			boolean hasDragged = false;
 			for(Stage s : FestivalHandler.Instance().getStages())
 			{
 				Point point = e.getPoint();
@@ -639,9 +640,8 @@ public class SimulatorPanel extends Panel
 				if(s.contains(point))
 				{
 					if(debugMethod)
-<<<<<<< HEAD
 						System.out.println("ShapeHovered!!!!!");
-=======
+
 						System.out.println("Element in toolbar was dragged!");
 
 					if(!hasDragged) // stops the multiple item drag bug.
@@ -653,7 +653,7 @@ public class SimulatorPanel extends Panel
 					}
 
 					hasDragged = true;
->>>>>>> 4e0f320451bbe14dd4e31854fa57cb254f547557
+
 				}
 			}
 		}
