@@ -76,6 +76,7 @@ public class Stage extends Building implements Serializable
 		return this._sizeField;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName();

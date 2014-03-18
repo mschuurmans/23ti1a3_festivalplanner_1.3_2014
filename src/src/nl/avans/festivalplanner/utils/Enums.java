@@ -41,8 +41,8 @@ public class Enums
 		FieldSize("Oppervlak (veld)", "Size (field)"),
 		SizeDef("L x B [m]", "L x W [m]"),
 		Capacity("Capaciteit", "Capacity"),
-		People("Bezoekers", "Visitors"),
-                Popularity("Populariteit", "Popularity"),
+		Visitors("Bezoekers", "Visitors"),
+        Popularity("Populariteit", "Popularity"),
 		NoImageAvailable("Geen Afbeelding \nbeschikbaar", "No image \navailable"),
 		FestivalName("Festival naam", "Festival name"),
 		Date("Datum", "Date"),
@@ -76,7 +76,18 @@ public class Enums
 		Stop("Stop", "Stop"),
 		Stalls("Kraampjes", "Stalls"),
 		Facilities("Faciliteiten", "Facilities"),
-		Remaining("Overige", "Remaining");
+		Remaining("Overige", "Remaining"),
+		Area("Gebied","Area"),
+		Building("Gebouw","Building"),
+		Drinkstand("Drankkraam","Drinkstand"),
+		Element("Element","Element"),
+		Entrance("Ingang", "Entrance"),
+		Foodstand("Eetkraam", "Foodstand"),
+		Infostand("Informatiekraam","Infostand"),
+		Intersection("Kruispunt", "Intersection"),
+		People("Persoon", "People"),
+		Toilet("Toilet","Toilet"),		
+		Unknown("Onbekend", "Unknown");
 
 		
 		private String _nl;
@@ -86,6 +97,15 @@ public class Enums
 		{
 			this._nl = nl;
 			this._eng = eng;
+		}
+		
+		public static Text parse(String text){
+			for (Text txt : Text.values()){
+				//Als een van de twee voorkomt:
+				if (txt._eng.equalsIgnoreCase(text) || txt._nl.equalsIgnoreCase(text))
+					return txt;
+			}
+			return Text.Unknown; 
 		}
 		
 		public String toString()
