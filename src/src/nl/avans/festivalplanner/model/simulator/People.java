@@ -3,8 +3,8 @@ package nl.avans.festivalplanner.model.simulator;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-
 import java.util.ArrayList;
+
 import nl.avans.festivalplanner.utils.*;
 import nl.avans.festivalplanner.model.FestivalHandler;
 
@@ -12,6 +12,8 @@ public class People extends Element
 {
 	private static final long serialVersionUID = -6083060574056023471L;
 	Vector _destination;
+	Vector _nextDestination;
+	Element _destinationElement, _nextDestinationElement;
 	float _speed, _direction;
 	String _image;
 
@@ -21,6 +23,8 @@ public class People extends Element
 		this._speed = 1;
 		this._direction = direction;
 		this._destination = newDestination();
+		this._destinationElement = null;
+		this._nextDestinationElement = null;
 		_image = "bin/people.png";
 
 	}
@@ -30,15 +34,27 @@ public class People extends Element
 		g.drawImage(AssetManager.Instance().getImage(_image), getTransform(), null);
 	}
 
+	//rotate in walking direction
+	private AffineTransform getTransform() 
+	{
+		AffineTransform tx = new AffineTransform();
+		tx.translate(_position.getX()-8, _position.getY()-8);
+		tx.rotate(_direction, 9, 9);
+		return tx;
+	}
+
 	public void update()
 	{
 		Vector oldPosition = _position;
 		int posX = 0;
 		int posY = 0;
+		
+		if(_nextDestination == null || _nextDestinationElement == null)
+		{newNextDestination();}
 
 		double directionTo = Math.atan2(
-				_destination.getY() - _position.getY(), 
-				_destination.getX() - _position.getX());
+				_nextDestination.getY() - _position.getY(), 
+				_nextDestination.getX() - _position.getX());
 		float directionDifference = (float) (_direction - directionTo);
 		if(directionDifference > Math.PI)
 			directionDifference -= 2 * Math.PI;
@@ -51,50 +67,95 @@ public class People extends Element
 			_direction += 0.1f;
 		else if(directionDifference > 0)
 			_direction -= 0.1f;
-
-		//if X and Y destination reached, choose new destination.
+		
+		
+		
 		if(destinationYReached() && destinationXReached())
 		{
 			newDestination();
 		}
+				
+		if(nextDestinationReached())
+		{
+			newNextDestination();
+		}
+
+		//if X and Y destination reached, choose new destination.
+		
 
 		//if not X destination reached, get closer
-		if(!destinationXReached())
+//		if(!destinationXReached())
+//		{
+//			int moveX = (int)((_speed * Math.cos(_destination.getX())) + 1);
+//			if(moveX<= 0)
+//				moveX = 1;
+//
+//			if(_position.getX() == _destination.getX())
+//				posX = _position.getX();
+//			else if(_position.getX() < _destination.getX())
+//				posX = _position.getX() + moveX;
+//
+//			else if(_position.getX() > _destination.getX())
+//				posX = _position.getX() - moveX;
+//
+//		}
+//		else { posX = _destination.getX(); }
+//
+//		//if not Y destination reached, get closer
+//		if(!destinationYReached())
+//		{
+//			int moveY = (int)((_speed * Math.cos(_destination.getY())) + 1);
+//			if(moveY<=0)
+//				moveY=1;
+//			//			System.out.println(moveY);
+//			if(_position.getY() == _destination.getY())
+//				posY = _position.getY();
+//			else if(_position.getY() < _destination.getY())
+//				posY = _position.getY() + moveY;
+//
+//			else if(_position.getY() > _destination.getY())
+//				posY = _position.getY() - moveY;
+//		}
+//		else{ posY = _destination.getY(); }
+		
+		if(!nextDestinationXReached())
 		{
-			int moveX = (int)((_speed * Math.cos(_destination.getX())) + 1);
+			int moveX = (int)((_speed * Math.cos(_nextDestination.getX())) + 1);
 			if(moveX<= 0)
 				moveX = 1;
 
-			if(_position.getX() == _destination.getX())
+			if(_position.getX() == _nextDestination.getX())
 				posX = _position.getX();
-			else if(_position.getX() < _destination.getX())
+			else if(_position.getX() < _nextDestination.getX())
 				posX = _position.getX() + moveX;
 
-			else if(_position.getX() > _destination.getX())
+			else if(_position.getX() > _nextDestination.getX())
 				posX = _position.getX() - moveX;
 
 		}
-		else { posX = _destination.getX(); }
+		else { posX = _nextDestination.getX(); }
 
 		//if not Y destination reached, get closer
-		if(!destinationYReached())
+		if(!nextDestinationYReached())
 		{
-			int moveY = (int)((_speed * Math.cos(_destination.getY())) + 1);
+			int moveY = (int)((_speed * Math.cos(_nextDestination.getY())) + 1);
 			if(moveY<=0)
 				moveY=1;
 			//			System.out.println(moveY);
-			if(_position.getY() == _destination.getY())
+			if(_position.getY() == _nextDestination.getY())
 				posY = _position.getY();
-			else if(_position.getY() < _destination.getY())
+			else if(_position.getY() < _nextDestination.getY())
 				posY = _position.getY() + moveY;
 
-			else if(_position.getY() > _destination.getY())
+			else if(_position.getY() > _nextDestination.getY())
 				posY = _position.getY() - moveY;
 		}
-		else{ posY = _destination.getY(); }
+		else{ posY = _nextDestination.getY(); }
 
 		_position =new Vector(posX,posY);	
-
+		
+		
+		//Collision checking
 		if(hasCollision())
 		{
 			_position.setX(oldPosition.getX()+(int)(10*(Math.random()-0.5)));
@@ -123,6 +184,7 @@ public class People extends Element
 			int posX = (int)(Math.random()*500)+25;
 			int posY = (int)(Math.random()*500)+25;
 			_destination = new Vector(posX, posY);
+			_destinationElement = new Area(new Dimension(20, 20), new Vector(posX, posY));
 		}
 		else
 		{  
@@ -130,50 +192,90 @@ public class People extends Element
 
 			int i = (((int)(Math.random() * size))); // get a random index.
 			Element goTo = elements.get(i);
-			//int posX = goTo.getPosition().getX();
-			//int posY = goTo.getPosition().getY();
-			//_destination = new Vector(posX, posY);
 			_destination = goTo.getRandomPosition();
+			_destinationElement = goTo;
 		}
 		return _destination;
-	}	
-
-
-	//rotate in walking direction
-	private AffineTransform getTransform() 
-	{
-		AffineTransform tx = new AffineTransform();
-		tx.translate(_position.getX()-8, _position.getY()-8);
-		tx.rotate(_direction, 9, 9);
-		return tx;
 	}
 
+	private Vector newNextDestination()
+	{	
+		if(_nextDestinationElement != null)
+		{
+			try{
+			_nextDestinationElement = FestivalHandler.Instance().getIntersectionOptions(_nextDestinationElement).nextMove(_destinationElement);
+			_nextDestination = _nextDestinationElement.getRandomPosition();
+			}
+			catch(Exception e)
+			{
+				_nextDestinationElement = _destinationElement;
+				_nextDestination = _destination;
+			}
+			
+		}
+		else
+		{
+			_nextDestinationElement = _destinationElement;
+			_nextDestination = _destination;
+		}
+		return _nextDestination;
+	}
+	
+
+	private boolean nextDestinationReached()
+	{
+		if(nextDestinationYReached() && nextDestinationXReached())
+			return true;
+		else return false;
+	}
+
+	private boolean nextDestinationYReached()
+	{
+		if(_nextDestination == null)
+			return true;		
+		else if(_position == _nextDestination)
+			return true;
+		else if((_position.getY() >= (_nextDestination.getY()-25)) && (_position.getY()<=(_nextDestination.getY()+25)))
+			return true;
+		else return false;
+	}
+
+	private boolean nextDestinationXReached()
+	{
+		if(_nextDestination == null)
+			return true;		
+		else if(_position == _nextDestination)
+			return true;
+		else if((_position.getX() >= (_nextDestination.getX()-25)) && (_position.getX()<=(_nextDestination.getX()+25)))
+			return true;
+		else return false;
+	}
+	
 	//Check if destination at X-position is reached, marging of +25
-	private boolean destinationXReached()
-	{
-		if(_destination == null)
-			return true;
-		else if(_position == _destination)
-			return true;
-		else if((_position.getX() >= (_destination.getX()-25)) && (_position.getX()<=(_destination.getX()+25)))
-			return true;
+		private boolean destinationXReached()
+		{
+			if(_destination == null)
+				return true;
+			else if(_position == _destination)
+				return true;
+			else if((_position.getX() >= (_destination.getX()-25)) && (_position.getX()<=(_destination.getX()+25)))
+				return true;
 
-		else return false;
-	}
+			else return false;
+		}
 
-	//Check if destination at Y-position is reached, marging of +25
-	private boolean destinationYReached()
-	{
-		if(_destination == null)
-			return true;
-		else if(_position == _destination)
-			return true;
-		else if((_position.getY() >= (_destination.getY()-25)) && (_position.getY()<=(_destination.getY()+25)))
-			return true;
+		//Check if destination at Y-position is reached, marging of +25
+		private boolean destinationYReached()
+		{
+			if(_destination == null)
+				return true;
+			else if(_position == _destination)
+				return true;
+			else if((_position.getY() >= (_destination.getY()-25)) && (_position.getY()<=(_destination.getY()+25)))
+				return true;
 
-		else return false;
-
-	}
+			else return false;
+		}
 
 	private boolean hasCollision()
 	{
@@ -200,7 +302,7 @@ public class People extends Element
 		}
 		return false;
 	}
-	
+
 	private boolean hasCollisionArea()
 	{
 		for(Element other : FestivalHandler.Instance().getElementsOnTerrain())
