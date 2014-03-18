@@ -1,24 +1,20 @@
 package nl.avans.festivalplanner.view;
-import java.util.*;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,25 +22,27 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTree;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.Timer;
 
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
+import nl.avans.festivalplanner.model.simulator.Area;
 import nl.avans.festivalplanner.model.simulator.Element;
+import nl.avans.festivalplanner.model.simulator.Entrance;
+import nl.avans.festivalplanner.model.simulator.Foodstand;
 import nl.avans.festivalplanner.model.simulator.People;
+import nl.avans.festivalplanner.model.simulator.Toilet;
 import nl.avans.festivalplanner.model.simulator.Vector;
 import nl.avans.festivalplanner.utils.AssetManager;
 import nl.avans.festivalplanner.utils.Enums.Text;
-import nl.avans.festivalplanner.model.simulator.*;
-import nl.avans.festivalplanner.view.dialog.*;
+import nl.avans.festivalplanner.view.dialog.IntersectionOptions;
+
 import com.javaswingcomponents.accordion.JSCAccordion;
 import com.javaswingcomponents.accordion.TabOrientation;
 import com.javaswingcomponents.accordion.listener.AccordionEvent;
 import com.javaswingcomponents.accordion.listener.AccordionListener;
 import com.javaswingcomponents.accordion.plaf.AccordionUI;
-import com.javaswingcomponents.accordion.plaf.basic.BasicHorizontalTabRenderer;
 import com.javaswingcomponents.accordion.plaf.darksteel.DarkSteelAccordionUI;
 import com.javaswingcomponents.accordion.plaf.darksteel.DarkSteelHorizontalTabRenderer;
 import com.javaswingcomponents.framework.painters.configurationbound.GradientColorPainter;
@@ -53,16 +51,15 @@ public class SimulatorPanel extends Panel
 {
 	private static final long serialVersionUID = -3533223589206092760L;
 	private static final boolean debug = true;
-
-	private int pXOffset = 750;
-	private int pYOffset = 110;
-
+	
 	private Element elementDraggedFromToolbar;
 
 	private Toolbar toolbar;
 	private Simulator simulator;
 	MouseListener mouseListener = new MouseListener();
 	MouseListenerToolbar mouseListenerToolbar = new MouseListenerToolbar();
+	
+	int selectedAccordionTab = 0;
 
 	public SimulatorPanel()
 	{
@@ -180,9 +177,9 @@ public class SimulatorPanel extends Panel
 		}
 		private JScrollPane getFacilityTab()
 		{
-			final List<Element> facilities = new ArrayList<Element>();
-			facilities.add(new Toilet(new Dimension(100,100), new Vector(0,0)));
-
+	        	final List<Element> facilities = FestivalHandler.Instance().getFacilities();
+	        	FestivalHandler.Instance().addFacilities(new Toilet(new Dimension(100,100), new Vector(0,0)));
+	        	FestivalHandler.Instance().addFacilities(new Entrance(new Dimension(100,100), new Vector(0,0)));
 
 			JPanel pane = new JPanel()
 			{
@@ -218,17 +215,20 @@ public class SimulatorPanel extends Panel
 
 						counter++;
 
-					}
-				}
-			};
+	        			}
+	        		}
+	        	};
+	        	
+				pane.addMouseListener(mouseListenerToolbar);
+				pane.addMouseMotionListener(mouseListenerToolbar);
 
-			return new JScrollPane(pane);
-		}
+	        	return new JScrollPane(pane);
+	        }
 
 		private JScrollPane getStandTab()
 		{
-			final List<Element> stands = new ArrayList<Element>();
-			stands.add(new Foodstand(new Dimension(100,100), new Vector(0,0)));
+                	final List<Element> stands = FestivalHandler.Instance().getStands();
+                	FestivalHandler.Instance().addStands(new Foodstand(new Dimension(100,100), new Vector(0,0)));
 
 			Panel pane = new Panel()
 			{
@@ -276,6 +276,9 @@ public class SimulatorPanel extends Panel
 					return this;
 				}
 			}; 
+                	
+        			pane.addMouseListener(mouseListenerToolbar);
+        			pane.addMouseMotionListener(mouseListenerToolbar);
 
 			return new JScrollPane(pane);        
 		}
@@ -369,6 +372,8 @@ public class SimulatorPanel extends Panel
 						break;	
 					case TAB_SELECTED: 
 						//add your logic here to react to a tab being selected.
+						selectedAccordionTab = accordionEvent.getTabIndex();
+						System.out.println("SimulatorPanel.l373: selectedAccordionTab: " + selectedAccordionTab);
 						break;
 					}
 				}
@@ -482,7 +487,7 @@ public class SimulatorPanel extends Panel
 		}
 
 		/** 
-		 * drawes all the elements to the simulator screen
+		 * draws all the elements to the simulator screen
 		 * @Author Michiel & Kasper
 		 */
 		@Override
@@ -516,8 +521,6 @@ public class SimulatorPanel extends Panel
 			// end drawing allthe elements to the screen.	
 		}	
 	}
-
-
 
 	public class MouseListener extends MouseAdapter implements MouseMotionListener
 	{
@@ -574,23 +577,23 @@ public class SimulatorPanel extends Panel
 			}
 		}
 
-
+		
 		@Override
 		public void mouseClicked(MouseEvent e)
 		{
 			boolean debugMethod = true;
-			if(debugMethod)
-				System.out.println("CLICKED");
+                        if(debugMethod)
+                            System.out.println("CLICKED");
 
-			for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
+                        for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
 			{
-				if(element instanceof Area & element.contains(e.getPoint()))
-				{
-					if(debugMethod)
-						System.out.println("Element has been clicked!");
+		                if(element instanceof Area & element.contains(e.getPoint()))
+                                {
+                                        if(debugMethod)
+                                                System.out.println("Element has been clicked!");
 
 					new IntersectionOptions(element);
-				}
+                                }
 			}
 		}
 	}
@@ -601,9 +604,81 @@ public class SimulatorPanel extends Panel
 		@Override
 		public void mouseDragged(MouseEvent e)
 		{
-
+			
+			switch(selectedAccordionTab)
+			{
+			
+			case 1: // stage tab!
+				dragStageTab(e);
+			break;
+			
+			case 2: // Stand/stalls Tab!
+				dragStandTab(e);
+			break;
+			
+			case 3: // Facilities tab!
+				dragFacilityTab(e);
+			break;
+			
+			}
+		}
+		
+		@Override
+		public void mouseMoved(MouseEvent e)
+		{
 			boolean debugMethod = false;
 
+			for(Stage s : FestivalHandler.Instance().getStages())
+			{
+				Point point = e.getPoint();
+
+				if(s.contains(point))
+				{
+					if(debugMethod)
+						System.out.println("ShapeHovered!!!!!");
+				}
+			}
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e)
+		{
+			boolean debugMethod = false;
+
+			int xOffset = 740;
+			int yOffset = 100 + 20*selectedAccordionTab; //calculates the yOffset with use of the selectedaccordiontab
+
+			if(debugMethod && elementDraggedFromToolbar != null)
+				System.out.println("MouseReleased! and Element :" + ((Stage)elementDraggedFromToolbar).getName() + "xAndY" + e.getX() + " " + e.getY());
+
+			if(!FestivalHandler.Instance().getElementsOnTerrain().contains(elementDraggedFromToolbar) && elementDraggedFromToolbar != null && e.getPoint().getX() < 0)
+			{	
+				if(elementDraggedFromToolbar instanceof Stage)
+				{
+					elementDraggedFromToolbar.setPosition(new Vector(xOffset + e.getX(), yOffset + e.getY()));
+					FestivalHandler.Instance().addElementToTerrain(elementDraggedFromToolbar);
+					elementDraggedFromToolbar = null;
+				}
+				else
+				{
+					elementDraggedFromToolbar.setPosition(new Vector(xOffset + e.getX(), yOffset + e.getY()));
+					try
+					{
+						FestivalHandler.Instance().addElementToTerrain((Element)elementDraggedFromToolbar.clone());
+					} catch (CloneNotSupportedException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					elementDraggedFromToolbar = null;
+				}
+			}
+		}
+		
+		private void dragStageTab(MouseEvent e)
+		{
+			boolean debugMethod = false;
+			
 			boolean hasDragged = false;
 			for(Stage s : FestivalHandler.Instance().getStages())
 			{
@@ -626,56 +701,87 @@ public class SimulatorPanel extends Panel
 				}
 			}
 		}
-
-		@Override
-		public void mouseMoved(MouseEvent e)
+		
+		private void dragStandTab(MouseEvent e)
 		{
 			boolean debugMethod = false;
+<<<<<<< HEAD
 
 			boolean hasDragged = false;
 			for(Stage s : FestivalHandler.Instance().getStages())
+=======
+		
+			if(debugMethod)
+			{
+				System.out.println("dragStandTab method has been called");
+				System.out.println("SimPanL699: " + e.getPoint());
+			}
+			
+			boolean hasDragged = false;
+			for(Element s : FestivalHandler.Instance().getStands())
+>>>>>>> adef4900f6ec145006876e14def982285fa24c67
 			{
 				Point point = e.getPoint();
 
 				if(s.contains(point))
 				{
 					if(debugMethod)
+<<<<<<< HEAD
 						System.out.println("ShapeHovered!!!!!");
 
+=======
+>>>>>>> adef4900f6ec145006876e14def982285fa24c67
 						System.out.println("Element in toolbar was dragged!");
 
 					if(!hasDragged) // stops the multiple item drag bug.
 					{
 						if(debugMethod)
-							System.out.println("Element on toolbar what?"); //TODO DODODODO!!!!!!!!!!!!!!!!
+							System.out.println("Element on toolbar what?");
 
 						elementDraggedFromToolbar = s;
 					}
 
 					hasDragged = true;
+<<<<<<< HEAD
 
+=======
+>>>>>>> adef4900f6ec145006876e14def982285fa24c67
 				}
 			}
 		}
-
-		@Override
-		public void mouseReleased(MouseEvent e)
+		
+		private void dragFacilityTab(MouseEvent e)
 		{
-			boolean debugMethod = false;
-
-			int xOffset = 740; //change to match the width of the simulatorPanel
-			int yOffset = 100;
-
-			if(debugMethod && elementDraggedFromToolbar != null)
-				System.out.println("MouseReleased! and Element :" + ((Stage)elementDraggedFromToolbar).getName() + "xAndY" + e.getX() + " " + e.getY());
-
-			if(!FestivalHandler.Instance().getElementsOnTerrain().contains(elementDraggedFromToolbar) && elementDraggedFromToolbar != null && e.getPoint().getX() < 0)
-			{				
-				elementDraggedFromToolbar.setPosition(new Vector(xOffset + e.getX(), yOffset + e.getY()));
-				FestivalHandler.Instance().addElementToTerrain(elementDraggedFromToolbar);
-				elementDraggedFromToolbar = null;
+			boolean debugMethod = true;
+			
+			if(debugMethod)
+			{
+				System.out.println("dragFacility method has been called");
+				System.out.println("SimPanL732: " + e.getPoint());
 			}
-		}		
+			
+			boolean hasDragged = false;
+			for(Element s : FestivalHandler.Instance().getFacilities())
+			{
+				Point point = e.getPoint();
+
+				if(s.contains(point))
+				{
+					if(debugMethod)
+						System.out.println("Element in toolbar was dragged!");
+
+					if(!hasDragged) // stops the multiple item drag bug.
+					{
+						if(debugMethod)
+							System.out.println("Element on toolbar what?");
+
+						elementDraggedFromToolbar = s;
+					}
+
+					hasDragged = true;
+				}
+			}
+		}
+		
 	}
 }
-
