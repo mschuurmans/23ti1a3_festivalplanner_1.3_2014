@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import nl.avans.festivalplanner.model.simulator.Intersection;
+
 /**
  * @author Jordy Sipkema & Jack Evers & Rudy Tjin-Kon-Koen
  * @version 13-02-2014
@@ -19,6 +21,7 @@ public class Festival implements Serializable
 	private String _imageSoure = "";
 	private List<Artist> _artists = new ArrayList<Artist>();
 	private ArrayList<Stage> _stages = new ArrayList<Stage>();
+	private ArrayList<Intersection> _intersections = new ArrayList<Intersection>();
 	private Schedule _schedule = new Schedule();
 	private String _map = "resources/map.jpg";
 	
@@ -113,5 +116,6 @@ public class Festival implements Serializable
 	{
 		this._map = map;
 	}
+	
 	
 }
