@@ -5,23 +5,27 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import nl.avans.festivalplanner.model.simulator.Element;
+import nl.avans.festivalplanner.model.simulator.Intersection;
+import nl.avans.festivalplanner.model.simulator.People;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.Utils;
-import nl.avans.festivalplanner.model.simulator.*;
 
 public class FestivalHandler 
 {
 	private static FestivalHandler _instance = null;
 	private boolean debug = true;
 	private ArrayList<People> _visitors = new ArrayList<People>();
-	
+
 	public static FestivalHandler Instance() 
 	{
 		if (_instance == null)
@@ -30,17 +34,28 @@ public class FestivalHandler
 		return _instance;
 	}
 
-	private Festival _festival;
+	private Festival _festival;	
 	private Stage _testStage1; //TESTING! TODO REMOVE
 	private Stage _testStage2; //TESTING! TODO REMOVE
 
 	private List _elementsOnTerrain = new ArrayList<Element>();
+	private HashMap<Element, Intersection> _intersectionOnTerrain = new HashMap<Element, Intersection>();
 
 
 
 	private FestivalHandler() 
 	{
 		_festival = new Festival();
+	}
+	
+	public Intersection getIntersectionOptions(Element element)
+	{
+		return _intersectionOnTerrain.get(element);
+	}
+	
+	public void setIntersectionOptions(Element element, Intersection intersection)
+	{
+		_intersectionOnTerrain.put(element, intersection);
 	}
 	
 	/**
@@ -91,7 +106,7 @@ public class FestivalHandler
 
 			if (!file.getAbsolutePath().endsWith(".dat"))
 				file = new File(file.getAbsolutePath()+ ".dat");
-			
+
 			try 
 			{
 				// File outputFile = new File(file.getAbsolutePath());
@@ -113,7 +128,7 @@ public class FestivalHandler
 			{
 				e.printStackTrace();
 			}
-			
+
 		} 
 		else 
 		{
@@ -133,13 +148,13 @@ public class FestivalHandler
 	{
 
 		JFileChooser fc = new JFileChooser(new File(FestivalHandler.class.getClassLoader().getResource("").getPath()).getPath());
-		 
+
 		int returnVal = fc.showOpenDialog(new JPanel());
 
 		if (returnVal == JFileChooser.APPROVE_OPTION)
 		{
 			File file = fc.getSelectedFile();
-           
+
 			try
 			{
 				_festival = (Festival)Utils.readObject(file);
@@ -151,22 +166,22 @@ public class FestivalHandler
 				System.out.println("Laden is mislukt want: " + e.getMessage());
 				return false;
 			}
-			
+
 			if(debug)
 				System.out.println("File geladen: " + file.getAbsolutePath());
-			
+
 			return true;
-       } 
-       else
-       {
-    	   //JOptionPane.showMessageDialog(null,Text.FileDoesNotExist.toString(), Text.Info.toString(), 1);
-    	   _festival = new Festival();
-    	   
-       		if(debug)
-       			System.out.println("Open command geannuleerd.");
-       		
-       		return false;
-       }
+		} 
+		else
+		{
+			//JOptionPane.showMessageDialog(null,Text.FileDoesNotExist.toString(), Text.Info.toString(), 1);
+			_festival = new Festival();
+
+			if(debug)
+				System.out.println("Open command geannuleerd.");
+
+			return false;
+		}
 	}
 
 	public ArrayList<Stage> getStages()
@@ -183,7 +198,7 @@ public class FestivalHandler
 	{
 		_festival.getSchedule().setActs(value);
 	}
-	
+
 	/*
 	 * debugging purposes
 	 */
@@ -194,32 +209,32 @@ public class FestivalHandler
 
 		stageList.add(new Stage("test1", 100, new Dimension(10, 20),
 				new Dimension(10, 20), ""));
-//		
-//		_testStage1 = new Stage("test2", 100, new Dimension(10, 20), new Dimension(10, 20), "");
-//		
-//		stageList.add(_testStage1);
-//		
-//		_testStage2 = new Stage("test3", 100, new Dimension(10, 20), new Dimension(10, 20), "");
-//		
-//		stageList.add(_testStage2);
-//		
-//		stageList.add(new Stage("test4", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
-//		stageList.add(new Stage("test5", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
-//		stageList.add(new Stage("test6", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
-//		stageList.add(new Stage("test7", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
-//		stageList.add(new Stage("test8", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
-//		stageList.add(new Stage("test9", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
-//		stageList.add(new Stage("test10", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
-//		stageList.add(new Stage("test11", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
-//		stageList.add(new Stage("test12", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		//		
+		//		_testStage1 = new Stage("test2", 100, new Dimension(10, 20), new Dimension(10, 20), "");
+		//		
+		//		stageList.add(_testStage1);
+		//		
+		//		_testStage2 = new Stage("test3", 100, new Dimension(10, 20), new Dimension(10, 20), "");
+		//		
+		//		stageList.add(_testStage2);
+		//		
+		//		stageList.add(new Stage("test4", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		//		stageList.add(new Stage("test5", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		//		stageList.add(new Stage("test6", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		//		stageList.add(new Stage("test7", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		//		stageList.add(new Stage("test8", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		//		stageList.add(new Stage("test9", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		//		stageList.add(new Stage("test10", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		//		stageList.add(new Stage("test11", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
+		//		stageList.add(new Stage("test12", 100, new Dimension(10, 20), new Dimension(10, 20), ""));
 
 		return stageList;
 	}
-	
+
 	public ArrayList<Act> getActsTest()
 	{
 		ArrayList<Act> actList = new ArrayList<Act>();
-		
+
 		// act1
 		GregorianCalendar startTime = new GregorianCalendar();
 		startTime.set(Calendar.HOUR_OF_DAY, 16);
@@ -236,7 +251,7 @@ public class FestivalHandler
 
 		actList.add(act);
 		// endofact1
-		
+
 		// act2
 		startTime = new GregorianCalendar();
 		startTime.set(Calendar.HOUR_OF_DAY, 13);
@@ -257,17 +272,17 @@ public class FestivalHandler
 
 		return actList;
 	}
-	
+
 	public void addAct(Act act) 
 	{
 		_festival.getSchedule().addAct(act);
 	}
-	
+
 	public ArrayList<Act> getActs()
 	{
 		return _festival.getSchedule().getActs();	
 	}
-	
+
 	public void setArtists(List<Artist> artists) 
 	{
 		this._festival.setArtists(artists);
@@ -277,7 +292,7 @@ public class FestivalHandler
 	{
 		return this._festival.getArtists();
 	}
-	
+
 	public Festival getFestival(){
 		return this._festival;
 	}
@@ -286,16 +301,15 @@ public class FestivalHandler
 		ArrayList<Act> acts = this._festival.getSchedule().getActs();
 		this._festival.getSchedule().getActs().remove((acts.indexOf(act)));
 	}	
-	
+
 	public void setMap(String map)
 	{
 		this._festival.setMap(map);
 	}
-	
+
 	public String getMap()
 	{
 		return this._festival.getMap();
 	}
-	
-	
+
 }
