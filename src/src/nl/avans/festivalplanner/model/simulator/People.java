@@ -3,8 +3,8 @@ package nl.avans.festivalplanner.model.simulator;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-
 import java.util.ArrayList;
+
 import nl.avans.festivalplanner.utils.*;
 import nl.avans.festivalplanner.model.FestivalHandler;
 
@@ -202,8 +202,16 @@ public class People extends Element
 	{	
 		if(_nextDestinationElement != null)
 		{
+			try{
 			_nextDestinationElement = FestivalHandler.Instance().getIntersectionOptions(_nextDestinationElement).nextMove(_destinationElement);
 			_nextDestination = _nextDestinationElement.getRandomPosition();
+			}
+			catch(Exception e)
+			{
+				_nextDestinationElement = _destinationElement;
+				_nextDestination = _destination;
+			}
+			
 		}
 		else
 		{
