@@ -30,8 +30,6 @@ public abstract class Element implements Serializable
 		super();
 		this._size = _size;
 		this._position = _position;
-		
-		System.out.println(this.toString());
 	}
 
 	/**
