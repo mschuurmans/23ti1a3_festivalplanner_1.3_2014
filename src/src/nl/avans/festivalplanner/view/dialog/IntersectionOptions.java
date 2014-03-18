@@ -20,6 +20,7 @@ import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.simulator.Area;
 import nl.avans.festivalplanner.model.simulator.Building;
 import nl.avans.festivalplanner.model.simulator.Element;
+import nl.avans.festivalplanner.utils.RouteManager;
 
 /**
  * the view containing settings for a intersection
@@ -109,12 +110,31 @@ public class IntersectionOptions extends JFrame implements ItemListener
 			s = (String)value;
 		}
 		
+		Element destination = null;
+		Element through = null;
+		
+		Object throughValue = ((JComboBox)arg0.getSource()).getSelectedItem();
+		String t = null;
+		if(throughValue instanceof String)
+		{
+			t = (String)throughValue;
+		}
+		
 		for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
 		{
 			if(e.toString().equalsIgnoreCase(s))
 			{
-				
+				destination = e;
+			}
+			if(e.toString().equalsIgnoreCase(t))
+			{
+				through = e;
 			}
 		}
+		
+		// destionation en through niet nul
+		
+		RouteManager.instance().addNode(destination, through);
+		
 	}
 }
