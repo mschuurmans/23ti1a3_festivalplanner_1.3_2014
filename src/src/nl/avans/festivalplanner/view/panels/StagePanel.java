@@ -1,8 +1,4 @@
-/*
- * @author Kasper
- */
 package nl.avans.festivalplanner.view.panels;
-
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -38,6 +34,9 @@ import nl.avans.festivalplanner.view.ApplicationView;
 import nl.avans.festivalplanner.view.GUIHelper;
 import nl.avans.festivalplanner.view.Panel;
 
+/*
+ * @author Kasper
+ */
 public class StagePanel extends Panel 
 {
 
