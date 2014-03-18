@@ -754,4 +754,3 @@ public class SimulatorPanel extends Panel
 		
 	}
 }
-
