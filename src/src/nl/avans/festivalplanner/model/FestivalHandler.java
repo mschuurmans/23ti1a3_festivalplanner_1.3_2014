@@ -25,6 +25,8 @@ public class FestivalHandler
 	private static FestivalHandler _instance = null;
 	private boolean debug = true;
 	private ArrayList<People> _visitors = new ArrayList<People>();
+    private List<Element> _facilities = new ArrayList<Element>();
+    private List<Element> _stands = new ArrayList<Element>();
 
 	public static FestivalHandler Instance() 
 	{
@@ -56,6 +58,26 @@ public class FestivalHandler
 	public void setIntersectionOptions(Element element, Intersection intersection)
 	{
 		_intersectionOnTerrain.put(element, intersection);
+	}
+	
+	public List<Element> getFacilities()
+	{
+		return _facilities;
+	}
+	
+	public void addFacilities(Element e)
+	{
+		_facilities.add(e);
+	}
+	
+	public List<Element> getStands()
+	{
+		return _stands;
+	}
+	
+	public void addStands(Element e)
+	{
+		_stands.add(e);
 	}
 	
 	/**
