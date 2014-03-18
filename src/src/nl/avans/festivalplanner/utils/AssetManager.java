@@ -56,16 +56,16 @@ public class AssetManager
 			}
 		}
 
-		for (int i = 0; i < customAssets.length; i++)
+		for (String asset : customAssets)
 		{
-			File file = new File(customAssets[i]);
+			File file = new File(asset);
 			if (file.exists())
 			{
 				Image img;
 				try
 				{
 					img = ImageIO.read(file);
-					_assets.put(customAssets[i], img);
+					_assets.put(asset, img);
 				}
 				catch (IOException e)
 				{
