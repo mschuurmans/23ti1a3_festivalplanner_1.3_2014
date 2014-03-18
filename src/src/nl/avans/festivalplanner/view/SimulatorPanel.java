@@ -692,7 +692,7 @@ public class SimulatorPanel extends Panel
 					if(!hasDragged) // stops the multiple item drag bug.
 					{
 						if(debugMethod)
-							System.out.println("Element on toolbar what?");
+							System.out.println("Element on toolbar what?"); //TODO DODODODO!!!!!!!!!!!!!!!!
 
 						elementDraggedFromToolbar = s;
 					}
