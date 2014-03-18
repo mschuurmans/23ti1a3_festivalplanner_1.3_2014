@@ -639,7 +639,21 @@ public class SimulatorPanel extends Panel
 				if(s.contains(point))
 				{
 					if(debugMethod)
+<<<<<<< HEAD
 						System.out.println("ShapeHovered!!!!!");
+=======
+						System.out.println("Element in toolbar was dragged!");
+
+					if(!hasDragged) // stops the multiple item drag bug.
+					{
+						if(debugMethod)
+							System.out.println("Element on toolbar what?"); //TODO DODODODO!!!!!!!!!!!!!!!!
+
+						elementDraggedFromToolbar = s;
+					}
+
+					hasDragged = true;
+>>>>>>> 4e0f320451bbe14dd4e31854fa57cb254f547557
 				}
 			}
 		}
