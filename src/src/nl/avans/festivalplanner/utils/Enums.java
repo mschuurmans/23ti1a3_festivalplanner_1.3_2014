@@ -15,6 +15,12 @@ public class Enums
 		
 		public String toString(){ return _s; }
 	}
+
+	public static enum States
+	{
+		Running,
+		Stopped;
+	}
 	
 	public static enum Text
 	{
