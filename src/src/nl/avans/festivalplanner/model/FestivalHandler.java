@@ -18,6 +18,7 @@ import nl.avans.festivalplanner.model.simulator.Element;
 import nl.avans.festivalplanner.model.simulator.Intersection;
 import nl.avans.festivalplanner.model.simulator.People;
 import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.utils.Enums.States;
 import nl.avans.festivalplanner.utils.Utils;
 
 public class FestivalHandler 
@@ -25,7 +26,8 @@ public class FestivalHandler
 	private static FestivalHandler _instance = null;
 	private boolean debug = true;
 	private List<Element> _facilities = new ArrayList<Element>();
-    private List<Element> _stands = new ArrayList<Element>();
+	private List<Element> _stands = new ArrayList<Element>();
+	private States _festivalState = States.Stopped;
 
 	public static FestivalHandler Instance() 
 	{
@@ -42,7 +44,17 @@ public class FestivalHandler
 	private List _elementsOnTerrain = new ArrayList<Element>();
 	private HashMap<Element, Intersection> _intersectionOnTerrain = new HashMap<Element, Intersection>();
 
-
+	// begin of simulator controls
+	
+	public void setSimulatorState(States value)
+	{
+		this._festivalState = value;
+	}
+	public States getSimulatorState()
+	{
+		return this._festivalState;
+	}
+	// end of simulator controls
 
 	private FestivalHandler() 
 	{

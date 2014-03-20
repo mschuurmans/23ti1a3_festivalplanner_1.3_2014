@@ -36,6 +36,7 @@ import nl.avans.festivalplanner.model.simulator.Toilet;
 import nl.avans.festivalplanner.model.simulator.Vector;
 import nl.avans.festivalplanner.utils.AssetManager;
 import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.utils.Enums.States;
 import nl.avans.festivalplanner.view.dialog.IntersectionOptions;
 
 import com.javaswingcomponents.accordion.JSCAccordion;
@@ -149,11 +150,13 @@ public class SimulatorPanel extends Panel
 					{
 						buttonStop.setEnabled(true);
 						buttonStart.setEnabled(false);
+						FestivalHandler.Instance().setSimulatorState(States.Running);
 					}
 					else if(e.getSource() == buttonStop)
 					{
 						buttonStop.setEnabled(false);
 						buttonStart.setEnabled(true);
+						FestivalHandler.Instance().setSimulatorState(States.Stopped);
 					}	
 				}
 			});
@@ -479,10 +482,12 @@ public class SimulatorPanel extends Panel
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
+			if(FestivalHandler.Instance().getSimulatorState() == States.Running)
+			{
 			// Update all the elements on the terrain.
 			for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
 				e.update();
-
+			}
 			repaint();
 		}
 
