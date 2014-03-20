@@ -57,7 +57,10 @@ public class FestivalHandler
 	{
 		return this._festivalState;
 	}
-
+	
+	/**
+	 *@Author Kasper Balink
+	 */
 	private boolean peopleOnField()
 	{
 		for(Element p : FestivalHandler.Instance().getElementsOnTerrain())
@@ -67,6 +70,10 @@ public class FestivalHandler
 		}
 		return false;
 	}
+	
+	/**
+ 	 *@Author Michiel Schuurmans
+	 */
 	public boolean entrancePlaced()
 	{
 		for(Element e : getElementsOnTerrain())
@@ -77,9 +84,11 @@ public class FestivalHandler
 		return false;
 	}
 
+	/**
+	 *@Author Michiel Schuurmans
+	 */
 	public void updateSimulator()
-	{
-		
+	{	
 		if(entrancePlaced())
 		{
 			if(!peopleOnField())
