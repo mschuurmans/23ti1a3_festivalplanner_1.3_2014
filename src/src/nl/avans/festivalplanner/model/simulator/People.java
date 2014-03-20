@@ -80,7 +80,7 @@ public class People extends Element
 			newNextDestination();
 		}
 
-		
+
 		if(!nextDestinationXReached())
 		{
 			int moveX = (int)((_speed * Math.cos(_nextDestination.getX())) + 1);
@@ -142,22 +142,20 @@ public class People extends Element
 				elements.add(e);
 		}
 
-		if(elements.isEmpty()) //if no stages, get random position in field.
-		{
-			int posX = (int)(Math.random()*500)+25;
-			int posY = (int)(Math.random()*500)+25;
-			_destination = new Vector(posX, posY);
-			_destinationElement = new Area(new Dimension(20, 20), new Vector(posX, posY));
-		}
-		else
-		{  
-			int size = elements.size();
 
-			int i = (((int)(Math.random() * size))); // get a random index.
-			Element goTo = elements.get(i);
-			_destination = goTo.getRandomPosition();
-			_destinationElement = goTo;
+		try{
+		int size = elements.size();
+		int i = (((int)(Math.random() * size))); // get a random index.
+		Element goTo = elements.get(i);
+		_destination = goTo.getRandomPosition();
+		_destinationElement = goTo;
 		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("No new destination found");
+		}
+
 		return _destination;
 	}
 
@@ -166,6 +164,9 @@ public class People extends Element
 		if(_nextDestinationElement != null)
 		{
 			try{
+				System.out.println("New destination found");
+				System.out.println(_destinationElement.toString());
+				System.out.println(_nextDestinationElement.toString());
 				_nextDestinationElement = RouteManager.instance().getNextDestination(_destinationElement, _nextDestinationElement);
 				//_nextDestinationElement = FestivalHandler.Instance().getIntersectionOptions(_nextDestinationElement).nextMove(_destinationElement);
 				_nextDestination = _nextDestinationElement.getRandomPosition();
@@ -174,6 +175,7 @@ public class People extends Element
 			{
 				_nextDestinationElement = _destinationElement;
 				_nextDestination = _destination;
+
 			}
 		}
 
@@ -181,6 +183,7 @@ public class People extends Element
 		{
 			_nextDestinationElement = _destinationElement;
 			_nextDestination = _destination;
+
 		}
 
 		return _nextDestination;
