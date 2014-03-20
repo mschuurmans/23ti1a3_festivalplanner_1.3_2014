@@ -85,6 +85,20 @@ public class RouteManager implements Serializable
 		list = _nodeList.containsKey(destination) ? _nodeList.get(destination)
 				: new ArrayList<Element>(); // Als de key bestaat, haal huidige
 											// lijst op; Anders: maak een nieuwe
+		
+		/*
+		 * UITLEG BOVENSTAANDE CODE
+		 * ------------------------
+		 * De code die hierboven staat, is gelijk aan deze code:
+		 * 
+		 * if (_nodeList.containsKey(destination)){
+		 * 		list = _nodeList.get(destination);
+		 * }else{
+		 * 		list = new ArrayList<Element>();
+		 * }
+		 */
+		
+		
 		list.add(through);
 		_nodeList.put(destination, list);
 
