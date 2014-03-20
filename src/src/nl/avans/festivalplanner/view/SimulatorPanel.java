@@ -705,11 +705,9 @@ public class SimulatorPanel extends Panel
 		private void dragStandTab(MouseEvent e)
 		{
 			boolean debugMethod = false;
-<<<<<<< HEAD
 
 			boolean hasDragged = false;
 			for(Stage s : FestivalHandler.Instance().getStages())
-=======
 		
 			if(debugMethod)
 			{
@@ -717,20 +715,15 @@ public class SimulatorPanel extends Panel
 				System.out.println("SimPanL699: " + e.getPoint());
 			}
 			
-			boolean hasDragged = false;
 			for(Element s : FestivalHandler.Instance().getStands())
->>>>>>> adef4900f6ec145006876e14def982285fa24c67
 			{
 				Point point = e.getPoint();
 
 				if(s.contains(point))
 				{
 					if(debugMethod)
-<<<<<<< HEAD
 						System.out.println("ShapeHovered!!!!!");
 
-=======
->>>>>>> adef4900f6ec145006876e14def982285fa24c67
 						System.out.println("Element in toolbar was dragged!");
 
 					if(!hasDragged) // stops the multiple item drag bug.
@@ -740,12 +733,8 @@ public class SimulatorPanel extends Panel
 
 						elementDraggedFromToolbar = s;
 					}
-
 					hasDragged = true;
-<<<<<<< HEAD
 
-=======
->>>>>>> adef4900f6ec145006876e14def982285fa24c67
 				}
 			}
 		}

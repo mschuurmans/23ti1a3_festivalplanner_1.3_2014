@@ -24,8 +24,7 @@ public class FestivalHandler
 {
 	private static FestivalHandler _instance = null;
 	private boolean debug = true;
-	private ArrayList<People> _visitors = new ArrayList<People>();
-    private List<Element> _facilities = new ArrayList<Element>();
+	private List<Element> _facilities = new ArrayList<Element>();
     private List<Element> _stands = new ArrayList<Element>();
 
 	public static FestivalHandler Instance() 

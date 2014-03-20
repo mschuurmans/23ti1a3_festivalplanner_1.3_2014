@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -35,12 +36,14 @@ public class IntersectionOptions extends JFrame implements ItemListener
 	private DefaultTableModel _tableModel;
 	
 	private JTable _table;
+	private String _name;
 
 	public IntersectionOptions(Element intersection)
 	{
 		this._intersect = intersection;
+		
 		this._tableModel = new DefaultTableModel(this._columnName, 0);
-
+		this._name = intersection.toString();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		init();
@@ -93,8 +96,10 @@ public class IntersectionOptions extends JFrame implements ItemListener
 				column.setCellEditor(new DefaultCellEditor(_combobox));
 		}
 		
-		
+		JLabel nameLabel = new JLabel(_name);
 		content.add(_table);
+		
+		content.add(nameLabel);
 
 		setContentPane(content);
 	}

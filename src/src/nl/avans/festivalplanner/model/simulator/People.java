@@ -48,7 +48,7 @@ public class People extends Element
 		Vector oldPosition = _position;
 		int posX = 0;
 		int posY = 0;
-		
+
 		if(_nextDestination == null || _nextDestinationElement == null)
 		{newNextDestination();}
 
@@ -67,57 +67,57 @@ public class People extends Element
 			_direction += 0.1f;
 		else if(directionDifference > 0)
 			_direction -= 0.1f;
-		
-		
-		
+
+
+
 		if(destinationYReached() && destinationXReached())
 		{
 			newDestination();
 		}
-				
+
 		if(nextDestinationReached())
 		{
 			newNextDestination();
 		}
 
 		//if X and Y destination reached, choose new destination.
-		
+
 
 		//if not X destination reached, get closer
-//		if(!destinationXReached())
-//		{
-//			int moveX = (int)((_speed * Math.cos(_destination.getX())) + 1);
-//			if(moveX<= 0)
-//				moveX = 1;
-//
-//			if(_position.getX() == _destination.getX())
-//				posX = _position.getX();
-//			else if(_position.getX() < _destination.getX())
-//				posX = _position.getX() + moveX;
-//
-//			else if(_position.getX() > _destination.getX())
-//				posX = _position.getX() - moveX;
-//
-//		}
-//		else { posX = _destination.getX(); }
-//
-//		//if not Y destination reached, get closer
-//		if(!destinationYReached())
-//		{
-//			int moveY = (int)((_speed * Math.cos(_destination.getY())) + 1);
-//			if(moveY<=0)
-//				moveY=1;
-//			//			System.out.println(moveY);
-//			if(_position.getY() == _destination.getY())
-//				posY = _position.getY();
-//			else if(_position.getY() < _destination.getY())
-//				posY = _position.getY() + moveY;
-//
-//			else if(_position.getY() > _destination.getY())
-//				posY = _position.getY() - moveY;
-//		}
-//		else{ posY = _destination.getY(); }
-		
+		//		if(!destinationXReached())
+		//		{
+		//			int moveX = (int)((_speed * Math.cos(_destination.getX())) + 1);
+		//			if(moveX<= 0)
+		//				moveX = 1;
+		//
+		//			if(_position.getX() == _destination.getX())
+		//				posX = _position.getX();
+		//			else if(_position.getX() < _destination.getX())
+		//				posX = _position.getX() + moveX;
+		//
+		//			else if(_position.getX() > _destination.getX())
+		//				posX = _position.getX() - moveX;
+		//
+		//		}
+		//		else { posX = _destination.getX(); }
+		//
+		//		//if not Y destination reached, get closer
+		//		if(!destinationYReached())
+		//		{
+		//			int moveY = (int)((_speed * Math.cos(_destination.getY())) + 1);
+		//			if(moveY<=0)
+		//				moveY=1;
+		//			//			System.out.println(moveY);
+		//			if(_position.getY() == _destination.getY())
+		//				posY = _position.getY();
+		//			else if(_position.getY() < _destination.getY())
+		//				posY = _position.getY() + moveY;
+		//
+		//			else if(_position.getY() > _destination.getY())
+		//				posY = _position.getY() - moveY;
+		//		}
+		//		else{ posY = _destination.getY(); }
+
 		if(!nextDestinationXReached())
 		{
 			int moveX = (int)((_speed * Math.cos(_nextDestination.getX())) + 1);
@@ -153,8 +153,8 @@ public class People extends Element
 		else{ posY = _nextDestination.getY(); }
 
 		_position =new Vector(posX,posY);	
-		
-		
+
+
 		//Collision checking
 		if(hasCollision())
 		{
@@ -203,24 +203,26 @@ public class People extends Element
 		if(_nextDestinationElement != null)
 		{
 			try{
-			_nextDestinationElement = FestivalHandler.Instance().getIntersectionOptions(_nextDestinationElement).nextMove(_destinationElement);
-			_nextDestination = _nextDestinationElement.getRandomPosition();
+				//_nextDestinationElement = RouteManager.instance().getNextDestination(_destinationElement, _nextDestinationElement);
+				_nextDestinationElement = FestivalHandler.Instance().getIntersectionOptions(_nextDestinationElement).nextMove(_destinationElement);
+				_nextDestination = _nextDestinationElement.getRandomPosition();
 			}
 			catch(Exception e)
 			{
 				_nextDestinationElement = _destinationElement;
 				_nextDestination = _destination;
 			}
-			
 		}
+
 		else
 		{
 			_nextDestinationElement = _destinationElement;
 			_nextDestination = _destination;
 		}
+
 		return _nextDestination;
 	}
-	
+
 
 	private boolean nextDestinationReached()
 	{
@@ -250,32 +252,32 @@ public class People extends Element
 			return true;
 		else return false;
 	}
-	
+
 	//Check if destination at X-position is reached, marging of +25
-		private boolean destinationXReached()
-		{
-			if(_destination == null)
-				return true;
-			else if(_position == _destination)
-				return true;
-			else if((_position.getX() >= (_destination.getX()-25)) && (_position.getX()<=(_destination.getX()+25)))
-				return true;
+	private boolean destinationXReached()
+	{
+		if(_destination == null)
+			return true;
+		else if(_position == _destination)
+			return true;
+		else if((_position.getX() >= (_destination.getX()-25)) && (_position.getX()<=(_destination.getX()+25)))
+			return true;
 
-			else return false;
-		}
+		else return false;
+	}
 
-		//Check if destination at Y-position is reached, marging of +25
-		private boolean destinationYReached()
-		{
-			if(_destination == null)
-				return true;
-			else if(_position == _destination)
-				return true;
-			else if((_position.getY() >= (_destination.getY()-25)) && (_position.getY()<=(_destination.getY()+25)))
-				return true;
+	//Check if destination at Y-position is reached, marging of +25
+	private boolean destinationYReached()
+	{
+		if(_destination == null)
+			return true;
+		else if(_position == _destination)
+			return true;
+		else if((_position.getY() >= (_destination.getY()-25)) && (_position.getY()<=(_destination.getY()+25)))
+			return true;
 
-			else return false;
-		}
+		else return false;
+	}
 
 	private boolean hasCollision()
 	{
