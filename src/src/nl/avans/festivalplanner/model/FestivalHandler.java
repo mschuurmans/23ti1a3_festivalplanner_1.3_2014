@@ -17,6 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import nl.avans.festivalplanner.model.simulator.Element;
 import nl.avans.festivalplanner.model.simulator.Intersection;
 import nl.avans.festivalplanner.model.simulator.People;
+import nl.avans.festivalplanner.model.simulator.Entrance;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.Enums.States;
 import nl.avans.festivalplanner.model.simulator.Vector;
@@ -66,29 +67,41 @@ public class FestivalHandler
 		}
 		return false;
 	}
+	public boolean entrancePlaced()
+	{
+		for(Element e : getElementsOnTerrain())
+		{
+			if(e instanceof Entrance)
+				return true;
+		}
+		return false;
+	}
 
 	public void updateSimulator()
 	{
 		
-		if(!peopleOnField())
+		if(entrancePlaced())
 		{
-			int value = 1000/50;
-			for(int i=0; i<100; i++)
+			if(!peopleOnField())
 			{
-				int startX = (int)(Math.random()*500) + 20;
-				int startY =  (int)(Math.random()*500) +20;
-				int speed = (int)(Math.random()*6+3);
-				float direction = 0;
-				People visitor = new People(new Vector(startX,startY), speed, direction);
-				FestivalHandler.Instance().addElementToTerrain(visitor);
+				int value = 1000;
+				for(int i=0; i<value; i++)
+				{
+					int startX = (int)(Math.random()*500) + 20;
+					int startY =  (int)(Math.random()*500) +20;
+					int speed = (int)(Math.random()*6+3);
+					float direction = 0;
+					People visitor = new People(new Vector(startX,startY), speed, direction);
+					FestivalHandler.Instance().addElementToTerrain(visitor);
+				}
 			}
-		}
 
-		if(this._festivalState == States.Running)
-		{
-			for(Element e : getElementsOnTerrain())
+			if(this._festivalState == States.Running)
 			{
-				e.update();
+				for(Element e : getElementsOnTerrain())
+				{
+					e.update();
+				}
 			}
 		}
 	}
