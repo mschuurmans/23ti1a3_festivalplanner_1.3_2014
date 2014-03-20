@@ -454,19 +454,19 @@ public class SimulatorPanel extends Panel
 			Timer timer = new Timer(30, this);
 			timer.start();
 			
-			if(!peopleOnField())
-			{
-				int value = (int) toolbar.visitors.getValue()/50;
-				for(int i=0; i<100; i++)
-				{
-					int startX = (int)(Math.random()*500) + 20;
-					int startY =  (int)(Math.random()*500) +20;
-					int speed = (int)(Math.random()*6+3);
-					float direction = 0;
-					People visitor = new People(new Vector(startX,startY), speed, direction);
-					FestivalHandler.Instance().addElementToTerrain(visitor);
-				}
-			}
+//			if(!peopleOnField())
+//			{
+//				int value = (int) toolbar.visitors.getValue()/50;
+//				for(int i=0; i<100; i++)
+//				{
+//					int startX = (int)(Math.random()*500) + 20;
+//					int startY =  (int)(Math.random()*500) +20;
+//					int speed = (int)(Math.random()*6+3);
+//					float direction = 0;
+//					People visitor = new People(new Vector(startX,startY), speed, direction);
+//					FestivalHandler.Instance().addElementToTerrain(visitor);
+//				}
+//			}
 		}
 
 		private boolean peopleOnField()

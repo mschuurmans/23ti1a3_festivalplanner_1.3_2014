@@ -80,44 +80,7 @@ public class People extends Element
 			newNextDestination();
 		}
 
-		//if X and Y destination reached, choose new destination.
-
-
-		//if not X destination reached, get closer
-		//		if(!destinationXReached())
-		//		{
-		//			int moveX = (int)((_speed * Math.cos(_destination.getX())) + 1);
-		//			if(moveX<= 0)
-		//				moveX = 1;
-		//
-		//			if(_position.getX() == _destination.getX())
-		//				posX = _position.getX();
-		//			else if(_position.getX() < _destination.getX())
-		//				posX = _position.getX() + moveX;
-		//
-		//			else if(_position.getX() > _destination.getX())
-		//				posX = _position.getX() - moveX;
-		//
-		//		}
-		//		else { posX = _destination.getX(); }
-		//
-		//		//if not Y destination reached, get closer
-		//		if(!destinationYReached())
-		//		{
-		//			int moveY = (int)((_speed * Math.cos(_destination.getY())) + 1);
-		//			if(moveY<=0)
-		//				moveY=1;
-		//			//			System.out.println(moveY);
-		//			if(_position.getY() == _destination.getY())
-		//				posY = _position.getY();
-		//			else if(_position.getY() < _destination.getY())
-		//				posY = _position.getY() + moveY;
-		//
-		//			else if(_position.getY() > _destination.getY())
-		//				posY = _position.getY() - moveY;
-		//		}
-		//		else{ posY = _destination.getY(); }
-
+		
 		if(!nextDestinationXReached())
 		{
 			int moveX = (int)((_speed * Math.cos(_nextDestination.getX())) + 1);
@@ -203,8 +166,8 @@ public class People extends Element
 		if(_nextDestinationElement != null)
 		{
 			try{
-				//_nextDestinationElement = RouteManager.instance().getNextDestination(_destinationElement, _nextDestinationElement);
-				_nextDestinationElement = FestivalHandler.Instance().getIntersectionOptions(_nextDestinationElement).nextMove(_destinationElement);
+				_nextDestinationElement = RouteManager.instance().getNextDestination(_destinationElement, _nextDestinationElement);
+				//_nextDestinationElement = FestivalHandler.Instance().getIntersectionOptions(_nextDestinationElement).nextMove(_destinationElement);
 				_nextDestination = _nextDestinationElement.getRandomPosition();
 			}
 			catch(Exception e)

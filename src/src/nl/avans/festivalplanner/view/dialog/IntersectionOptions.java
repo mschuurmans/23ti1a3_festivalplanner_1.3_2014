@@ -82,10 +82,10 @@ public class IntersectionOptions extends JFrame implements ItemListener
 		
 		_table = new JTable(_tableModel);
 		_table.setSize(new Dimension(400,400));
-	
 		for(int idx = 1; idx < _table.getRowCount(); idx++)
 		{
 				JComboBox<String> _combobox = new JComboBox<String>();
+				_combobox.addItemListener(this);
 				for(Area a : areas)
 				{
 					String areaName = a.toString();
@@ -107,8 +107,12 @@ public class IntersectionOptions extends JFrame implements ItemListener
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 		// TODO Auto-generated method stub
+		System.out.println("Stage changed");
+		try{
 		int rowNumber = _table.getSelectedRow();
 		Object value = _table.getValueAt(rowNumber, 0);
+		
+		
 		String s = null;
 		if(value instanceof String)
 		{
@@ -140,6 +144,12 @@ public class IntersectionOptions extends JFrame implements ItemListener
 		if(destination != null && through != null)
 		{
 			RouteManager.instance().addNode(destination, through);
+			 System.out.println("saved");
+		}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Nothing to save");
 		}
 	}
 }

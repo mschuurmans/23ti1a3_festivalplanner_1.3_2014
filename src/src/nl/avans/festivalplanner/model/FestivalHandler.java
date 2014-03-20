@@ -83,7 +83,7 @@ public class FestivalHandler
 		{
 			if(!peopleOnField())
 			{
-				int value = 1000;
+				int value = 100;
 				for(int i=0; i<value; i++)
 				{
 					int startX = (int)(Math.random()*500) + 20;
