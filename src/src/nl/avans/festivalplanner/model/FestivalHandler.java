@@ -19,6 +19,7 @@ import nl.avans.festivalplanner.model.simulator.Intersection;
 import nl.avans.festivalplanner.model.simulator.People;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.Enums.States;
+import nl.avans.festivalplanner.model.simulator.Vector;
 import nl.avans.festivalplanner.utils.Utils;
 
 public class FestivalHandler 
@@ -53,6 +54,42 @@ public class FestivalHandler
 	public States getSimulatorState()
 	{
 		return this._festivalState;
+	}
+
+	private boolean peopleOnField()
+	{
+		for(Element p : FestivalHandler.Instance().getElementsOnTerrain())
+		{
+			if(p instanceof People)
+				return true;
+		}
+		return false;
+	}
+
+	public void updateSimulator()
+	{
+		
+		if(!peopleOnField())
+		{
+			int value = 1000/50;
+			for(int i=0; i<100; i++)
+			{
+				int startX = (int)(Math.random()*500) + 20;
+				int startY =  (int)(Math.random()*500) +20;
+				int speed = (int)(Math.random()*6+3);
+				float direction = 0;
+				People visitor = new People(new Vector(startX,startY), speed, direction);
+				FestivalHandler.Instance().addElementToTerrain(visitor);
+			}
+		}
+
+		if(this._festivalState == States.Running)
+		{
+			for(Element e : getElementsOnTerrain())
+			{
+				e.update();
+			}
+		}
 	}
 	// end of simulator controls
 
