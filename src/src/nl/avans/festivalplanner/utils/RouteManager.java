@@ -67,6 +67,28 @@ public class RouteManager implements Serializable
 		//Mocht er iets fout gaan, speel dan maar vals en loop rechtstreeks naar het doel ;)
 		return destination;
 	}
+	
+	/**
+	 * Retrieves the first Element from the RouteManger the given element can directly reached from.
+	 * If more elements are one-step away from the given element, the first occurrence is returned.
+	 * @param node The Element used to search.
+	 * @return The Element that is 1-step away.
+	 */
+	public Element getNodeFirstMapping(Element node){
+		List<Element> nearbyElements = _nodeList.get(node);
+		return nearbyElements.get(0);
+	}
+	
+	/**
+	 * Retrieves all Elements from the RouteManger the given element can directly reached from.
+	 * If only one element is one-step away from the given element, the returned list is still a list (with size 1).
+	 * @param node The Element used to search.
+	 * @return The list of Elements which contains all elements that are 1-step away.
+	 */
+	public List<Element> getNodeAllMapping(Element node){
+		List<Element> nearbyElements = _nodeList.get(node);
+		return nearbyElements;
+	}
 
 	/**
 	 * Adds a node to the RouteManager-list. WARNING: If that destination is
@@ -156,6 +178,13 @@ public class RouteManager implements Serializable
 				_nodeList.remove(destination);
 			}
 		}
+	}
+	
+	/**
+	 * Removes all RouteManager data.
+	 */
+	public void removeAll(){
+		_nodeList.clear();
 	}
 
 	/**

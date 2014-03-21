@@ -100,6 +100,7 @@ public class IntersectionOptions extends JFrame implements ItemListener
 		setContentPane(content);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 		
