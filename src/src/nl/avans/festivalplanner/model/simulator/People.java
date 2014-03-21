@@ -153,7 +153,6 @@ public class People extends Element
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("No new destination found");
 		}
 
 		return _destination;
@@ -164,11 +163,7 @@ public class People extends Element
 		if(_nextDestinationElement != null)
 		{
 			try{
-				System.out.println("New destination found");
-				System.out.println(_destinationElement.toString());
-				System.out.println(_nextDestinationElement.toString());
 				_nextDestinationElement = RouteManager.instance().getNextDestination(_destinationElement, _nextDestinationElement);
-				//_nextDestinationElement = FestivalHandler.Instance().getIntersectionOptions(_nextDestinationElement).nextMove(_destinationElement);
 				_nextDestination = _nextDestinationElement.getRandomPosition();
 			}
 			catch(Exception e)

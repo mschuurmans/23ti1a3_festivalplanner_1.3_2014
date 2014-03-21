@@ -94,9 +94,17 @@ public class FestivalHandler
 			{
 				int value = 100;
 				for(int i=0; i<value; i++)
-				{
-					int startX = (int)(Math.random()*500) + 20;
-					int startY =  (int)(Math.random()*500) +20;
+				{ 
+					int startX = 0;
+					int startY = 0;
+					for(Element e : getElementsOnTerrain())
+					{
+						if(e instanceof Entrance)
+						{
+							startX =(int) e.getRandomPosition().getX();
+							startY =(int) e.getRandomPosition().getY();
+						}
+					}
 					int speed = (int)(Math.random()*6+3);
 					float direction = 0;
 					People visitor = new People(new Vector(startX,startY), speed, direction);
