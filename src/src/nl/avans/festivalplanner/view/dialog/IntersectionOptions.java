@@ -12,8 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -25,22 +23,21 @@ import nl.avans.festivalplanner.utils.RouteManager;
 
 /**
  * the view containing settings for a intersection
- * @Author Michiel Schuurmans
+ * @Author Michiel, Jordy, Roald
  */
 public class IntersectionOptions extends JFrame implements ItemListener
 {
-	private Element _intersect;
-
-	private String[] _columnName = {"Goal", "next target"};
-
-	private DefaultTableModel _tableModel;
 	
+
+	private static final long serialVersionUID = 6391150348108184954L;
+	
+	private DefaultTableModel _tableModel;
 	private JTable _table;
-	private String _name;
+	private String[] _columnName = {"Goal", "next target"};
 
 	public IntersectionOptions(Element intersection)
 	{
-		this._intersect = intersection;
+		//this._intersect = intersection;
 		
 		this._tableModel = new DefaultTableModel(this._columnName, 0);
 		this._name = intersection.toString();
@@ -49,8 +46,7 @@ public class IntersectionOptions extends JFrame implements ItemListener
 		init();
 		
 		setLocationRelativeTo(null);
-
-		setSize(400,400);
+		pack();
 		setVisible(true);
 	}
 	
@@ -81,7 +77,6 @@ public class IntersectionOptions extends JFrame implements ItemListener
 		}
 		
 		_table = new JTable(_tableModel);
-		_table.setSize(new Dimension(400,400));
 		for(int idx = 1; idx < _table.getRowCount(); idx++)
 		{
 				JComboBox<String> _combobox = new JComboBox<String>();
@@ -95,8 +90,7 @@ public class IntersectionOptions extends JFrame implements ItemListener
 				TableColumn column = _table.getColumnModel().getColumn(1);
 				column.setCellEditor(new DefaultCellEditor(_combobox));
 		}
-		
-		JLabel nameLabel = new JLabel(_name);
+				
 		content.add(_table);
 		
 		content.add(nameLabel);
@@ -106,7 +100,7 @@ public class IntersectionOptions extends JFrame implements ItemListener
 
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
-		// TODO Auto-generated method stub
+		
 		System.out.println("Stage changed");
 		try{
 		int rowNumber = _table.getSelectedRow();
