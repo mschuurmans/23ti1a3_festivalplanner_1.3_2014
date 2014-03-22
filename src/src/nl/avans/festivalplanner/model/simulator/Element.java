@@ -21,6 +21,7 @@ public abstract class Element implements Serializable, Cloneable
 
 	protected Dimension _size = null;
 	protected Vector _position = null;
+	protected AffineTransform _rotation = null;
 
 	/*
 	 * Constructor for subclasses only.
@@ -30,6 +31,7 @@ public abstract class Element implements Serializable, Cloneable
 		super();
 		this._size = _size;
 		this._position = _position;
+		this._rotation = new AffineTransform();
 	}
 
 	/**
@@ -125,6 +127,14 @@ public abstract class Element implements Serializable, Cloneable
 	{
 		_position.setY((int) point.getY());
 		_position.setX((int) point.getX());
+	}
+	
+	public void rotate(Point point)
+	{
+		double vecx = (_position.getX() +75) - point.getX();
+		double vecy = (_position.getY() -75) - point.getY();
+		
+		_rotation.rotate(vecx, vecy);
 	}
 
 	@Override
