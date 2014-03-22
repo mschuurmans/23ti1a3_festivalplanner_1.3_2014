@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
+import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.utils.AssetManager;
 
 /**
@@ -38,17 +39,35 @@ public class Building extends Area
 	{
 		super.draw(g);
 
-		if(!_image.trim().equals(""))
+		if(FestivalHandler.Instance().getElementsOnTerrain().contains(this))
 		{
-			Image img = AssetManager.Instance().getImage(_image);
+			if(!_image.trim().equals(""))
+			{
+				Image img = AssetManager.Instance().getImage(_image);
 
-			int x = (int)(_position.getX() - (_size.getWidth() / 2));
-			int y = (int)(_position.getY() - (_size.getHeight() / 2));
-			int height = (int)_size.getHeight();
-			int width = (int)_size.getWidth();
+				int x = (int)(_position.getX() - (_size.getWidth() / 2));
+				int y = (int)(_position.getY() - (_size.getHeight() *1.5));
+				int height = (int)_size.getHeight();
+				int width = (int)_size.getWidth();
 
-			g.drawImage(img, x,y,width,height, null);
+				g.drawImage(img, x,y,width,height, null);
+			}
 		}
+		else
+		{
+			if(!_image.trim().equals(""))
+			{
+				Image img = AssetManager.Instance().getImage(_image);
+
+				int x = (int)(_position.getX() - (_size.getWidth() / 2));
+				int y = (int)(_position.getY() - (_size.getHeight() / 2));
+				int height = (int)_size.getHeight();
+				int width = (int)_size.getWidth();
+
+				g.drawImage(img, x,y,width,height, null);
+			}
+		}
+
 	}
 
 	/* (non-Javadoc)
