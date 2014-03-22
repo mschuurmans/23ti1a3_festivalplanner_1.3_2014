@@ -11,6 +11,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import javax.swing.text.Position;
+
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.utils.AssetManager;
 
@@ -59,9 +61,13 @@ public class Building extends Area
 				int height = (int)_size.getHeight();
 				int width = (int)_size.getWidth();
 
-				if(_rotation != null)
-					g.transform(_rotation);
-				
+//				if(_rotation != 0)
+//				{
+//					g.translate(_position.getX(), _position.getY());
+//					g.rotate(_rotation);
+//					g.translate(0, 0);
+//				}
+					
 				g.drawImage(img, x,y,width,height, null);
 				
 				if(hasBeenHovered())

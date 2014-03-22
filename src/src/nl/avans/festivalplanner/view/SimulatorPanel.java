@@ -549,11 +549,6 @@ public class SimulatorPanel extends Panel
 
 					hasDragged = true;
 				}
-				
-				if(element instanceof Building && ((Building) element).getRotationBox().contains(e.getPoint()))
-				{
-					element.rotate(e.getPoint());
-				}
 			}
 
 		}
@@ -595,18 +590,23 @@ public class SimulatorPanel extends Panel
 		public void mouseClicked(MouseEvent e)
 		{
 			boolean debugMethod = true;
-                        if(debugMethod)
-                            System.out.println("CLICKED");
+			if(debugMethod)
+				System.out.println("CLICKED");
 
-                        for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
+			for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
 			{
-		                if(element instanceof Area & element.contains(e.getPoint()))
-                                {
-                                        if(debugMethod)
-                                                System.out.println("Element has been clicked!");
+				if(element instanceof Area & element.contains(e.getPoint()))
+				{
+					if(debugMethod)
+						System.out.println("Element has been clicked!");
 
 					new IntersectionOptions(element);
-                                }
+				}
+				
+				if(element instanceof Building && ((Building) element).getRotationBox().contains(e.getPoint()))
+				{
+					element.rotate();
+				}
 			}
 		}
 	}
