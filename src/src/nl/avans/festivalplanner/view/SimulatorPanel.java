@@ -13,7 +13,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -28,6 +27,7 @@ import javax.swing.Timer;
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
 import nl.avans.festivalplanner.model.simulator.Area;
+import nl.avans.festivalplanner.model.simulator.Building;
 import nl.avans.festivalplanner.model.simulator.Element;
 import nl.avans.festivalplanner.model.simulator.Entrance;
 import nl.avans.festivalplanner.model.simulator.Foodstand;
@@ -35,8 +35,8 @@ import nl.avans.festivalplanner.model.simulator.People;
 import nl.avans.festivalplanner.model.simulator.Toilet;
 import nl.avans.festivalplanner.model.simulator.Vector;
 import nl.avans.festivalplanner.utils.AssetManager;
-import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.Enums.States;
+import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.view.dialog.IntersectionOptions;
 
 import com.javaswingcomponents.accordion.JSCAccordion;
@@ -573,6 +573,14 @@ public class SimulatorPanel extends Panel
 				{
 					if(debugMethod)
 						System.out.println("Element was hovered!");
+
+					if(element instanceof Building)
+						((Building)element).setHovered(true);
+				}
+				else
+				{
+					if(element instanceof Building)
+						((Building)element).setHovered(false);
 				}
 			}
 		}
@@ -582,18 +590,23 @@ public class SimulatorPanel extends Panel
 		public void mouseClicked(MouseEvent e)
 		{
 			boolean debugMethod = true;
-                        if(debugMethod)
-                            System.out.println("CLICKED");
+			if(debugMethod)
+				System.out.println("CLICKED");
 
-                        for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
+			for(Element element : FestivalHandler.Instance().getElementsOnTerrain())
 			{
-		                if(element instanceof Area & element.contains(e.getPoint()))
-                                {
-                                        if(debugMethod)
-                                                System.out.println("Element has been clicked!");
+				if(element instanceof Area & element.contains(e.getPoint()))
+				{
+					if(debugMethod)
+						System.out.println("Element has been clicked!");
 
 					new IntersectionOptions(element);
-                                }
+				}
+				
+				if(element instanceof Building && ((Building) element).getRotationBox().contains(e.getPoint()))
+				{
+					element.rotate();
+				}
 			}
 		}
 	}

@@ -3,9 +3,15 @@
  */
 package nl.avans.festivalplanner.model.simulator;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+
+import javax.swing.text.Position;
 
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.utils.AssetManager;
@@ -19,6 +25,8 @@ public class Building extends Area
 	private static final long serialVersionUID = 6945847681614919930L;
 	
 	private String _image = "";
+	private boolean isHovered;
+	private int timerSinceHovered;
 	
 	/**
 	 * @param _size The size of the building
@@ -29,7 +37,10 @@ public class Building extends Area
 		super(_size, _position);
 	}
 	
-	
+	public void setHovered(boolean b)
+	{
+		this.isHovered = b;
+	}
 
 	/* (non-Javadoc)
 	 * @see nl.avans.festivalplanner.model.simulator.Element#draw()
@@ -50,7 +61,27 @@ public class Building extends Area
 				int height = (int)_size.getHeight();
 				int width = (int)_size.getWidth();
 
+//				if(_rotation != 0)
+//				{
+//					g.translate(_position.getX(), _position.getY());
+//					g.rotate(_rotation);
+//					g.translate(0, 0);
+//				}
+					
 				g.drawImage(img, x,y,width,height, null);
+				
+				if(hasBeenHovered())
+				{
+					int yOffset = (int)_size.getHeight() /2;
+					g.setStroke(new BasicStroke(2));
+					g.setColor(Color.white);
+					g.drawLine(_position.getX(), _position.getY() - yOffset, _position.getX() + 75, _position.getY() - 75 - yOffset);
+					Image rotateImg = AssetManager.Instance().getImage("bin/rotate.png");
+					int imgX =  (int)getRotationHandlePosition().getX() ;
+					int imgY =  (int)getRotationHandlePosition().getY() ;
+					g.drawImage(rotateImg, imgX, imgY, 32, 32, null);
+					g.setStroke(new BasicStroke(1));
+				}
 			}
 		}
 		else
@@ -68,6 +99,36 @@ public class Building extends Area
 			}
 		}
 
+	}
+	
+	private Point getRotationHandlePosition()
+	{
+		Point p = new Point(_position.getX() + 75, _position.getY() - 75 - 32 - (int)_size.getHeight() /2);
+		
+		return p;
+	}
+	
+	public Rectangle getRotationBox()
+	{
+		Rectangle r = new Rectangle(getRotationHandlePosition(), new Dimension(40, 40));
+		
+		return r;
+	}
+
+	private boolean hasBeenHovered()
+	{
+		if(isHovered)
+		{
+			timerSinceHovered = 30;
+		}
+		
+		timerSinceHovered--;
+		
+		if(timerSinceHovered < 0)
+			return false;
+					
+		else
+			return true;
 	}
 
 	/* (non-Javadoc)

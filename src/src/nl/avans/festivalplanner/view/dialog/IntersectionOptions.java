@@ -1,6 +1,5 @@
 package nl.avans.festivalplanner.view.dialog;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -12,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -19,7 +20,7 @@ import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.simulator.Area;
 import nl.avans.festivalplanner.model.simulator.Building;
 import nl.avans.festivalplanner.model.simulator.Element;
-import nl.avans.festivalplanner.utils.RouteManager;
+import nl.avans.festivalplanner.model.simulator.Intersection;
 
 /**
  * the view containing settings for a intersection
@@ -27,21 +28,23 @@ import nl.avans.festivalplanner.utils.RouteManager;
  */
 public class IntersectionOptions extends JFrame implements ItemListener
 {
-
-
 	private static final long serialVersionUID = 6391150348108184954L;
 
 	private DefaultTableModel _tableModel;
 	private JTable _table;
 	private String _name;
 	private String[] _columnName = {"Goal", "next target"};
-
+	private Intersection _options;
+	private Element _element;
 	public IntersectionOptions(Element intersection)
 	{
-		Element intersect = intersection;
-
+		this._element = intersection;
+		
+		this._options = FestivalHandler.Instance().getIntersection(_element);
+		if(this._options == null)
+			_options = new Intersection();
 		this._tableModel = new DefaultTableModel(this._columnName, 0);
-		this._name = intersect.toString();
+		this._name = intersection.toString();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		init();
@@ -93,6 +96,7 @@ public class IntersectionOptions extends JFrame implements ItemListener
 		}
 
 		JLabel nameLbl = new JLabel("Current: \n" + _name);		
+		
 		content.add(_table);
 		content.add(nameLbl);
 
@@ -120,6 +124,7 @@ public class IntersectionOptions extends JFrame implements ItemListener
 			Element destination = null;
 			Element through = null;
 
+			
 			Object throughValue = ((JComboBox)arg0.getSource()).getSelectedItem();
 			String t = null;
 			if(throughValue instanceof String)
@@ -129,11 +134,11 @@ public class IntersectionOptions extends JFrame implements ItemListener
 
 			for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
 			{
-				if(e.toString().equalsIgnoreCase(s))
+				if(e.toString().trim().equalsIgnoreCase(s))
 				{
 					destination = e;
 				}
-				if(e.toString().equalsIgnoreCase(t))
+				if(e.toString().trim().equalsIgnoreCase(t))
 				{
 					through = e;
 				}
@@ -143,14 +148,18 @@ public class IntersectionOptions extends JFrame implements ItemListener
 
 			if(destination != null && through != null)
 			{
-				RouteManager.instance().addNode(destination, through);
+			//	RouteManager.instance().addNode(destination, through);
+				//_options.addOption(destination, through);
 				System.out.println("saved");
 
 			}
 		}
 		catch(Exception e)
 		{
-			//System.out.println("Nothing to save");
+			//e.printStackTrace();
+			System.out.println("Nothing to save");
 		}
+
+		FestivalHandler.Instance().setIntersection(_element, _options);
 	}
 }
