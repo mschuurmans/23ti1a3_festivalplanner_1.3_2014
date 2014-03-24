@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.Timer;
+import javax.swing.event.*;
 
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
@@ -99,6 +100,8 @@ public class SimulatorPanel extends Panel
 	{
 		JSCAccordion accordion = new JSCAccordion();
 		private JSpinner visitors;
+		private JSpinner _speedSpinner;
+
 		public Toolbar()
 		{
 			addTabs(accordion);
@@ -150,13 +153,13 @@ public class SimulatorPanel extends Panel
 					{
 						buttonStop.setEnabled(true);
 						buttonStart.setEnabled(false);
-						FestivalHandler.Instance().setSimulatorState(States.Running);
+						FestivalHandler.Instance().getControls().setState(States.Running);
 					}
 					else if(e.getSource() == buttonStop)
 					{
 						buttonStop.setEnabled(false);
 						buttonStart.setEnabled(true);
-						FestivalHandler.Instance().setSimulatorState(States.Stopped);
+						FestivalHandler.Instance().getControls().setState(States.Stopped);
 					}	
 				}
 			});
@@ -170,10 +173,27 @@ public class SimulatorPanel extends Panel
 			visitors = new JSpinner();
 			visitors.setModel(new SpinnerNumberModel(1000,0,1000000, 1000));
 
+			JLabel speedLabel = new JLabel(Text.Speed.toString());
+
+			_speedSpinner = new JSpinner();
+			_speedSpinner.setModel(new SpinnerNumberModel(1,1,100,1));
+
+			_speedSpinner.addChangeListener(new ChangeListener()
+					{
+						public void stateChanged(ChangeEvent e)
+						{
+							JSpinner s = (JSpinner)e.getSource();
+							FestivalHandler.Instance().getControls().setSpeed((int)s.getValue());
+							System.out.println("Value was upated");
+						}		
+					});
+
 			controlPanel.add(buttonStart);
 			controlPanel.add(buttonStop);
 			controlPanel.add(visitorLabel);
 			controlPanel.add(visitors);
+			controlPanel.add(speedLabel);
+			controlPanel.add(_speedSpinner);
 
 			result.add(controlPanel);
 			return result;

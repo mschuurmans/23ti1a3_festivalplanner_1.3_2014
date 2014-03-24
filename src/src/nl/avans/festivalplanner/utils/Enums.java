@@ -93,6 +93,7 @@ public class Enums
 		Intersection("Kruispunt", "Intersection"),
 		People("Persoon", "People"),
 		Toilet("Toilet","Toilet"),		
+		Speed("Snelheid", "Speed"),
 		Unknown("Onbekend", "Unknown");
 
 		
