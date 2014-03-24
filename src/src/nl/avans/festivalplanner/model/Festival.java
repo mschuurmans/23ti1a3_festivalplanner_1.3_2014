@@ -21,9 +21,10 @@ public class Festival implements Serializable
 	private String _imageSoure = "";
 	private List<Artist> _artists = new ArrayList<Artist>();
 	private ArrayList<Stage> _stages = new ArrayList<Stage>();
-	private ArrayList<Intersection> _intersections = new ArrayList<Intersection>();
+
 	private Schedule _schedule = new Schedule();
 	private String _map = "resources/map.jpg";
+
 	
 	public void setSchedule(Schedule value)
 	{
