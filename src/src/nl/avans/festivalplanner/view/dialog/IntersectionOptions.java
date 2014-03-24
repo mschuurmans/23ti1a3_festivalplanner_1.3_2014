@@ -106,6 +106,7 @@ public class IntersectionOptions extends JFrame implements ItemListener
 		
 		System.out.println("Stage changed");
 		try{
+			
 			int rowNumber = _table.getSelectedRow();
 			Object value = _table.getValueAt(rowNumber, 0);
 
@@ -137,11 +138,14 @@ public class IntersectionOptions extends JFrame implements ItemListener
 					through = e;
 				}
 			}
+			if(through != null)
+			((JComboBox)arg0.getSource()).setSelectedItem(RouteManager.instance().getNodeAllMapping(through));
 
 			if(destination != null && through != null)
 			{
 				RouteManager.instance().addNode(destination, through);
 				System.out.println("saved");
+
 			}
 		}
 		catch(Exception e)
