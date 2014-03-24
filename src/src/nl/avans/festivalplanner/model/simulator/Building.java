@@ -27,6 +27,7 @@ public class Building extends Area
 	private String _image = "";
 	private boolean isHovered;
 	private int timerSinceHovered;
+	private int x,y,height,width;
 	
 	/**
 	 * @param _size The size of the building
@@ -56,10 +57,10 @@ public class Building extends Area
 			{
 				Image img = AssetManager.Instance().getImage(_image);
 
-				int x = (int)(_position.getX() - (_size.getWidth() / 2));
-				int y = (int)(_position.getY() - (_size.getHeight() *1.5));
-				int height = (int)_size.getHeight();
-				int width = (int)_size.getWidth();
+				x = (int)(_position.getX() - (_size.getWidth() / 2));
+				y = (int)(_position.getY() - (_size.getHeight() *1.5));
+				height = (int)_size.getHeight();
+				width = (int)_size.getWidth();
 
 //				if(_rotation != 0)
 //				{
@@ -129,6 +130,11 @@ public class Building extends Area
 					
 		else
 			return true;
+	}
+	
+	public Area getImagePosition()
+	{
+		return new Area(new Dimension(width, height), new Vector(x+(width/2),y+(height/2)));
 	}
 
 	/* (non-Javadoc)

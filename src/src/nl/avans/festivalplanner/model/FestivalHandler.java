@@ -103,7 +103,7 @@ public class FestivalHandler
 		{
 			if(!peopleOnField())
 			{
-				int value = 1;
+				int value = 100;
 				for(int i=0; i<value; i++)
 				{ 
 					int startX = 0;
