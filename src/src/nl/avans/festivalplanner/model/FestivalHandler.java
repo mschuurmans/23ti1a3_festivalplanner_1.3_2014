@@ -108,7 +108,7 @@ public class FestivalHandler
 		{
 			if(!peopleOnField())
 			{
-				int value = 100;
+				int value = 1;
 				for(int i=0; i<value; i++)
 				{ 
 					int startX = 0;

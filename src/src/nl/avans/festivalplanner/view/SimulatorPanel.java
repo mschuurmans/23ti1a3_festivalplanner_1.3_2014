@@ -454,19 +454,6 @@ public class SimulatorPanel extends Panel
 			Timer timer = new Timer(30, this);
 			timer.start();
 			
-//			if(!peopleOnField())
-//			{
-//				int value = (int) toolbar.visitors.getValue()/50;
-//				for(int i=0; i<100; i++)
-//				{
-//					int startX = (int)(Math.random()*500) + 20;
-//					int startY =  (int)(Math.random()*500) +20;
-//					int speed = (int)(Math.random()*6+3);
-//					float direction = 0;
-//					People visitor = new People(new Vector(startX,startY), speed, direction);
-//					FestivalHandler.Instance().addElementToTerrain(visitor);
-//				}
-//			}
 		}
 
 		private boolean peopleOnField()
@@ -501,10 +488,10 @@ public class SimulatorPanel extends Panel
 
 			// begin drawing background	
 			int curY = 0;
-			for(int y = 0; y<=(getHeight() / imageHeight); y++)
+			for(int y = 0; y<=(this.getHeight() / imageHeight); y++)
 			{
 				int curX = 0;
-				for(int x = 0; x<=(getSize().getWidth() / imageWidth); x++)
+				for(int x = 0; x<=(this.getWidth() / imageWidth); x++)
 				{
 					g2.drawImage(_grassTexture, curX, curY, imageWidth, imageHeight, null);
 					curX += imageWidth;

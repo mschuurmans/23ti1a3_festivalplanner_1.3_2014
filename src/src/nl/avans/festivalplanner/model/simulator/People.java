@@ -163,13 +163,17 @@ public class People extends Element
 		if(_nextDestinationElement != null)
 		{
 			try{
-				_nextDestinationElement = RouteManager.instance().getNextDestination(_destinationElement, _nextDestinationElement);
+				System.out.println("Current Reached: " + _nextDestinationElement.toString());
+				_nextDestinationElement = FestivalHandler.Instance().getNextElement(_nextDestinationElement, _destinationElement);
 				_nextDestination = _nextDestinationElement.getRandomPosition();
+				System.out.println("Next step: " + _nextDestinationElement.toString() + " - Destination: " + _destinationElement.toString());
 			}
 			catch(Exception e)
 			{
 				_nextDestinationElement = _destinationElement;
 				_nextDestination = _destination;
+				e.printStackTrace();
+	
 
 			}
 		}
@@ -198,7 +202,7 @@ public class People extends Element
 			return true;		
 		else if(_position == _nextDestination)
 			return true;
-		else if((_position.getY() >= (_nextDestination.getY()-25)) && (_position.getY()<=(_nextDestination.getY()+25)))
+		else if((_position.getY() >= (_nextDestination.getY()-15)) && (_position.getY()<=(_nextDestination.getY()+15)))
 			return true;
 		else return false;
 	}
@@ -209,7 +213,7 @@ public class People extends Element
 			return true;		
 		else if(_position == _nextDestination)
 			return true;
-		else if((_position.getX() >= (_nextDestination.getX()-25)) && (_position.getX()<=(_nextDestination.getX()+25)))
+		else if((_position.getX() >= (_nextDestination.getX()-15)) && (_position.getX()<=(_nextDestination.getX()+15)))
 			return true;
 		else return false;
 	}
@@ -221,7 +225,7 @@ public class People extends Element
 			return true;
 		else if(_position == _destination)
 			return true;
-		else if((_position.getX() >= (_destination.getX()-25)) && (_position.getX()<=(_destination.getX()+25)))
+		else if((_position.getX() >= (_destination.getX()-15)) && (_position.getX()<=(_destination.getX()+15)))
 			return true;
 
 		else return false;
@@ -234,7 +238,7 @@ public class People extends Element
 			return true;
 		else if(_position == _destination)
 			return true;
-		else if((_position.getY() >= (_destination.getY()-25)) && (_position.getY()<=(_destination.getY()+25)))
+		else if((_position.getY() >= (_destination.getY()-15)) && (_position.getY()<=(_destination.getY()+15)))
 			return true;
 
 		else return false;

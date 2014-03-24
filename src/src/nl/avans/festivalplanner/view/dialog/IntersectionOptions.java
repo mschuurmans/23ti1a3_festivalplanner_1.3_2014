@@ -143,9 +143,7 @@ public class IntersectionOptions extends JFrame implements ItemListener
 					through = e;
 				}
 			}
-			if(through != null)
-			((JComboBox)arg0.getSource()).setSelectedItem(RouteManager.instance().getNodeAllMapping(through));
-
+			
 			if(destination != null && through != null)
 			{
 			//	RouteManager.instance().addNode(destination, through);
