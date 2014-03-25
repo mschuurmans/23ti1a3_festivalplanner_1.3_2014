@@ -13,7 +13,8 @@ public class AssetManager
 {
 	private String[] customAssets = new String[] { "bin/people.png",
 			"bin/entrance.png", "bin/no_image.jpg", "bin/COLA.png",
-			"bin/EHBO.png", "bin/FRIET.png", "bin/INFO.png", "bin/TOILET.png", "bin/rotate.png" };
+			"bin/EHBO.png", "bin/FRIET.png", "bin/INFO.png", "bin/TOILET.png",
+			"bin/rotate.png", "bin/SIGNPOST.png" };
 
 	private Map<String, Image> _assets = new HashMap<String, Image>();
 
@@ -79,7 +80,7 @@ public class AssetManager
 
 	public Image getImage(String key)
 	{
-//		System.out.println(_assets);
+		// System.out.println(_assets);
 		return _assets.get(key.trim());
 	}
 }

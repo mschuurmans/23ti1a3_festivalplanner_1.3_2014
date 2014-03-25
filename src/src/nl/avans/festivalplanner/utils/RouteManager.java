@@ -1,30 +1,44 @@
+/**
+ * 
+ */
 package nl.avans.festivalplanner.utils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 
 import nl.avans.festivalplanner.model.simulator.Element;
+import nl.avans.festivalplanner.model.simulator.Signpost;
 
 /**
- * RouteManager (Singleton)
+ * RouteManger (Singleton)
  * 
  * @author Jordy Sipkema
+ * @version 2.0
  */
 public class RouteManager implements Serializable
 {
-	private static final long serialVersionUID = -2185251932877684767L;
 
 	private static RouteManager _instance = null;
-	private HashMap<Element, List<Element>> _nodeList = new HashMap<>();
 
+	private HashSet<Signpost> _signposts = new HashSet<>();
+
+	/**
+	 * 
+	 */
 	private RouteManager()
 	{
+		// TODO Auto-generated constructor stub
+	}
+
+	public static RouteManager instance()
+	{
+		if (_instance == null)
+		{
+			_instance = new RouteManager();
+		}
+		return _instance;
 	}
 
 	/**
@@ -40,165 +54,210 @@ public class RouteManager implements Serializable
 	 */
 	public Element getNextDestination(Element destination, Element location)
 	{
-		//Als de huidige locatie gelijk is aan het doel, dan zijn we er al.
-		if (destination.equals(location)){
-			return destination;
-		}
-		
-		//Bestaat het element wil in de lijst?
-		if (_nodeList.containsKey(destination)){
-			Element nextstep = destination; 
-			
-			while(_nodeList.containsKey(nextstep)){
-				List<Element> result = _nodeList.get(nextstep);
-				if (result.contains(location)){
-					return nextstep;
-				}
-				
-				for (Element e : result){
-					if (!e.equals(destination)){
-						return this.getNextDestination(e, location);
-					}
-				}
-			}
-			
-		}
-		
-		//Mocht er iets fout gaan, speel dan maar vals en loop rechtstreeks naar het doel ;)
-		return destination;
-	}
-	
-	/**
-	 * Retrieves the first Element from the RouteManger the given element can directly reached from.
-	 * If more elements are one-step away from the given element, the first occurrence is returned.
-	 * @param node The Element used to search.
-	 * @return The Element that is 1-step away.
-	 */
-	public Element getNodeFirstMapping(Element node){
-		List<Element> nearbyElements = _nodeList.get(node);
-		return nearbyElements.get(0);
-	}
-	
-	/**
-	 * Retrieves all Elements from the RouteManger the given element can directly reached from.
-	 * If only one element is one-step away from the given element, the returned list is still a list (with size 1).
-	 * @param node The Element used to search.
-	 * @return The list of Elements which contains all elements that are 1-step away.
-	 */
-	public List<Element> getNodeAllMapping(Element node){
-		List<Element> nearbyElements = _nodeList.get(node);
-		return nearbyElements;
-	}
+		if (destination.equals(location)) // Als dit waar is, zijn we klaar.
+			return location;
 
-	/**
-	 * Adds a node to the RouteManager-list. WARNING: If that destination is
-	 * already in the list, it's through will be added (multiple points!).
-	 * dest. <--+add+--> thro. 
-	 * @param destination
-	 *            the final destination
-	 * @param through
-	 *            the point someone must pass in order to get to the
-	 *            destination.
-	 * @author Jordy Sipkema
-	 */
-	public void addNode(Element destination, Element through)
-	{
-		List<Element> list = null;
-		list = _nodeList.containsKey(destination) ? _nodeList.get(destination)
-				: new ArrayList<Element>(); // Als de key bestaat, haal huidige
-											// lijst op; Anders: maak een nieuwe
-		
-		/*
-		 * UITLEG BOVENSTAANDE CODE
-		 * ------------------------
-		 * De code die hierboven staat, is gelijk aan deze code:
-		 * 
-		 * if (_nodeList.containsKey(destination)){
-		 * 		list = _nodeList.get(destination);
-		 * }else{
-		 * 		list = new ArrayList<Element>();
-		 * }
-		 */
-		
-		
-		list.add(through);
-		_nodeList.put(destination, list);
+		Signpost sp_loc = this.getPointingSignpost(location);
+		Signpost sp_goal = this.getPointingSignpost(destination);
 
-		list = null; // Resetten voor volgende stap:
-
-		list = _nodeList.containsKey(through) ? _nodeList.get(through)
-				: new ArrayList<Element>(); // Als de key bestaat, haal huidige
-											// lijst op; Anders: maak een nieuwe
-		list.add(destination);
-		_nodeList.put(through, list);
-	}
-
-	/**
-	 * Removes a node from the RouteManager-list Example: if that destination
-	 * doesn't exist anymore.
-	 * Dest <--/remove/-- ???  
-	 * @param destination
-	 *            The final-node
-	 * @author Jordy Sipkema
-	 */
-	public void removeNode(Element destination)
-	{
-		_nodeList.remove(destination);
-		
-		Iterator<Entry<Element, List<Element>>> it = _nodeList.entrySet().iterator();
-		while (it.hasNext()){
-			List<Element> list = it.next().getValue();
-			list.remove(destination);
-			
-			//Als de list leeg is, dan gooien we de Entry gelijk weg. (Hij is useless..)
-			if(list.size() < 1){
-				it.remove();
-			}
-		}
-	}
-	
-	/**
-	 * Removes a path between destination and through
-	 * Dest. <--/remove/--> Thro. 
-	 * @param destination Point A
-	 * @param through Point B
-	 */
-	public void removePath(Element destination, Element through){
-		if (_nodeList.containsKey(through)){			
-			List<Element> a = _nodeList.get(through);
-			a.remove(destination);
-			if (a.size() < 1){
-				_nodeList.remove(through);
-			}
-		}
-		if (_nodeList.containsKey(destination)){
-			List<Element> b = _nodeList.get(destination);
-			b.remove(through);
-			if (b.size() < 1){
-				_nodeList.remove(destination);
-			}
-		}
-	}
-	
-	/**
-	 * Removes all RouteManager data.
-	 */
-	public void removeAll(){
-		_nodeList.clear();
-	}
-
-	/**
-	 * Returns a RouteManager Singleton instance
-	 * 
-	 * @return RouteManager instance
-	 * @author Jordy Sipkema
-	 */
-	public static RouteManager instance()
-	{
-		if (_instance == null)
+		// Controle: Kan ik vanaf dit punt wel naar het doel toe?
+		if (this.isSignpostPointingTo(sp_loc, destination))
 		{
-			_instance = new RouteManager();
+			// STAP 1: Ben ik al bij een signpost?
+			if (location instanceof Signpost)
+			{
+				// STAP 1 == JA: ga verder >>
+
+				// STAP 2: Is de signpost die naar het doel wijst, gelijk aan de
+				// signpost die naar mijn location wijst?
+				if (sp_loc.equals(sp_goal))
+				{
+					// STAP 2 == JA: Dan gaan we rechtstreeks naar het doel!
+					return destination;
+				}
+				else
+				{
+					// STAP 2 == NEE: Dan gaan we één Signpost dichter naar het
+					// doel.
+					return this.getCloserSignPost(sp_loc, destination);
+				}
+
+			}
+			else
+			{
+				// STAP 1 == NEE: Ga hier eerst naar toe.
+				return sp_loc;
+			}
 		}
-		return _instance;
+
+		// Fallback
+		return this.getPointingSignpost(destination);
 	}
+
+	/**
+	 * Gets the specified signpost from the list.
+	 * 
+	 * @param signpost
+	 *            The signpost to search for
+	 * @return The signpost searched for OR null if no signpost is found
+	 * @author Jordy Sipkema
+	 */
+	public Signpost getSignpost(Signpost signpost)
+	{
+		if (_signposts.contains(signpost))
+		{
+			for (Signpost sp : _signposts)
+			{
+				if (sp.equals(signpost))
+				{
+					return sp;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Gets all signposts registered in the RouteManager
+	 * 
+	 * @return All signposts
+	 * @author Jordy Sipkema
+	 */
+	public Set<Signpost> getAllSignposts()
+	{
+		return _signposts;
+	}
+
+	/**
+	 * Registers a signpost to the routemanager
+	 * 
+	 * @param signpost
+	 *            The signpost to add
+	 * @author Jordy Sipkema
+	 */
+	public void addSignpost(Signpost signpost)
+	{
+		_signposts.add(signpost);
+
+	}
+
+	/**
+	 * Removes a signpost from the routemanager
+	 * 
+	 * WARNING: This method also removes all references to this signpost from
+	 * ALL other signposts that are registered.
+	 * 
+	 * @param signpost
+	 *            The signpost to remove
+	 * @author Jordy Sipkema
+	 */
+	public void removeSignpost(Signpost signpost)
+	{
+		_signposts.remove(signpost);
+		for (Signpost sp : this.getAllSignposts()){
+			sp.removePointer(signpost);
+		}
+	}
+
+	/**
+	 * Adds a pointer to a signpost
+	 * 
+	 * @param signpost
+	 *            The signpost to add the pointer to
+	 * @param pointTo
+	 *            The pointer to be added
+	 * @return Boolean indicating succes.
+	 * @author Jordy Sipkema
+	 */
+	public boolean addPointer(Signpost signpost, Element pointTo)
+	{
+		Signpost sp = this.getSignpost(signpost);
+		if (sp != null)
+		{
+			sp.addPointer(pointTo);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes a pointer from a singpost
+	 * 
+	 * @param signpost
+	 *            The signpost to remove the pointer from.
+	 * @param pointTo
+	 *            The pointer to be removed
+	 * @return Boolean indicating succes.
+	 * @author Jordy Sipkema
+	 */
+	public boolean removePointer(Signpost signpost, Element pointTo)
+	{
+		Signpost sp = this.getSignpost(signpost);
+		if (sp != null)
+		{
+			sp.removePointer(pointTo);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Gets the signpost that is pointing to the given element
+	 * 
+	 * @param element
+	 *            The element searching a pointer to
+	 * @return The signpost that is pointing to this element OR if the element
+	 *         is a signpost, the element (as a signpost)
+	 * @author Jordy Sipkema
+	 */
+	public Signpost getPointingSignpost(Element element)
+	{
+		if (element instanceof Signpost)
+			return (Signpost) element;
+
+		for (Signpost sp : _signposts)
+		{
+			if (sp.containsPointerTo(element))
+			{
+				return sp;
+			}
+		}
+		return null;
+	}
+
+	private boolean isSignpostPointingTo(Signpost signpost, Element goal)
+	{
+		if (signpost.containsPointerTo(goal))
+		{
+			return true;
+		}
+		for (Signpost sp : signpost.getReferencedSignposts())
+		{
+			if (isSignpostPointingTo(sp, goal))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private Signpost getCloserSignPost(Signpost signpost, Element goal)
+	{
+		if (signpost.containsPointerTo(goal))
+		{
+			return signpost;
+		}
+
+		for (Signpost sp : signpost.getReferencedSignposts())
+		{
+			if (this.isSignpostPointingTo(sp, goal))
+			{
+				return sp;
+			}
+		}
+
+		// Fallback:
+		return this.getPointingSignpost(goal);
+	}
+
 }

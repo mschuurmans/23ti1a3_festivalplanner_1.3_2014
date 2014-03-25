@@ -92,7 +92,8 @@ public class Enums
 		Infostand("Informatiekraam","Infostand"),
 		Intersection("Kruispunt", "Intersection"),
 		People("Persoon", "People"),
-		Toilet("Toilet","Toilet"),		
+		Toilet("Toilet","Toilet"),
+		Signpost("Wegwijzer","Signpost"),
 		Unknown("Onbekend", "Unknown");
 
 		
