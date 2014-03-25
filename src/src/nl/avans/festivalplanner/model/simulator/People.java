@@ -46,6 +46,7 @@ public class People extends Element
 	public void update()
 	{
 		Vector oldPosition = _position;
+
 		int posX = 0;
 		int posY = 0;
 
@@ -79,6 +80,40 @@ public class People extends Element
 		{
 			newNextDestination();
 		}
+
+		//Collision checking
+		if(hasCollisionBuilding())
+		{	
+			if(_position.getY() <= oldPosition.getY())
+			{
+				_position.setY(oldPosition.getY()-(int)(10*Math.random()));	
+			}
+			else if(!(_position.getY() <= oldPosition.getY()))
+			{
+				_position.setY(oldPosition.getY()+(int)(10*Math.random()));
+			}
+			
+			if((_position.getX() <= oldPosition.getX()))
+			{
+				_position.setX(oldPosition.getX()+(int)(10*Math.random()));	
+			}
+			else if(!(_position.getX() <= oldPosition.getX()))
+			{
+				_position.setX(oldPosition.getX()-(int)(10*Math.random()));
+			}
+			
+
+			//_direction += 0.2f;
+		}
+
+//		if(hasCollision())
+//		{
+//
+//			//_position.setX(oldPosition.getX()-(int)(8*(Math.random()-0.5)));
+//			//_position.setY(oldPosition.getY()+(int)(8*(Math.random()-0.5)));
+//			_position = oldPosition;
+//			_direction += 0.2f;
+//		}
 
 
 		if(!nextDestinationXReached())
@@ -118,32 +153,7 @@ public class People extends Element
 		_position =new Vector(posX,posY);	
 
 
-		//Collision checking
-		if(hasCollisionBuilding())
-		{
-			if(oldPosition.getX() < _position.getX())
-			{
-			_position.setX(oldPosition.getX()-(int)(10*(Math.random())));
-			
-			}
-			else
-		    _position.setX(oldPosition.getX()+(int)(10*(Math.random())));
-			if(oldPosition.getY() < _position.getY())
-			_position.setY(oldPosition.getY()-(int)(10*(Math.random())));
-			else
-			_position.setY(oldPosition.getY()+(int)(10*(Math.random())));
-			
-			_direction += 0.3f;
-		}
-		
-		if(hasCollision())
-		{
-			
-			_position.setX(oldPosition.getX()-(int)(8*(Math.random()-0.5)));
-			_position.setY(oldPosition.getY()+(int)(8*(Math.random()-0.5)));
-			
-			_direction += 0.2f;
-		}
+
 
 	}
 
@@ -163,11 +173,11 @@ public class People extends Element
 
 
 		try{
-		int size = elements.size();
-		int i = (((int)(Math.random() * size))); // get a random index.
-		Element goTo = elements.get(i);
-		_destination = goTo.getRandomPosition();
-		_destinationElement = goTo;
+			int size = elements.size();
+			int i = (((int)(Math.random() * size))); // get a random index.
+			Element goTo = elements.get(i);
+			_destination = goTo.getRandomPosition();
+			_destinationElement = goTo;
 		}
 		catch(Exception e)
 		{
@@ -192,7 +202,7 @@ public class People extends Element
 				_nextDestinationElement = _destinationElement;
 				_nextDestination = _destination;
 				e.printStackTrace();
-	
+
 
 			}
 		}
