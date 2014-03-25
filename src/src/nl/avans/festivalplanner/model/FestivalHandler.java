@@ -82,6 +82,10 @@ public class FestivalHandler
 		return false;
 	}
 	
+	public boolean requirementsOK(){
+		return (entrancePlaced() && signpostPlaced());
+	}
+	
 	/**
  	 *@Author Michiel Schuurmans
 	 */
@@ -94,13 +98,25 @@ public class FestivalHandler
 		}
 		return false;
 	}
+	
+	/**
+	 * @author Jordy Sipkema
+	 */
+	public boolean signpostPlaced(){
+		for(Element e : getElementsOnTerrain()){
+			if (e instanceof Signpost){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 *@Author Michiel Schuurmans
 	 */
 	public void updateSimulator()
 	{	
-		if(entrancePlaced())
+		if(requirementsOK())
 		{
 			if(!peopleOnField())
 			{
