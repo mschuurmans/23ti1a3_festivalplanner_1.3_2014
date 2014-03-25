@@ -77,7 +77,7 @@ public class RouteManager implements Serializable
 				}
 				else
 				{
-					// STAP 2 == NEE: Dan gaan we één Signpost dichter naar het
+					// STAP 2 == NEE: Dan gaan we een Signpost dichter naar het
 					// doel.
 					return this.getCloserSignPost(sp_loc, destination);
 				}

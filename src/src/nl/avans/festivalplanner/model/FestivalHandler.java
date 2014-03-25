@@ -2,6 +2,7 @@ package nl.avans.festivalplanner.model;
 
 import java.awt.Dimension;
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -25,7 +26,7 @@ import nl.avans.festivalplanner.utils.Utils;
 import java.util.*;
 import nl.avans.festivalplanner.model.simulator.*;
 
-public class FestivalHandler 
+public class FestivalHandler implements Serializable 
 {
 	private static FestivalHandler _instance = null;
 	private boolean debug = true;
@@ -259,7 +260,7 @@ public class FestivalHandler
 					}
 				}
 
-				Utils.writeObject(file, _festival);
+				Utils.writeObject(file, _instance);
 				JOptionPane.showMessageDialog(null,Text.FileSavedSucces.toString(), Text.Info.toString(),1);
 			} catch (Exception e) 
 			{
@@ -275,6 +276,14 @@ public class FestivalHandler
 		return true;
 	}
 
+	public void setFestival(Festival value)
+	{
+		this._festival = value;
+	}
+	public void setElementsOnTerrain(List<Element> value)
+	{
+		this._elementsOnTerrain = value;
+	}
 	/**
 	 * reads the festival from a file, the path is defined with the settings
 	 * panel.
@@ -294,7 +303,9 @@ public class FestivalHandler
 
 			try
 			{
-				_festival = (Festival)Utils.readObject(file);
+				FestivalHandler handler  = (FestivalHandler)Utils.readObject(file);
+				_instance.setFestival(handler.getFestival());
+				_instance.setElementsOnTerrain(handler.getElementsOnTerrain());
 				//JOptionPane.showMessageDialog(null,Text.FileOpenedSucces.toString(), Text.Info.toString(),1);
 			}
 			catch (Exception e) 
