@@ -1,6 +1,7 @@
 package nl.avans.festivalplanner.model.simulator;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 /**
  * A 2-dimensional vector that is represented by integer x,y coordinates.
@@ -12,7 +13,7 @@ import java.awt.Point;
  * @author Jordy Sipkema
  * @version 18-02-2014
  */
-public class Vector
+public class Vector implements Serializable
 {
 	private int _x = 0;
 	private int _y = 0;
