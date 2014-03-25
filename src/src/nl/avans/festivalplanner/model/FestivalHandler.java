@@ -32,8 +32,8 @@ public class FestivalHandler
 	private List<Element> _facilities = new ArrayList<Element>();
 	private List<Element> _stands = new ArrayList<Element>();
 	private List<Element> _remaining = new ArrayList<Element>();
-	private States _festivalState = States.Stopped;
 	private Map<Element, Intersection> _intersections = new HashMap<Element, Intersection>();
+	private SimulatorControl _controls = new SimulatorControl();
 	public static FestivalHandler Instance() 
 	{
 		if (_instance == null)
@@ -65,15 +65,10 @@ public class FestivalHandler
 		return _intersections.get(current).nextMove(goal);
 	}
 
-	public void setSimulatorState(States value)
+	public SimulatorControl getControls()
 	{
-		this._festivalState = value;
-	}
-	public States getSimulatorState()
-	{
-		return this._festivalState;
-	}
-	
+		return _controls;
+	}	
 	/**
 	 *@Author Kasper Balink
 	 */
@@ -109,7 +104,7 @@ public class FestivalHandler
 		{
 			if(!peopleOnField())
 			{
-				int value = 1;
+				int value = 100;
 				for(int i=0; i<value; i++)
 				{ 
 					int startX = 0;
@@ -129,12 +124,14 @@ public class FestivalHandler
 				}
 			}
 
-			if(this._festivalState == States.Running)
+			if(this._controls.getState() == States.Running)
 			{
 				for(Element e : getElementsOnTerrain())
 				{
 					e.update();
 				}
+
+				_controls.update();
 			}
 		}
 	}

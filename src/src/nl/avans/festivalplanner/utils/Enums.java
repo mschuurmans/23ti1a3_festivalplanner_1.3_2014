@@ -94,6 +94,7 @@ public class Enums
 		People("Persoon", "People"),
 		Toilet("Toilet","Toilet"),
 		Signpost("Wegwijzer","Signpost"),
+		Speed("Snelheid", "Speed"),
 		Unknown("Onbekend", "Unknown");
 
 		

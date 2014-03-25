@@ -119,10 +119,29 @@ public class People extends Element
 
 
 		//Collision checking
+		if(hasCollisionBuilding())
+		{
+			if(oldPosition.getX() < _position.getX())
+			{
+			_position.setX(oldPosition.getX()-(int)(10*(Math.random())));
+			
+			}
+			else
+		    _position.setX(oldPosition.getX()+(int)(10*(Math.random())));
+			if(oldPosition.getY() < _position.getY())
+			_position.setY(oldPosition.getY()-(int)(10*(Math.random())));
+			else
+			_position.setY(oldPosition.getY()+(int)(10*(Math.random())));
+			
+			_direction += 0.3f;
+		}
+		
 		if(hasCollision())
 		{
-			_position.setX(oldPosition.getX()+(int)(10*(Math.random()-0.5)));
-			_position.setY(oldPosition.getY()+(int)(10*(Math.random()-0.5)));
+			
+			_position.setX(oldPosition.getX()-(int)(8*(Math.random()-0.5)));
+			_position.setY(oldPosition.getY()+(int)(8*(Math.random()-0.5)));
+			
 			_direction += 0.2f;
 		}
 
@@ -262,8 +281,9 @@ public class People extends Element
 		{
 			if(other instanceof Building)
 			{
-				if(other.contains(_position.getPoint()))
-					if(!other.equals(this))
+				Building b = (Building) other;
+				if(b.getImagePosition().contains(_position.getPoint()))
+					if(!b.equals(this))
 						return true;
 			}
 		}
