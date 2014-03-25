@@ -26,7 +26,7 @@ public class Signpost extends Building
 	public Signpost(Dimension _size, Vector _position)
 	{
 		super(new Dimension(50,50), _position);
-		super.setImage("");
+		super.setImage("bin/SIGNPOST.png");
 	}
 
 	/**

@@ -31,6 +31,7 @@ public class FestivalHandler
 	private boolean debug = true;
 	private List<Element> _facilities = new ArrayList<Element>();
 	private List<Element> _stands = new ArrayList<Element>();
+	private List<Element> _remaining = new ArrayList<Element>();
 	private States _festivalState = States.Stopped;
 	private Map<Element, Intersection> _intersections = new HashMap<Element, Intersection>();
 	public static FestivalHandler Instance() 
@@ -174,6 +175,13 @@ public class FestivalHandler
 		_stands.add(e);
 	}
 	
+	public List<Element> getRemaining(){
+		return _remaining;
+	}
+	
+	public void addRemaining(Element e){
+		_remaining.add(e);
+	}
 	/**
 	 * Returns a list of all the items on the simulator terrain
 	 * @Author Michiel
