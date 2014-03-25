@@ -33,7 +33,6 @@ public abstract class Element implements Serializable, Cloneable
 		this._position = _position;
 		this._rotation = 0;
 	}
-
 	/**
 	 * Draws this element.
 	 */
