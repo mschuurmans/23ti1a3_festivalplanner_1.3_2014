@@ -708,10 +708,10 @@ public class SimulatorPanel extends Panel
 			for (Element element : FestivalHandler.Instance()
 					.getElementsOnTerrain())
 			{
-				if (element instanceof Area & element.contains(e.getPoint()))
+				if (element instanceof Signpost & element.contains(e.getPoint()))
 				{
 					if (debugMethod)
-						System.out.println("Element has been clicked!");
+						System.out.println("Signpost have been clicked! -"  + element.toString());
 
 					new IntersectionOptions(element);
 				}

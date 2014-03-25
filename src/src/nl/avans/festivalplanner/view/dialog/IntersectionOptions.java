@@ -108,7 +108,7 @@ public class IntersectionOptions extends JFrame implements ItemListener
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 		
-		System.out.println("Stage changed");
+		System.out.println("State changed");
 		try{
 			
 			int rowNumber = _table.getSelectedRow();
