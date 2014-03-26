@@ -1,8 +1,15 @@
 package nl.avans.festivalplanner.utils;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -11,11 +18,11 @@ import java.io.ObjectOutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.awt.*;
-import java.awt.geom.*;
+
+import nl.avans.festivalplanner.model.simulator.Element;
+import nl.avans.festivalplanner.model.simulator.Vector;
 public class Utils 
 {
-
 	public static int getPercentOfValue(int maxValue, int percent)
 	{
 		return (int)((maxValue / 100) * percent);
@@ -126,5 +133,101 @@ public class Utils
 
 		g.setColor(Color.black);
 		g.draw(rect);	
+	}
+	
+	public static Recyclebin getRecyclebin()
+	{
+		return new Recyclebin();
+	}
+	
+	public static class Recyclebin
+	{
+		private boolean _visible;
+		private boolean _beingTouched;
+		
+		private Dimension _size = null;
+		private Vector _position = null;
+
+		private Rectangle _boundingBox;
+		
+		private Element _elementInHand = null;
+		
+		public Recyclebin()
+		{
+			_visible = false;
+			_beingTouched = false;
+			
+			this._size = new Dimension(200, 50);
+			this._position = new Vector(722/2 -128, 0);
+			
+			this._boundingBox = new Rectangle(_position.getPoint(), _size);
+		}
+		
+		public void display()
+		{
+			this._visible = true;
+		}
+		
+		public void hide()
+		{
+			this._visible = false;
+		}
+		
+		public void beingTouched(boolean b)
+		{
+			this._beingTouched = b;
+		}
+		
+		public void setElementInHand(Element element)
+		{
+			this._elementInHand = element;
+		}
+		
+		public Element getElementInHand()
+		{
+			return this._elementInHand;
+		}
+		
+		public void draw(Graphics2D g2)
+		{			
+			if(!_visible)
+				return;
+			
+			boolean debugmethod = false;
+			
+			int x = _position.getPoint().x;
+			int y = _position.getPoint().y;
+			
+			g2.setColor(Color.white);
+			
+			if(debugmethod)
+			{
+				g2.draw(_boundingBox);
+			}
+			
+			if(_beingTouched)
+			{
+				g2.setColor(Color.red);
+			}
+
+			x += 16;
+			y += 10;
+			
+			g2.setStroke(new BasicStroke(2));
+			g2.drawLine(x, y, x+15, y+15);
+			g2.drawLine(x, y+15, x+15, y);
+
+			x += 30;
+			y += 15;
+			
+			Font font = new Font("Serif", Font.BOLD, 21);
+			g2.setFont(font);
+			g2.drawString("Verwijderen", x, y);
+		}
+		
+		public boolean contains(Point point)
+		{
+			return _boundingBox.contains(point);
+		}
 	}
 }

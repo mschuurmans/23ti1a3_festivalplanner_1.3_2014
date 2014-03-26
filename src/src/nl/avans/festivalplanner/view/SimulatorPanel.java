@@ -1,5 +1,6 @@
 package nl.avans.festivalplanner.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -8,12 +9,14 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -40,6 +43,8 @@ import nl.avans.festivalplanner.model.simulator.Vector;
 import nl.avans.festivalplanner.utils.AssetManager;
 import nl.avans.festivalplanner.utils.Enums.States;
 import nl.avans.festivalplanner.utils.Enums.Text;
+import nl.avans.festivalplanner.utils.Utils;
+import nl.avans.festivalplanner.utils.Utils.Recyclebin;
 import nl.avans.festivalplanner.view.dialog.IntersectionOptions;
 
 import com.javaswingcomponents.accordion.JSCAccordion;
@@ -55,8 +60,13 @@ public class SimulatorPanel extends Panel
 {
 	private static final long serialVersionUID = -3533223589206092760L;
 	private static final boolean debug = true;
+	
+	private static final int PANEL_WIDTH = 900;
+	private static final int PANEL_HEIGHT = 400;
 
 	private Element elementDraggedFromToolbar;
+	
+	private Recyclebin recyclebin = new Recyclebin();
 
 	private Toolbar toolbar;
 	private Simulator simulator;
@@ -74,7 +84,7 @@ public class SimulatorPanel extends Panel
 		this.addMouseListener(mouseListener);
 		this.addMouseMotionListener(mouseListener);
 		toolbar = new Toolbar();
-		simulator = new Simulator(new Dimension(900, 400)); // TODO change size
+		simulator = new Simulator(new Dimension(PANEL_WIDTH, PANEL_HEIGHT)); // TODO change size
 															// here.
 	}
 
@@ -554,7 +564,7 @@ public class SimulatorPanel extends Panel
 			setPreferredSize(dim);
 			this._size = dim;
 			addMouseMotionListener(mouseListener);
-			addMouseListener(mouseListener);
+			addMouseListener(mouseListener);			
 			try
 			{
 				_grassTexture = new ImageIcon("bin/grass.png").getImage();
@@ -623,8 +633,31 @@ public class SimulatorPanel extends Panel
 				e.draw(g2);
 			}
 			// end drawing allthe elements to the screen.
+			
+			// begin draw recycle bin
+			recyclebin.draw(g2);
+			// end draw recycle bin
 		}
 	}
+	
+//	private void drawRecyclebin(Graphics2D g2)
+//	{
+//		int x = recyclebinLocation.x;
+//		int y = recyclebinLocation.y;
+//		
+//		g2.draw(recyclebinLocation);
+//		
+//		y += 10;
+//		
+//		g2.setStroke(new BasicStroke(2));
+//		g2.drawLine(x, y, x+15, y+15);
+//		g2.drawLine(x, y+15, x+15, y);
+//
+//		x += 30;
+//		y += 10;
+//
+//		g2.drawString("Verwijderen", x, y);
+//	}
 
 	public class MouseListener extends MouseAdapter implements
 			MouseMotionListener
@@ -656,7 +689,15 @@ public class SimulatorPanel extends Panel
 					if (!hasDragged) // stops the multiple item drag bug.
 						element.drag(e.getPoint());
 
+					recyclebin.setElementInHand(element); // save a reference of the element in hand
+					recyclebin.beingTouched(recyclebin.contains(e.getPoint()));
+					recyclebin.display();
+					
 					hasDragged = true;
+				}
+				else
+				{
+					recyclebin.setElementInHand(null);
 				}
 			}
 
@@ -723,6 +764,17 @@ public class SimulatorPanel extends Panel
 					element.rotate();
 				}
 			}
+		}
+		
+		@Override
+		public void mouseReleased(MouseEvent e)
+		{
+			if(recyclebin.contains(e.getPoint()) )
+			{
+				FestivalHandler.Instance().removeElementFromTerrain(recyclebin.getElementInHand());
+			}
+			recyclebin.setElementInHand(null);
+			recyclebin.hide();
 		}
 	}
 
