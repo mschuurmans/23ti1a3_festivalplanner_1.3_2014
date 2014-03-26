@@ -121,7 +121,7 @@ public class FestivalHandler implements Serializable
 		{
 			if(!peopleOnField())
 			{
-				int value = 10;
+				int value = 100;
 				for(int i=0; i<value; i++)
 				{ 
 					int startX = 0;

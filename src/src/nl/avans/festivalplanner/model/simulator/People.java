@@ -1,11 +1,14 @@
 package nl.avans.festivalplanner.model.simulator;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 
 import nl.avans.festivalplanner.utils.*;
 import nl.avans.festivalplanner.model.Act;
@@ -14,6 +17,7 @@ import nl.avans.festivalplanner.model.Stage;
 
 public class People extends Element
 {
+
 	private static final long serialVersionUID = -6083060574056023471L;
 	Vector _destination;
 	Vector _nextDestination;
@@ -36,7 +40,7 @@ public class People extends Element
 	}
 
 	public void draw(Graphics2D g)
-	{
+	{		
 		g.drawImage(AssetManager.Instance().getImage(_image), getTransform(), null);
 	}
 
@@ -94,38 +98,36 @@ public class People extends Element
 		}
 
 		//Collision checking
-		if(hasCollisionBuilding())
+		while(hasCollisionBuilding())
 		{	
-			if(_position.getY() <= oldPosition.getY())
+			if((_position.getY() > _destination.getY()))
 			{
-				_position.setY(oldPosition.getY()-(int)(10*Math.random()));	
+				_position.setX(_position.getX()-1);
 			}
-			else if(!(_position.getY() <= oldPosition.getY()))
+			if((_position.getY() < _destination.getY()))
 			{
-				_position.setY(oldPosition.getY()+(int)(10*Math.random()));
-			}
-			
-			if((_position.getX() <= oldPosition.getX()))
-			{
-				_position.setX(oldPosition.getX()+(int)(10*Math.random()));	
-			}
-			else if(!(_position.getX() <= oldPosition.getX()))
-			{
-				_position.setX(oldPosition.getX()-(int)(10*Math.random()));
+				_position.setX(_position.getX()+1);
 			}
 			
-
-			//_direction += 0.2f;
+			if((_position.getX() > _destination.getX()))
+			{
+				_position.setY(_position.getY()+1);
+			}
+			if((_position.getX() < _destination.getX()))
+			{
+				_position.setY(_position.getY()-1);
+			}
+			_direction += 0.2f;
 		}
 
-//		if(hasCollision())
-//		{
-//
-//			//_position.setX(oldPosition.getX()-(int)(8*(Math.random()-0.5)));
-//			//_position.setY(oldPosition.getY()+(int)(8*(Math.random()-0.5)));
-//			_position = oldPosition;
-//			_direction += 0.2f;
-//		}
+		if(hasCollision())
+		{
+
+			_position.setX(oldPosition.getX()-(int)(10*(Math.random()-0.5)));
+			_position.setY(oldPosition.getY()+(int)(10*(Math.random()-0.5)));
+			//_position = oldPosition;
+			_direction += 0.2f;
+		}
 
 
 		if(!nextDestinationXReached())
@@ -162,11 +164,7 @@ public class People extends Element
 		}
 		else{ posY = _nextDestination.getY(); }
 
-		_position =new Vector(posX,posY);	
-
-
-
-
+		_position =new Vector(posX,posY);
 	}
 
 	/**
