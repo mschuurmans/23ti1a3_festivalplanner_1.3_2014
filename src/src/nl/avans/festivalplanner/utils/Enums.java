@@ -95,7 +95,8 @@ public class Enums
 		Toilet("Toilet","Toilet"),
 		Signpost("Wegwijzer","Signpost"),
 		Speed("Snelheid", "Speed"),
-		Unknown("Onbekend", "Unknown");
+		Unknown("Onbekend", "Unknown"),
+		Remove("Verwijderen", "Remove");
 
 		
 		private String _nl;

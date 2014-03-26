@@ -639,25 +639,6 @@ public class SimulatorPanel extends Panel
 			// end draw recycle bin
 		}
 	}
-	
-//	private void drawRecyclebin(Graphics2D g2)
-//	{
-//		int x = recyclebinLocation.x;
-//		int y = recyclebinLocation.y;
-//		
-//		g2.draw(recyclebinLocation);
-//		
-//		y += 10;
-//		
-//		g2.setStroke(new BasicStroke(2));
-//		g2.drawLine(x, y, x+15, y+15);
-//		g2.drawLine(x, y+15, x+15, y);
-//
-//		x += 30;
-//		y += 10;
-//
-//		g2.drawString("Verwijderen", x, y);
-//	}
 
 	public class MouseListener extends MouseAdapter implements
 			MouseMotionListener
@@ -690,7 +671,7 @@ public class SimulatorPanel extends Panel
 						element.drag(e.getPoint());
 
 					recyclebin.setElementInHand(element); // save a reference of the element in hand
-					recyclebin.beingTouched(recyclebin.contains(e.getPoint()));
+					recyclebin.beingTouched(recyclebin.contains(e.getPoint())); // Tells the recyclebin weather is being touched or not
 					recyclebin.display();
 					
 					hasDragged = true;
