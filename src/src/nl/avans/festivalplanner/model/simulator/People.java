@@ -15,6 +15,11 @@ import nl.avans.festivalplanner.model.Act;
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
 
+/**
+ * @author Kasper Balink
+ * @version 27-03-2014
+ */
+
 public class People extends Element
 {
 
@@ -232,7 +237,9 @@ public class People extends Element
 		{
 			try{
 				System.out.println("Current Reached: " + _nextDestinationElement.toString());
-				_nextDestinationElement = FestivalHandler.Instance().getNextElement(_nextDestinationElement, _destinationElement);
+				//_nextDestinationElement = FestivalHandler.Instance().getNextElement(_nextDestinationElement, _destinationElement);
+				_nextDestinationElement = RouteManager.instance().getNextDestination(_destinationElement, _nextDestinationElement);
+
 				_nextDestination = _nextDestinationElement.getRandomPosition();
 				System.out.println("Next step: " + _nextDestinationElement.toString() + " - Destination: " + _destinationElement.toString());
 			}
@@ -241,8 +248,6 @@ public class People extends Element
 				_nextDestinationElement = _destinationElement;
 				_nextDestination = _destination;
 				e.printStackTrace();
-
-
 			}
 		}
 

@@ -70,6 +70,7 @@ public class FestivalHandler implements Serializable
 	{
 		return _controls;
 	}	
+	
 	/**
 	 *@Author Kasper Balink
 	 */
