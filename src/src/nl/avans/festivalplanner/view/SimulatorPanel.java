@@ -1,6 +1,5 @@
 package nl.avans.festivalplanner.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -9,14 +8,12 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -27,7 +24,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.Timer;
-import javax.swing.event.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import nl.avans.festivalplanner.model.FestivalHandler;
 import nl.avans.festivalplanner.model.Stage;
@@ -43,8 +41,7 @@ import nl.avans.festivalplanner.model.simulator.Vector;
 import nl.avans.festivalplanner.utils.AssetManager;
 import nl.avans.festivalplanner.utils.Enums.States;
 import nl.avans.festivalplanner.utils.Enums.Text;
-import nl.avans.festivalplanner.utils.Utils;
-import nl.avans.festivalplanner.utils.Utils.Recyclebin;
+import nl.avans.festivalplanner.utils.Recyclebin;
 import nl.avans.festivalplanner.view.dialog.IntersectionOptions;
 
 import com.javaswingcomponents.accordion.JSCAccordion;
@@ -671,17 +668,14 @@ public class SimulatorPanel extends Panel
 						element.drag(e.getPoint());
 
 					recyclebin.setElementInHand(element); // save a reference of the element in hand
-					recyclebin.beingTouched(recyclebin.contains(e.getPoint())); // Tells the recyclebin weather is being touched or not
+					recyclebin.beingTouched(recyclebin.contains(e.getPoint())); // Tells the recyclebin weather it is being touched or not
 					recyclebin.display();
 					
 					hasDragged = true;
 				}
-				else
-				{
-					recyclebin.setElementInHand(null);
-				}
 			}
-
+			if(!hasDragged)
+				recyclebin.setElementInHand(null);
 		}
 
 		/**
@@ -752,6 +746,8 @@ public class SimulatorPanel extends Panel
 		{
 			if(recyclebin.contains(e.getPoint()) )
 			{
+				if(recyclebin.getElementInHand() == null)
+					System.out.println("There aint no element in hand!");
 				FestivalHandler.Instance().removeElementFromTerrain(recyclebin.getElementInHand());
 			}
 			recyclebin.setElementInHand(null);

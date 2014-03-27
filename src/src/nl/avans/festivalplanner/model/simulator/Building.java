@@ -49,6 +49,8 @@ public class Building extends Area
 	@Override
 	public void draw(Graphics2D g)
 	{
+		boolean debugMethod = true;
+		
 		super.draw(g);
 
 		if(FestivalHandler.Instance().getElementsOnTerrain().contains(this))
@@ -70,6 +72,16 @@ public class Building extends Area
 //				}
 					
 				g.drawImage(img, x,y,width,height, null);
+				
+				if(debugMethod)
+				{
+					g.setColor(Color.white);
+					g.drawString("StageToString:", x, y + 115);
+					g.drawString(this.toString(), x, y + 135);
+					g.drawString("ElementOnTerrain", x, y + 155);
+					g.drawString("No. " + FestivalHandler.Instance().getElementsOnTerrain().indexOf(this), x, y + 175);
+					g.setColor(Color.black);
+				}
 				
 				if(hasBeenHovered())
 				{
