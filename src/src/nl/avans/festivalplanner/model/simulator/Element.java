@@ -144,4 +144,54 @@ public abstract class Element implements Serializable, Cloneable
 	{
 		return super.clone();
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((_position == null) ? 0 : _position.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(_rotation);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((_size == null) ? 0 : _size.hashCode());
+		return result;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Element))
+			return false;
+		Element other = (Element) obj;
+		if (_position == null)
+		{
+			if (other._position != null)
+				return false;
+		}
+		else if (!_position.equals(other._position))
+			return false;
+		if (Double.doubleToLongBits(_rotation) != Double
+				.doubleToLongBits(other._rotation))
+			return false;
+		if (_size == null)
+		{
+			if (other._size != null)
+				return false;
+		}
+		else if (!_size.equals(other._size))
+			return false;
+		return true;
+	}
 }

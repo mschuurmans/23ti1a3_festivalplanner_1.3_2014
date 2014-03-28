@@ -89,9 +89,7 @@ public class RouteManager implements Serializable
 				return sp_loc;
 			}
 		}
-
-		// Fallback
-		return this.getPointingSignpost(destination);
+		return sp_goal;
 	}
 
 	/**

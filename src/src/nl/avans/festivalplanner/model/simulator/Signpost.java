@@ -80,5 +80,41 @@ public class Signpost extends Building
 	public Set<Element> getAllPointers(){
 		return this.routes;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((routes == null) ? 0 : routes.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof Signpost))
+			return false;
+		Signpost other = (Signpost) obj;
+		if (routes == null)
+		{
+			if (other.routes != null)
+				return false;
+		}
+		else if (!routes.equals(other.routes))
+			return false;
+		return true;
+	}
+
+
 }
