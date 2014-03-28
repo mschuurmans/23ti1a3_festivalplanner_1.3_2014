@@ -94,8 +94,13 @@ public class Enums
 		People("Persoon", "People"),
 		Toilet("Toilet","Toilet"),
 		Signpost("Wegwijzer","Signpost"),
+		SignpostEditPointers("Wegwijzer - Wijzig wijzers", "Signpost - Edit Pointers"),
 		Speed("Snelheid", "Speed"),
 		Unknown("Onbekend", "Unknown"),
+		Add("Toevoegen", "Add"),
+		FromThisPointYouCanGoTo("Vanaf dit punt kun je naar", "From this point, you can go to"),
+		CantGoTo("Je kunt niet naar", "You can't go to"),
+		Current("Huidig", "Current"),
 		Remove("Verwijderen", "Remove");
 
 		

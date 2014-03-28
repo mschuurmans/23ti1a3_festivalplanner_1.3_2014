@@ -77,4 +77,8 @@ public class Signpost extends Building
 		return sp;
 	}
 	
+	public Set<Element> getAllPointers(){
+		return this.routes;
+	}
+	
 }

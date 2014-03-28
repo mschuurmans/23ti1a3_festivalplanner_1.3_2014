@@ -154,7 +154,8 @@ public class RouteManager implements Serializable
 	public void removeSignpost(Signpost signpost)
 	{
 		_signposts.remove(signpost);
-		for (Signpost sp : this.getAllSignposts()){
+		for (Signpost sp : this.getAllSignposts())
+		{
 			sp.removePointer(signpost);
 		}
 	}

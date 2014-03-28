@@ -43,6 +43,7 @@ import nl.avans.festivalplanner.utils.Enums.States;
 import nl.avans.festivalplanner.utils.Enums.Text;
 import nl.avans.festivalplanner.utils.Recyclebin;
 import nl.avans.festivalplanner.view.dialog.IntersectionOptions;
+import nl.avans.festivalplanner.view.dialog.SignPostEditor;
 
 import com.javaswingcomponents.accordion.JSCAccordion;
 import com.javaswingcomponents.accordion.TabOrientation;
@@ -729,7 +730,10 @@ public class SimulatorPanel extends Panel
 					if (debugMethod)
 						System.out.println("Signpost have been clicked! -"  + element.toString());
 
-					new IntersectionOptions(element);
+					//new IntersectionOptions(element);
+					
+					//Casten is mogelijk, want in de if-check staat al: instanceof Signpost!
+					new SignPostEditor((Signpost) element);
 				}
 
 				if (element instanceof Building
