@@ -107,7 +107,7 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 							// the first shape in the _actShapeList is a visual representation of the first act in the _actList
 							int actShapeNumber = _actShapeList.indexOf(actShape);
 							
-							System.out.println("Act: " + _actList.get(actShapeNumber).getName() + " has been clicked."); //TODO REPLACE
+							System.out.println("Act: " + _actList.get(actShapeNumber).getName() + " has been clicked. Act is on stage: " + _actList.get(actShapeNumber).getStage() ); //TODO REPLACE
 
 							// TODO replace body of code
 							new EditActWindow(_actList.get(actShapeNumber));
@@ -463,14 +463,15 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 //		System.out.println("act.timeEnd: " + timeEnd); // DEBUGGING PURPOSES
 //		System.out.println(act.getName() + act.getEndTime().get(Calendar.MINUTE)); // DEBUGGING PURPOSES
 		Stage stage = act.getStage();
-//		for (int i = 0; i < _stageList.size(); i++) //wut??? this is bad.
-//		{
-//			if (stage.equals(_stageList.get(i)))
-//			{
-//				stage = _stageList.get(i);
-//			}
-//		}
-		int stageIndex = _stageList.indexOf(stage);
+		int stageIndex = 0;
+		for (int i = 0; i < _stageList.size(); i++) //wut??? this is bad.
+		{
+			if (stage.equals(_stageList.get(i)))
+			{
+				stage = _stageList.get(i);
+				stageIndex = i;
+			}
+		}
 		if(stageIndex < 0)
 			return null;
 		
