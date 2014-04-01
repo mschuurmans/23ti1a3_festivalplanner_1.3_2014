@@ -128,7 +128,7 @@ public class Utils
 	{
 		Rectangle2D rect = new Rectangle2D.Double(x,y,width,height);
 	
-		g.setColor(new Color(69,69,69,188));
+		g.setColor(new Color(69,69,69,69));
 		g.fill(rect);
 
 		g.setColor(Color.black);

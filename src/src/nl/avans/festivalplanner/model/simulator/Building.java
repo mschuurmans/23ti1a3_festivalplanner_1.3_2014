@@ -10,6 +10,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 import javax.swing.text.Position;
 
@@ -64,14 +66,29 @@ public class Building extends Area
 				height = (int)_size.getHeight();
 				width = (int)_size.getWidth();
 
-//				if(_rotation != 0)
-//				{
-//					g.translate(_position.getX(), _position.getY());
-//					g.rotate(_rotation);
-//					g.translate(0, 0);
-//				}
-					
-				g.drawImage(img, x,y,width,height, null);
+						
+				//rotating the image
+				AffineTransform at = new AffineTransform();
+				at.scale(0.5, 0.5);
+				at.translate(_position.getX()*2, _position.getY()*2);
+				at.rotate(_rotation);
+				at.translate(0,0);
+
+				//center image above the field
+				int imgWidth = 128;
+				int imgHeight = 128;
+
+				if(img != null)
+				{
+					imgWidth = ((BufferedImage)img).getWidth();
+					imgHeight = ((BufferedImage)img).getHeight();
+				}
+
+				//fix image location
+				at.translate(-imgWidth/2 , -imgHeight*1 - (int)_size.getHeight() );
+
+				// drawing the image.
+				g.drawImage(img, at, null);
 				
 				if(debugMethod)
 				{
@@ -85,10 +102,6 @@ public class Building extends Area
 				
 				if(hasBeenHovered())
 				{
-					int yOffset = (int)_size.getHeight() /2;
-					g.setStroke(new BasicStroke(2));
-					g.setColor(Color.white);
-					g.drawLine(_position.getX(), _position.getY() - yOffset, _position.getX() + 75, _position.getY() - 75 - yOffset);
 					Image rotateImg = AssetManager.Instance().getImage("bin/rotate.png");
 					int imgX =  (int)getRotationHandlePosition().getX() ;
 					int imgY =  (int)getRotationHandlePosition().getY() ;
@@ -116,7 +129,7 @@ public class Building extends Area
 	
 	private Point getRotationHandlePosition()
 	{
-		Point p = new Point(_position.getX() + 75, _position.getY() - 75 - 32 - (int)_size.getHeight() /2);
+		Point p = new Point(_position.getX() + 35, _position.getY() - 16 - (int)_size.getHeight() /2);
 		
 		return p;
 	}

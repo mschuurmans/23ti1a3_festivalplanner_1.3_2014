@@ -130,7 +130,7 @@ public abstract class Element implements Serializable, Cloneable
 	
 	public void rotate()
 	{
-		_rotation = Math.toRadians(45);
+		_rotation += Math.toRadians(90);
 	}
 
 	@Override
