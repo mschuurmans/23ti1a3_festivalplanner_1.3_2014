@@ -59,6 +59,7 @@ public class Enums
 		About("Over", "About"),
 		Close("Sluiten", "Close"),
 		File("Bestand", "File"),
+		Open("Open", "Open"),
 		Settings("Instellingen", "Settings"),
 		Help("Help", "Help"),
 		FileExistsWantToOverride("Bestand bestaat al. Wilt u het overschrijven?", "File already exists. Do you want to override it?"),

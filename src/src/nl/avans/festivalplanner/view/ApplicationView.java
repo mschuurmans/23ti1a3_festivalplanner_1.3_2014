@@ -113,9 +113,10 @@ public class ApplicationView extends JFrame implements WindowListener
 		Languages currentLanguage = SettingsController.Instance().getLanguage(); 
 		if (this.guiLanguage != currentLanguage){
 			this.guiLanguage = currentLanguage;
-			update();
+
 			System.out.println("Updating GUI (Language change)");
 		}
+		update();
 	}
 
 	@Override

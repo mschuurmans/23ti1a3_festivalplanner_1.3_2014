@@ -85,6 +85,17 @@ public class GUIHelper {
 			}
 		});
 		
+		JMenuItem menu_item_open = new JMenuItem(Text.Open.toString());
+		menu_item_open.addActionListener(new ActionListener()
+		{
+			
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				FestivalHandler.Instance().readFromFile();
+			}
+		});
+		
 		
 		JMenuItem menu_item_save = new JMenuItem(Text.Save.toString());
 		menu_item_save.addActionListener(new ActionListener()
@@ -106,6 +117,7 @@ public class GUIHelper {
 			}
 		});
 		
+		menu.add(menu_item_open);
 		menu.add(menu_item_save);
 		menu.add(menu_item_close);
 		help.add(menu_item_settings);
