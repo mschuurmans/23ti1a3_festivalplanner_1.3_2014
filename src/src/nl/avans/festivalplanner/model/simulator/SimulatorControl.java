@@ -1,13 +1,13 @@
 package nl.avans.festivalplanner.model.simulator;
 
-import java.util.*;
-import nl.avans.festivalplanner.utils.Enums.States;
 import java.io.Serializable;
+
+import nl.avans.festivalplanner.utils.Enums.States;
 public class SimulatorControl implements Serializable
 {
 	private States _state = States.Stopped;
 
-	private int _hour = 0;
+	private int _hour = 12;
 	private int _minute = 0;
 	
 	private int _speed = 1;
@@ -72,7 +72,5 @@ public class SimulatorControl implements Serializable
 		}
 		else
 			_minute+=_speed;
-
-		System.out.println(getTime());
 	}
 }

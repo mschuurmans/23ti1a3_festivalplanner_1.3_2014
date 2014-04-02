@@ -1,13 +1,11 @@
 package nl.avans.festivalplanner.view;
 
 import java.awt.BorderLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.*;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import javax.swing.*;
+
+import nl.avans.festivalplanner.view.panels.SimulatorPanel;
 
 public class SimulatorView implements ActionListener
 {

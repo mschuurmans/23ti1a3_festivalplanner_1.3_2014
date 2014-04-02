@@ -30,8 +30,11 @@ public class People extends Element
 	Element _destinationElement, _nextDestinationElement;
 	float _speed, _direction;
 	String _image;
-	private final int _MINWAITTIME = 5;
-	private final int _MAXWAITTIME = 50;
+	private int _waitedTime = 0;
+	private final int _MINWAITTIME = 0;
+	private final int _MAXWAITTIME = 0;
+	private final int _POPFACTOR = 50; 	// factor by which popularity influences the next destination
+										// 0 means no influence; 1 means they will be twice as likely to go to a more popular artist
 
 	public People(Vector position, float speed, float direction)
 	{
@@ -89,18 +92,19 @@ public class People extends Element
 
 		if(destinationYReached() && destinationXReached())
 		{
-			if (waitRandomTime())
+			if (waitRandomTime() || _waitedTime > _MAXWAITTIME)
 			{
 				newDestination();
+			}  
+			else
+			{
+				_waitedTime++;
 			}
 		}
 
 		if(nextDestinationReached())
 		{
-			if (waitRandomTime())
-			{
-				newNextDestination();
-			}
+			newNextDestination();
 		}
 
 		//Collision checking
@@ -173,6 +177,7 @@ public class People extends Element
 
 	private Vector newDestination()
 	{
+		int _actOnStage = 0;
 		ArrayList<Element> elements = new ArrayList<Element>();
 		for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
 		{
@@ -189,24 +194,32 @@ public class People extends Element
 					//int _timeMinute = FestivalHandler.Instance().getControls().getMinute();
 					//GregorianCalendar _time = new GregorianCalendar();
 					//_time.set(2014, 2, 1, _timeHour, _timeMinute);
+					//System.out.println("Stage found");
 					for (Act _a : FestivalHandler.Instance().getActs())
 					{
-						
+						//System.out.println("Act on " + _a.getStage() + " from " + _a.getStartTime().get(Calendar.HOUR_OF_DAY) + " till " + _a.getEndTime().get(Calendar.HOUR_OF_DAY));
+						//System.out.println("this stage is " + elements.get(index).toString());
 						if (_a.getStartTime().get(Calendar.HOUR_OF_DAY) <= _timeHour &&
 								(_a.getEndTime().get(Calendar.HOUR_OF_DAY) > _timeHour ||
-										(_a.getEndTime().get(Calendar.HOUR_OF_DAY) < 12 &&
-											_a.getEndTime().get(Calendar.HOUR_OF_DAY) + 12 > _timeHour))
-												&&	_a.getStage().equals(elements.get(index)))
+									(_a.getEndTime().get(Calendar.HOUR_OF_DAY) < 12 &&
+										_a.getEndTime().get(Calendar.HOUR_OF_DAY) + 12 > _timeHour))
+											&&	_a.getStage().equals(elements.get(index)))
 						{
-							
-							for (int pop = 1; pop < _a.getArtist().getPopularity()*5; pop++)
+							_actOnStage++;
+							//System.out.println("Popularity activated");
+							for (int pop = 0; pop < _a.getArtist().getPopularity()*_POPFACTOR; pop++)
 							{
 								//System.out.println(_a.getStartTime().get(Calendar.HOUR_OF_DAY) + " - " + _a.getEndTime().get(Calendar.HOUR_OF_DAY));
 								System.out.println("it's now: " + _timeHour + " " + _a.getArtist().getName() + " is popular!!!");
-								//System.out.println("Popularity yeah!");
+								//System.out.println("Popularity + 1!");
 								elements.add(elements.get(index));
 							}
 						}
+					}
+					if (_actOnStage == 0)
+					{
+						elements.remove(index);
+						size--;
 					}
 			}
 					//elements.get(index).
@@ -352,7 +365,8 @@ public class People extends Element
 	private boolean waitRandomTime()
 	{
 		int _waitTime = (((int)(Math.random() * (_MAXWAITTIME-_MINWAITTIME)))) + _MINWAITTIME; // get a random index.
-		return (_waitTime == _MINWAITTIME);		
+		//System.out.println(_waitTime + " " + (_waitTime == _MINWAITTIME));
+		return (_waitTime == _MINWAITTIME);
 	}
 
 

@@ -234,13 +234,13 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		_dialogFrame.setContentPane(new JPanel(new FlowLayout()));
 		_dialogFrame.setDefaultCloseOperation(closeFrame());
 		_dialogFrame.setLayout(new GridLayout(0,2));
-		_dialogFrame.getContentPane().add(new JLabel("Artist"));
+		_dialogFrame.getContentPane().add(new JLabel(Text.Artist.toString()));
 		_dialogFrame.getContentPane().add(_artistsBox);
-		_dialogFrame.getContentPane().add(new JLabel("Stage"));
+		_dialogFrame.getContentPane().add(new JLabel(Text.Stages.toString()));
 		_dialogFrame.getContentPane().add(_stagesBox);
-		_dialogFrame.getContentPane().add(new JLabel("Start time"));
+		_dialogFrame.getContentPane().add(new JLabel(Text.BeginTime.toString()));
 		_dialogFrame.getContentPane().add(_startTimeBox);
-		_dialogFrame.getContentPane().add(new JLabel("End time"));
+		_dialogFrame.getContentPane().add(new JLabel(Text.EndTime.toString()));
 		_dialogFrame.getContentPane().add(_endTimeBox);
 		_dialogFrame.getContentPane().add(new JLabel(" "));
 		_dialogFrame.getContentPane().add(_acceptButton);
@@ -256,13 +256,16 @@ public class SchedulePanel extends Panel implements MouseMotionListener, MouseLi
 		
 		final int indexOfAct = FestivalHandler.Instance().getActs().indexOf(act);
 		
-		System.out.println("act Index of act clicked: " + indexOfAct);
 		
 		_editActFrame.setContentPane(new JPanel(new FlowLayout()));
 		_editActFrame.setDefaultCloseOperation(closeFrame());
 		_editActFrame.setLayout(new GridLayout(0,2));
 		
-		System.out.println(act.getName());
+		if (debug)
+		{
+			System.out.println(act.getName());
+			System.out.println("act Index of act clicked: " + indexOfAct);
+		}
 		
 		JButton editActButton = new JButton("Edit Act");
 		editActButton.addActionListener(new ActionListener()
