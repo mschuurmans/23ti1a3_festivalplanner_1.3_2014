@@ -39,7 +39,7 @@ public class People extends Element
 	public People(Vector position, float speed, float direction)
 	{
 		super(new Dimension(16,16), position);
-		this._speed = 5;
+		this._speed = speed + 1;
 		this._direction = direction;
 		this._destination = newDestination();
 		this._destinationElement = null;
@@ -140,7 +140,7 @@ public class People extends Element
 
 		if(!nextDestinationXReached())
 		{
-			int moveX = (int)((_speed * Math.cos(_nextDestination.getX())) + 1);
+			int moveX = (int)(_speed * (Math.random() + 1));
 			if(moveX<= 0)
 				moveX = 1;
 
@@ -158,7 +158,7 @@ public class People extends Element
 		//if not Y destination reached, get closer
 		if(!nextDestinationYReached())
 		{
-			int moveY = (int)((_speed * Math.cos(_nextDestination.getY())) + 1);
+			int moveY = (int)((_speed * (Math.random()) + 1));
 			if(moveY<=0)
 				moveY=1;
 			//			System.out.println(moveY);
@@ -189,7 +189,6 @@ public class People extends Element
 		try{
 			for(int index=0; index<elements.size(); index++)
 			{
-					Act popAct = FestivalHandler.Instance().getActs().get(0);
 					int _timeHour = FestivalHandler.Instance().getControls().getHour();
 					//int _timeMinute = FestivalHandler.Instance().getControls().getMinute();
 					//GregorianCalendar _time = new GregorianCalendar();
@@ -212,22 +211,25 @@ public class People extends Element
 								//System.out.println(_a.getStartTime().get(Calendar.HOUR_OF_DAY) + " - " + _a.getEndTime().get(Calendar.HOUR_OF_DAY));
 								System.out.println("it's now: " + _timeHour + " " + _a.getArtist().getName() + " is popular!!!");
 								//System.out.println("Popularity + 1!");
-								elements.add(elements.get(index));
+								//elements.add(elements.get(index));
 							}
 						}
 					}
 					if (_actOnStage == 0)
 					{
 						elements.remove(index);
-						size--;
+						//size--;
 					}
 			}
 					//elements.get(index).
 				
 						Collections.shuffle(elements);
+			if(!elements.isEmpty())
+			{
 			Element goTo = elements.get(0);
 			_destination = goTo.getRandomPosition();
 			_destinationElement = goTo;
+			}
 		}
 		catch(Exception e)
 		{
@@ -239,7 +241,11 @@ public class People extends Element
 
 	private Vector newNextDestination()
 	{	
-		if(_nextDestinationElement != null)
+		if(_destinationElement == null)
+		{
+			newDestination();
+		}
+		if(_nextDestinationElement != null && _destinationElement != null)
 		{
 			try{
 				//System.out.println("Current Reached: " + _nextDestinationElement.toString());
@@ -253,7 +259,7 @@ public class People extends Element
 			{
 				_nextDestinationElement = _destinationElement;
 				_nextDestination = _destination;
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 
@@ -339,7 +345,7 @@ public class People extends Element
 	{
 		for(Element other : FestivalHandler.Instance().getElementsOnTerrain())
 		{
-			if(other instanceof Building)
+			if(other instanceof Building && !(other instanceof Signpost))
 			{
 				Building b = (Building) other;
 				if(b.getImagePosition().contains(_position.getPoint()))
