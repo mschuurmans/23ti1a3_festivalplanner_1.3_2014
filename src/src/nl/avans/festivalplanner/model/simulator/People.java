@@ -29,10 +29,11 @@ public class People extends Element
 	Element _destinationElement, _nextDestinationElement;
 	float _speed, _direction;
 	String _image;
+	private int _waitedTime = 0;
 	private final int _MINWAITTIME = 0;
 	private final int _MAXWAITTIME = 0;
 	private final int _POPFACTOR = 50; 	// factor by which popularity influences the next destination
-										// 0 means no influence; 1 means they will be twice as likely to go to a more popular stage
+										// 0 means no influence; 1 means they will be twice as likely to go to a more popular artist
 
 	public People(Vector position, float speed, float direction)
 	{
@@ -90,19 +91,19 @@ public class People extends Element
 
 		if(destinationYReached() && destinationXReached())
 		{
-			if (waitRandomTime())
+			if (waitRandomTime() || _waitedTime > _MAXWAITTIME)
 			{
 				newDestination();
-			} 
-			else 
+			}  
+			else
 			{
-				
+				_waitedTime++;
 			}
 		}
 
 		if(nextDestinationReached())
 		{
-				newNextDestination();
+			newNextDestination();
 		}
 
 		//Collision checking
