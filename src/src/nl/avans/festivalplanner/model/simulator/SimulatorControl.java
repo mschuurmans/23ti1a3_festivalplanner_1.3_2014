@@ -7,7 +7,7 @@ public class SimulatorControl implements Serializable
 {
 	private States _state = States.Stopped;
 
-	private int _hour = 0;
+	private int _hour = 12;
 	private int _minute = 0;
 	
 	private int _speed = 1;
