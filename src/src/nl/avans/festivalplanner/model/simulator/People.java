@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
@@ -35,7 +36,7 @@ public class People extends Element
 	public People(Vector position, float speed, float direction)
 	{
 		super(new Dimension(16,16), position);
-		this._speed = 1;
+		this._speed = 5;
 		this._direction = direction;
 		this._destination = newDestination();
 		this._destinationElement = null;
@@ -130,10 +131,8 @@ public class People extends Element
 
 			_position.setX(oldPosition.getX()-(int)(10*(Math.random()-0.5)));
 			_position.setY(oldPosition.getY()+(int)(10*(Math.random()-0.5)));
-			//_position = oldPosition;
 			_direction += 0.2f;
 		}
-
 
 		if(!nextDestinationXReached())
 		{
@@ -172,54 +171,48 @@ public class People extends Element
 		_position =new Vector(posX,posY);
 	}
 
-	/**
-	 * @todo new desination is a new area
-	 */
 	private Vector newDestination()
 	{
 		ArrayList<Element> elements = new ArrayList<Element>();
 		for(Element e : FestivalHandler.Instance().getElementsOnTerrain())
 		{
-			//Un-comment als Area is geimplementeerd.
-			//if(!(e instanceof People) && (e instanceof Area) && !(e instanceof Building)) 
-			if(!(e instanceof People))
+			if(!(e instanceof People) && !(e instanceof Entrance) && !(e instanceof Signpost))
 				elements.add(e);
 		}
 
 
 		try{
-			int size = elements.size();
-			for (int index = 0; index < size; index++)
+			for(int index=0; index<elements.size(); index++)
 			{
-				if (elements.get(index) instanceof Stage)
-				{
+					Act popAct = FestivalHandler.Instance().getActs().get(0);
 					int _timeHour = FestivalHandler.Instance().getControls().getHour();
 					//int _timeMinute = FestivalHandler.Instance().getControls().getMinute();
 					//GregorianCalendar _time = new GregorianCalendar();
 					//_time.set(2014, 2, 1, _timeHour, _timeMinute);
 					for (Act _a : FestivalHandler.Instance().getActs())
 					{
+						
 						if (_a.getStartTime().get(Calendar.HOUR_OF_DAY) <= _timeHour &&
 								(_a.getEndTime().get(Calendar.HOUR_OF_DAY) > _timeHour ||
 										(_a.getEndTime().get(Calendar.HOUR_OF_DAY) < 12 &&
-												_a.getEndTime().get(Calendar.HOUR_OF_DAY) + 12 > _timeHour))
+											_a.getEndTime().get(Calendar.HOUR_OF_DAY) + 12 > _timeHour))
 												&&	_a.getStage().equals(elements.get(index)))
 						{
-							//System.out.println("Popularity yeah!");
+							
 							for (int pop = 1; pop < _a.getArtist().getPopularity()*5; pop++)
 							{
 								//System.out.println(_a.getStartTime().get(Calendar.HOUR_OF_DAY) + " - " + _a.getEndTime().get(Calendar.HOUR_OF_DAY));
-								//System.out.println("it's now: " + _timeHour + " " + _a.getArtist().getName() + " is popular!!!");
+								System.out.println("it's now: " + _timeHour + " " + _a.getArtist().getName() + " is popular!!!");
 								//System.out.println("Popularity yeah!");
 								elements.add(elements.get(index));
 							}
 						}
 					}
-					//elements.get(index).
-				}
 			}
-			int i = (((int)(Math.random() * elements.size()))); // get a random index.
-			Element goTo = elements.get(i);
+					//elements.get(index).
+				
+						Collections.shuffle(elements);
+			Element goTo = elements.get(0);
 			_destination = goTo.getRandomPosition();
 			_destinationElement = goTo;
 		}
@@ -236,12 +229,12 @@ public class People extends Element
 		if(_nextDestinationElement != null)
 		{
 			try{
-				System.out.println("Current Reached: " + _nextDestinationElement.toString());
+				//System.out.println("Current Reached: " + _nextDestinationElement.toString());
 				//_nextDestinationElement = FestivalHandler.Instance().getNextElement(_nextDestinationElement, _destinationElement);
 				_nextDestinationElement = RouteManager.instance().getNextDestination(_destinationElement, _nextDestinationElement);
 
 				_nextDestination = _nextDestinationElement.getRandomPosition();
-				System.out.println("Next step: " + _nextDestinationElement.toString() + " - Destination: " + _destinationElement.toString());
+				//System.out.println("Next step: " + _nextDestinationElement.toString() + " - Destination: " + _destinationElement.toString());
 			}
 			catch(Exception e)
 			{
