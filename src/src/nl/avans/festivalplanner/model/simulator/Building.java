@@ -51,7 +51,7 @@ public class Building extends Area
 	@Override
 	public void draw(Graphics2D g)
 	{
-		boolean debugMethod = true;
+		boolean debugMethod = false;
 		
 		super.draw(g);
 
