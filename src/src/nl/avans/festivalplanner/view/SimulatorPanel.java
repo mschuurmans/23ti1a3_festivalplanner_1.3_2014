@@ -3,6 +3,7 @@ package nl.avans.festivalplanner.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -609,6 +610,7 @@ public class SimulatorPanel extends Panel
 
 			int imageWidth = 400;
 			int imageHeight = 400;
+			
 
 			// begin drawing background
 			int curY = 0;
@@ -625,6 +627,7 @@ public class SimulatorPanel extends Panel
 			}
 
 			// end drawing background
+			
 			// Draw all the elements to the screen.
 			for (Element e : FestivalHandler.Instance().getElementsOnTerrain())
 			{
@@ -635,6 +638,11 @@ public class SimulatorPanel extends Panel
 			// begin draw recycle bin
 			recyclebin.draw(g2);
 			// end draw recycle bin
+			
+			
+//			g2.setColor(Color.BLACK);
+//			g2.setFont(new Font("TimesRoman", Font.PLAIN, 20)); 
+//			g2.drawString(FestivalHandler.Instance().getControls().getTime(), 20, 30);
 		}
 	}
 
